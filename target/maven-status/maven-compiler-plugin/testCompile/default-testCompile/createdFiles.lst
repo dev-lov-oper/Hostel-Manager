@@ -1,0 +1,11 @@
+app/patterns/BuilderTest.class
+app/patterns/PrototypeTest.class
+app/service/ComplaintServiceTest.class
+app/IntegrationTest.class
+app/patterns/MediatorTest.class
+app/patterns/TemplateTest.class
+app/patterns/StrategyTest.class
+app/service/AllocationServiceTest.class
+app/patterns/ChainTest.class
+app/patterns/SingletonTest.class
+app/patterns/ObserverTest.class

@@ -1,0 +1,11 @@
+/home/sahil/hostel-management-system/src/test/java/app/IntegrationTest.java
+/home/sahil/hostel-management-system/src/test/java/app/patterns/BuilderTest.java
+/home/sahil/hostel-management-system/src/test/java/app/patterns/ChainTest.java
+/home/sahil/hostel-management-system/src/test/java/app/patterns/MediatorTest.java
+/home/sahil/hostel-management-system/src/test/java/app/patterns/ObserverTest.java
+/home/sahil/hostel-management-system/src/test/java/app/patterns/PrototypeTest.java
+/home/sahil/hostel-management-system/src/test/java/app/patterns/SingletonTest.java
+/home/sahil/hostel-management-system/src/test/java/app/patterns/StrategyTest.java
+/home/sahil/hostel-management-system/src/test/java/app/patterns/TemplateTest.java
+/home/sahil/hostel-management-system/src/test/java/app/service/AllocationServiceTest.java
+/home/sahil/hostel-management-system/src/test/java/app/service/ComplaintServiceTest.java
