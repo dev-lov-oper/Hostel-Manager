@@ -2,6 +2,11 @@
 
 Java 17 Maven project scaffold for a hostel management application.
 
+## Installation
+```sh
+sudo apt install maven
+```
+
 ## Build
 
 ```sh
