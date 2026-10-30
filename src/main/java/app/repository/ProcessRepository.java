@@ -12,35 +12,44 @@ public class ProcessRepository {
     /**
      * Records a process step execution into the audit log.
      */
-    public void saveProcessRecord(int studentId, String processType, String status, String remarks) {
-        String sql = "INSERT INTO process_logs (student_id, process_type, status, remarks, created_at) " +
+    public void saveProcessRecord(int allocationId, String processType, String status, String remarks) {
+        String logSql = "INSERT INTO process_logs (student_id, process_type, status, remarks, created_at) " +
+                     "VALUES (COALESCE((SELECT student_id FROM room_allocations WHERE allocation_id = ?), ?), ?, ?, ?, CURRENT_TIMESTAMP)";
+        String recordSql = "INSERT INTO hostel_process_records (allocation_id, process_type, status, execution_log, processed_at) " +
                      "VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)";
 
-        try (Connection conn = DatabaseManager.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, studentId);
-            stmt.setString(2, processType);
-            stmt.setString(3, status);
-            stmt.setString(4, remarks);
-            stmt.executeUpdate();
-
+        try (Connection conn = DatabaseManager.getInstance().getConnection()) {
+            try (PreparedStatement stmt = conn.prepareStatement(logSql)) {
+                stmt.setInt(1, allocationId);
+                stmt.setInt(2, allocationId);
+                stmt.setString(3, processType);
+                stmt.setString(4, status);
+                stmt.setString(5, remarks);
+                stmt.executeUpdate();
+            }
+            try (PreparedStatement stmt = conn.prepareStatement(recordSql)) {
+                stmt.setInt(1, allocationId);
+                stmt.setString(2, processType);
+                stmt.setString(3, status);
+                stmt.setString(4, remarks);
+                stmt.executeUpdate();
+            }
         } catch (SQLException e) {
-            System.err.println("Process DB Notice: Log skipped due to constraint for student_id=" 
-                    + studentId + " (" + e.getMessage() + ")");
+            System.err.println("Process DB Notice: " + e.getMessage());
         }
     }
 
     /**
-     * Checks if a student has an allocation matching the required state.
+     * Checks if a student or allocation matches the required state.
      */
-    public boolean isAllocationInState(int studentId, String requiredState) {
-        String sql = "SELECT COUNT(*) FROM room_allocations WHERE student_id = ? AND allocation_status = ?";
+    public boolean isAllocationInState(int id, String requiredState) {
+        String sql = "SELECT COUNT(*) FROM room_allocations WHERE (allocation_id = ? OR student_id = ?) AND status = ?";
         try (Connection conn = DatabaseManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, studentId);
-            stmt.setString(2, requiredState);
+            stmt.setInt(1, id);
+            stmt.setInt(2, id);
+            stmt.setString(3, requiredState);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -54,15 +63,16 @@ public class ProcessRepository {
     }
 
     /**
-     * Updates the allocation status for a given student.
+     * Updates the allocation status for a given student or allocation.
      */
-    public void updateAllocationState(int studentId, String newState) {
-        String sql = "UPDATE room_allocations SET allocation_status = ? WHERE student_id = ?";
+    public void updateAllocationState(int id, String newState) {
+        String sql = "UPDATE room_allocations SET status = ? WHERE allocation_id = ? OR student_id = ?";
         try (Connection conn = DatabaseManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, newState);
-            stmt.setInt(2, studentId);
+            stmt.setInt(2, id);
+            stmt.setInt(3, id);
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -71,18 +81,19 @@ public class ProcessRepository {
     }
 
     /**
-     * Releases a room bed allocation and sets the student allocation status to CHECKED_OUT.
+     * Releases a room bed allocation and sets the status to CHECKED_OUT.
      */
-    public void releaseBed(int studentId, int roomId) {
-        String updateAllocationSql = "UPDATE room_allocations SET allocation_status = 'CHECKED_OUT' WHERE student_id = ?";
-        String updateRoomSql = "UPDATE rooms SET occupied_beds = MAX(0, occupied_beds - 1) WHERE room_id = ?";
+    public void releaseBed(int id, int roomId) {
+        String updateAllocationSql = "UPDATE room_allocations SET status = 'CHECKED_OUT' WHERE allocation_id = ? OR student_id = ?";
+        String updateRoomSql = "UPDATE rooms SET current_occupancy = MAX(0, current_occupancy - 1) WHERE room_id = ?";
 
         try (Connection conn = DatabaseManager.getInstance().getConnection()) {
             conn.setAutoCommit(false);
             try (PreparedStatement stmt1 = conn.prepareStatement(updateAllocationSql);
                  PreparedStatement stmt2 = conn.prepareStatement(updateRoomSql)) {
 
-                stmt1.setInt(1, studentId);
+                stmt1.setInt(1, id);
+                stmt1.setInt(2, id);
                 stmt1.executeUpdate();
 
                 stmt2.setInt(1, roomId);

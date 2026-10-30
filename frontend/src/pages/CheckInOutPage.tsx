@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { PatternPill } from '../components/common/PatternPill';
 import { api } from '../services/api';
+import { AllocationDetail } from '../types';
 import confetti from 'canvas-confetti';
 import {
   ClipboardList,
@@ -15,15 +16,20 @@ import {
   Sparkles,
   ArrowRight,
   History,
-  FileText
+  FileText,
+  User,
+  Home,
+  ChevronRight
 } from 'lucide-react';
 
 export const CheckInOutPage: React.FC = () => {
   const { user, refreshUser } = useAuth();
   const [processType, setProcessType] = useState<'CHECK_IN' | 'CHECK_OUT'>('CHECK_IN');
-  const [allocationId, setAllocationId] = useState<number>(user?.allocation?.allocationId || 1);
+  const [allocations, setAllocations] = useState<AllocationDetail[]>([]);
+  
+  const [allocationId, setAllocationId] = useState<number>(user?.allocation?.allocationId || 2);
   const [studentId, setStudentId] = useState<number>(user?.student?.studentId || 1);
-  const [roomId, setRoomId] = useState<number>(user?.allocation?.roomId || 11);
+  const [roomId, setRoomId] = useState<number>(user?.allocation?.roomId || 3);
 
   const [executing, setExecuting] = useState(false);
   const [executionResult, setExecutionResult] = useState<{
@@ -37,18 +43,53 @@ export const CheckInOutPage: React.FC = () => {
 
   const [logs, setLogs] = useState<any[]>([]);
 
-  const fetchLogs = async () => {
+  const loadData = async () => {
     try {
-      const data = await api.getProcessLogs();
-      setLogs(data || []);
+      const [logData, allocData] = await Promise.all([
+        api.getProcessLogs(),
+        api.getAllocations()
+      ]);
+      setLogs(logData || []);
+      setAllocations(allocData || []);
+
+      // If user has allocation or if allocations exist, select first eligible
+      if (allocData && allocData.length > 0) {
+        const userAlloc = user?.student 
+          ? allocData.find((a) => a.studentId === user.student?.studentId)
+          : null;
+        
+        const target = userAlloc || allocData[0];
+        setAllocationId(target.allocationId);
+        setStudentId(target.studentId);
+        setRoomId(target.roomId);
+
+        if (target.status === 'ALLOCATED') {
+          setProcessType('CHECK_IN');
+        } else if (target.status === 'CHECKED_IN') {
+          setProcessType('CHECK_OUT');
+        }
+      }
     } catch (e) {
-      console.warn('Failed to load process logs:', e);
+      console.warn('Failed to load process data:', e);
     }
   };
 
   useEffect(() => {
-    fetchLogs();
-  }, []);
+    loadData();
+  }, [user]);
+
+  const handleSelectAllocation = (alloc: AllocationDetail) => {
+    setAllocationId(alloc.allocationId);
+    setStudentId(alloc.studentId);
+    setRoomId(alloc.roomId);
+    setExecutionResult(null);
+
+    if (alloc.status === 'ALLOCATED') {
+      setProcessType('CHECK_IN');
+    } else if (alloc.status === 'CHECKED_IN') {
+      setProcessType('CHECK_OUT');
+    }
+  };
 
   const handleExecute = async () => {
     setExecuting(true);
@@ -65,9 +106,9 @@ export const CheckInOutPage: React.FC = () => {
 
       setExecutionResult(res);
       if (res.success) {
-        confetti({ particleCount: 60, spread: 60 });
+        confetti({ particleCount: 70, spread: 60 });
       }
-      await fetchLogs();
+      await loadData();
       await refreshUser();
     } catch (err: any) {
       alert('Process failed: ' + (err.message || 'Execution error'));
@@ -94,6 +135,8 @@ export const CheckInOutPage: React.FC = () => {
 
   const activeSteps = processType === 'CHECK_IN' ? stepsCheckIn : stepsCheckOut;
 
+  const currentAllocation = allocations.find((a) => a.allocationId === allocationId);
+
   return (
     <div className="max-w-[1720px] w-full mx-auto px-4 sm:px-8 lg:px-12 py-8 space-y-8">
       {/* Header */}
@@ -111,13 +154,13 @@ export const CheckInOutPage: React.FC = () => {
         </div>
 
         {/* Toggle Process Type */}
-        <div className="flex items-center p-1 rounded-xl bg-white/[0.04] border border-white/10 self-start">
+        <div className="flex items-center p-1.5 rounded-2xl bg-white/[0.04] border border-white/10 self-start">
           <button
             onClick={() => {
               setProcessType('CHECK_IN');
               setExecutionResult(null);
             }}
-            className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+            className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
               processType === 'CHECK_IN'
                 ? 'bg-brand-cyan text-slate-900 shadow-glow-cyan'
                 : 'text-slate-400 hover:text-white'
@@ -130,7 +173,7 @@ export const CheckInOutPage: React.FC = () => {
               setProcessType('CHECK_OUT');
               setExecutionResult(null);
             }}
-            className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+            className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
               processType === 'CHECK_OUT'
                 ? 'bg-brand-violet text-white shadow-glow-violet'
                 : 'text-slate-400 hover:text-white'
@@ -141,23 +184,86 @@ export const CheckInOutPage: React.FC = () => {
         </div>
       </div>
 
+      {/* ALLOCATION SELECTOR CARD (1-Click selection) */}
+      <div className="glass-panel rounded-2xl p-6 border border-white/10 space-y-4 shadow-glass">
+        <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+          <div>
+            <h3 className="text-base font-bold text-white flex items-center gap-2">
+              <Home className="w-4 h-4 text-brand-cyan" />
+              <span>Select Allocation Target (1-Click Fill)</span>
+            </h3>
+            <p className="text-xs text-slate-400">
+              Click an allocation below to automatically populate the parameters for the Template Method execution.
+            </p>
+          </div>
+          <span className="text-xs font-mono text-brand-sky bg-brand-violet/20 px-3 py-1 rounded-full border border-brand-violet/30">
+            {allocations.length} Active Records
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {allocations.map((a) => {
+            const isSelected = a.allocationId === allocationId;
+            return (
+              <button
+                key={a.allocationId}
+                type="button"
+                onClick={() => handleSelectAllocation(a)}
+                className={`p-4 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                  isSelected
+                    ? 'bg-brand-violet/25 border-brand-cyan shadow-glow-cyan text-white'
+                    : 'bg-white/[0.02] border-white/10 hover:border-white/20 text-slate-300'
+                }`}
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-bold text-sm text-white">{a.studentName}</span>
+                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-bold border ${
+                      a.status === 'CHECKED_IN'
+                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                        : a.status === 'ALLOCATED'
+                        ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
+                        : 'bg-slate-500/20 text-slate-400 border-slate-500/40'
+                    }`}>
+                      {a.status}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-300 font-medium">
+                    {a.hostelName} — Room {a.roomNumber}
+                  </p>
+                  <p className="text-[11px] font-mono text-slate-500 mt-1">
+                    Student ID: {a.studentId} • Room ID: {a.roomId} • Alloc ID: {a.allocationId}
+                  </p>
+                </div>
+                {isSelected && (
+                  <div className="mt-3 pt-2 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-brand-cyan">
+                    <span>Selected Target</span>
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Main Grid: Visual Step Tracker & Trigger Box (7 cols) + Live Step Execution Log (5 cols) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* Left Column: Workflow Step Visualizer & Inputs (7 cols) */}
-        <div className="lg:col-span-7 glass-panel rounded-2xl p-6 sm:p-8 border border-white/10 space-y-8">
+        <div className="lg:col-span-7 glass-panel rounded-2xl p-6 sm:p-8 border border-white/10 space-y-8 shadow-glass">
           
           <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
             <div>
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <ClipboardList className="w-4 h-4 text-brand-cyan" />
+              <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                <ClipboardList className="w-5 h-5 text-brand-cyan" />
                 Template Method Invariant Sequence: {processType}
               </h3>
               <p className="text-xs text-slate-400 mt-0.5 font-mono">
                 Subclasses implement specialized verification hooks
               </p>
             </div>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-violet/20 text-brand-sky border border-brand-violet/30">
+            <span className="text-xs font-mono px-3 py-1 rounded-full bg-brand-violet/20 text-brand-sky border border-brand-violet/30 font-bold">
               final executeProcess()
             </span>
           </div>
@@ -171,35 +277,37 @@ export const CheckInOutPage: React.FC = () => {
                   key={step.num}
                   className={`p-4 rounded-xl border transition-all flex items-center justify-between ${
                     isCompleted
-                      ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
+                      ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300 shadow-md'
                       : 'bg-white/[0.03] border-white/10 text-slate-300'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <span className={`w-8 h-8 rounded-lg flex items-center justify-center font-mono font-bold text-xs ${
-                      isCompleted ? 'bg-emerald-500 text-slate-900' : 'bg-white/10 text-white'
+                  <div className="flex items-center gap-3.5">
+                    <span className={`w-9 h-9 rounded-xl flex items-center justify-center font-mono font-bold text-xs ${
+                      isCompleted ? 'bg-emerald-500 text-slate-900 shadow-glow-cyan' : 'bg-white/10 text-white'
                     }`}>
                       0{step.num}
                     </span>
                     <div>
-                      <h4 className="font-bold text-xs sm:text-sm text-slate-200">{step.label}</h4>
-                      <p className="text-[10px] font-mono text-slate-400 mt-0.5">{step.method}</p>
+                      <h4 className="font-bold text-sm text-slate-100">{step.label}</h4>
+                      <p className="text-[11px] font-mono text-slate-400 mt-0.5">{step.method}</p>
                     </div>
                   </div>
 
                   {isCompleted ? (
-                    <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+                    <CheckCircle2 className="w-6 h-6 text-emerald-400 flex-shrink-0" />
                   ) : (
-                    <span className="text-[10px] font-mono text-slate-500 uppercase">Awaiting</span>
+                    <span className="text-[10px] font-mono text-slate-500 uppercase px-2 py-1 rounded bg-white/5 border border-white/5">
+                      Awaiting
+                    </span>
                   )}
                 </div>
               );
             })}
           </div>
 
-          {/* Input Parameters */}
-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-4">
-            <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400">
+          {/* Input Parameters & Run Action */}
+          <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.08] space-y-5">
+            <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold">
               Execution Target Parameters
             </h4>
 
@@ -210,7 +318,7 @@ export const CheckInOutPage: React.FC = () => {
                   type="number"
                   value={allocationId}
                   onChange={(e) => setAllocationId(Number(e.target.value))}
-                  className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-white focus:outline-none focus:border-brand-cyan"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white focus:outline-none focus:border-brand-cyan text-sm font-mono"
                 />
               </div>
 
@@ -220,7 +328,7 @@ export const CheckInOutPage: React.FC = () => {
                   type="number"
                   value={studentId}
                   onChange={(e) => setStudentId(Number(e.target.value))}
-                  className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-white focus:outline-none focus:border-brand-cyan"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white focus:outline-none focus:border-brand-cyan text-sm font-mono"
                 />
               </div>
 
@@ -230,7 +338,7 @@ export const CheckInOutPage: React.FC = () => {
                   type="number"
                   value={roomId}
                   onChange={(e) => setRoomId(Number(e.target.value))}
-                  className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-white focus:outline-none focus:border-brand-cyan"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white focus:outline-none focus:border-brand-cyan text-sm font-mono"
                 />
               </div>
             </div>
@@ -238,17 +346,17 @@ export const CheckInOutPage: React.FC = () => {
             <button
               onClick={handleExecute}
               disabled={executing}
-              className={`w-full py-3 rounded-xl text-xs font-bold transition-all shadow-glow-cyan flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 ${
+              className={`w-full py-3.5 rounded-xl text-sm font-bold transition-all shadow-glow-cyan flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 hover:scale-[1.01] active:scale-[0.99] ${
                 processType === 'CHECK_IN'
                   ? 'bg-brand-cyan text-slate-900 hover:bg-cyan-300'
                   : 'bg-brand-violet text-white hover:bg-violet-600'
               }`}
             >
-              <Sparkles className="w-4 h-4" />
+              <Sparkles className="w-5 h-5" />
               <span>
                 {executing
                   ? 'Executing Template Method Steps...'
-                  : `Run ${processType === 'CHECK_IN' ? 'Check-In Sequence' : 'Check-Out Sequence'}`}
+                  : `Execute ${processType === 'CHECK_IN' ? 'Check-In Workflow' : 'Check-Out Workflow'}`}
               </span>
             </button>
           </div>
@@ -257,19 +365,19 @@ export const CheckInOutPage: React.FC = () => {
 
         {/* Right Column: Real-time Execution Steps Log (5 cols) */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="glass-panel rounded-2xl p-6 border border-white/10 space-y-4">
+          <div className="glass-panel rounded-2xl p-6 border border-white/10 space-y-4 shadow-glass">
             <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
               <div>
-                <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                <h4 className="text-base font-bold text-white flex items-center gap-2">
                   <FileText className="w-4 h-4 text-brand-purple" />
                   Live Execution Trace Log
                 </h4>
-                <p className="text-[10px] text-slate-400 font-mono">
+                <p className="text-[11px] text-slate-400 font-mono">
                   Captured via HostelProcess.logStep()
                 </p>
               </div>
               {executionResult && (
-                <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${
+                <span className={`px-2.5 py-1 rounded-full text-xs font-mono font-bold border ${
                   executionResult.success
                     ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
                     : 'bg-rose-500/20 text-rose-300 border-rose-500/30'
@@ -279,42 +387,66 @@ export const CheckInOutPage: React.FC = () => {
               )}
             </div>
 
-            <div className="bg-[#090d16] rounded-xl p-4 font-mono text-xs space-y-2 max-h-80 overflow-y-auto border border-white/[0.06]">
+            {/* Steps stream */}
+            <div className="space-y-2 max-h-[380px] overflow-y-auto pr-1">
               {executionResult ? (
-                executionResult.executionSteps.map((stepMsg, idx) => (
-                  <div key={idx} className="flex items-start gap-2 leading-relaxed">
-                    <span className="text-brand-cyan select-none">›</span>
-                    <span className={stepMsg.startsWith('FAILED') ? 'text-rose-400 font-bold' : stepMsg.startsWith('COMPLETED') ? 'text-emerald-400 font-bold' : 'text-slate-300'}>
-                      {stepMsg}
-                    </span>
+                executionResult.executionSteps.map((step, idx) => (
+                  <div
+                    key={idx}
+                    className={`p-3 rounded-xl text-xs font-mono border ${
+                      step.startsWith('COMPLETED')
+                        ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300 font-bold'
+                        : step.startsWith('FAILED')
+                        ? 'bg-rose-500/10 border-rose-500/30 text-rose-300 font-bold'
+                        : 'bg-black/30 border-white/5 text-slate-300'
+                    }`}
+                  >
+                    <span className="text-slate-500 mr-2">[{idx + 1}]</span>
+                    {step}
                   </div>
                 ))
               ) : (
-                <div className="py-8 text-center text-slate-500 text-[11px] italic">
-                  Run the check-in or check-out workflow to trace execution steps in real time.
+                <div className="py-12 text-center text-slate-500 text-xs font-mono space-y-2">
+                  <History className="w-8 h-8 mx-auto text-slate-600" />
+                  <p>Awaiting process execution trigger.</p>
+                  <p className="text-[10px]">Select an allocation and click Execute to view live logs.</p>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Process Audit Logs Table */}
-          <div className="glass-panel rounded-2xl p-6 border border-white/10 space-y-3">
-            <div className="flex items-center justify-between border-b border-white/[0.08] pb-2">
-              <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                <History className="w-3.5 h-3.5 text-brand-cyan" />
-                Audit Logs in SQLite (process_logs)
+          {/* Historical Audit Logs */}
+          <div className="glass-panel rounded-2xl p-6 border border-white/10 space-y-4 shadow-glass">
+            <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+              <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                <History className="w-4 h-4 text-brand-cyan" />
+                Audit Log History
               </h4>
-              <span className="text-[10px] font-mono text-slate-500">{logs.length} entries</span>
+              <span className="text-[11px] font-mono text-slate-400">
+                {logs.length} logged records
+              </span>
             </div>
 
-            <div className="space-y-2 max-h-60 overflow-y-auto">
+            <div className="space-y-2 max-h-56 overflow-y-auto pr-1 text-xs font-mono">
               {logs.map((log) => (
-                <div key={log.logId} className="p-2.5 rounded-lg bg-white/[0.02] border border-white/[0.05] text-[11px] font-mono space-y-1">
-                  <div className="flex items-center justify-between text-slate-400">
-                    <span className="font-bold text-white">{log.processType}</span>
-                    <span className="text-emerald-400">{log.status}</span>
+                <div
+                  key={log.logId}
+                  className="p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between"
+                >
+                  <div className="space-y-0.5 truncate">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-slate-200">{log.processType}</span>
+                      <span className="text-[10px] text-slate-500">Student #{log.studentId}</span>
+                    </div>
+                    <p className="text-[10px] text-slate-400 truncate max-w-xs">{log.remarks}</p>
                   </div>
-                  <p className="text-slate-400 text-[10px] line-clamp-2">{log.remarks}</p>
+                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                    log.status === 'COMPLETED'
+                      ? 'bg-emerald-500/20 text-emerald-300'
+                      : 'bg-rose-500/20 text-rose-300'
+                  }`}>
+                    {log.status}
+                  </span>
                 </div>
               ))}
             </div>
@@ -325,4 +457,3 @@ export const CheckInOutPage: React.FC = () => {
     </div>
   );
 };
-
