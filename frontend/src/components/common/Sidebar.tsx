@@ -84,7 +84,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
   const visibleItems = navItems.filter((item) => item.roles.includes(role));
 
   return (
-    <aside className="w-64 glass-panel border-r border-white/[0.08] flex flex-col justify-between p-4 min-h-[calc(100vh-4rem)]">
+    <aside className="w-72 glass-panel border-r border-white/[0.08] flex flex-col justify-between p-5 min-h-[calc(100vh-5rem)]">
       <div className="space-y-6">
         {/* User Mini Profile */}
         <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06]">

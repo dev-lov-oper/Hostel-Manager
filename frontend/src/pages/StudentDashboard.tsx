@@ -37,7 +37,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ onNavigateTa
   const student = user?.student;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="max-w-[1720px] w-full mx-auto px-4 sm:px-8 lg:px-12 py-8 space-y-8">
       {/* Welcome Banner */}
       <div className="rounded-2xl p-6 sm:p-8 bg-gradient-to-r from-brand-violet/20 via-surface to-brand-cyan/20 border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-glass">
         <div className="space-y-2">

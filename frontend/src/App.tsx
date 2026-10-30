@@ -91,7 +91,7 @@ function AppContent() {
             </div>
 
             {/* Dashboard Workspace */}
-            <div className="flex-1 overflow-x-hidden min-h-[calc(100vh-4rem)]">
+            <div className="flex-1 overflow-x-hidden min-h-[calc(100vh-5rem)]">
               {renderDashboardContent()}
             </div>
           </div>

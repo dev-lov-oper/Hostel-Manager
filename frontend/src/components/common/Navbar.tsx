@@ -36,48 +36,48 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
 
   return (
     <header className="sticky top-0 z-50 glass-panel border-b border-white/[0.08] backdrop-blur-xl">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div className="max-w-[1720px] w-full mx-auto px-4 sm:px-8 lg:px-12 h-20 flex items-center justify-between">
         
         {/* Brand Logo & Name */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-8">
           <button
             onClick={() => onNavigate('landing')}
-            className="flex items-center gap-3 group text-left"
+            className="flex items-center gap-3.5 group text-left"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-violet via-brand-purple to-brand-cyan p-0.5 shadow-glow-cyan transition-transform group-hover:scale-105">
+            <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-violet via-brand-purple to-brand-cyan p-0.5 shadow-glow-cyan transition-transform group-hover:scale-105">
               <div className="w-full h-full bg-[#0d121f] rounded-[10px] flex items-center justify-center">
-                <Building2 className="w-5 h-5 text-brand-cyan" />
+                <Building2 className="w-6 h-6 text-brand-cyan" />
               </div>
             </div>
             <div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
+              <div className="flex items-center gap-2">
+                <span className="font-extrabold text-2xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
                   HOSTEL<span className="text-brand-cyan">HUB</span>
                 </span>
-                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-brand-violet/20 text-brand-sky border border-brand-violet/30">
+                <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-brand-violet/20 text-brand-sky border border-brand-violet/30 font-semibold">
                   DP LAB
                 </span>
               </div>
-              <p className="text-[10px] text-slate-400 tracking-wider uppercase font-mono">
+              <p className="text-[11px] text-slate-400 tracking-wider uppercase font-mono">
                 Smart Space Allocation
               </p>
             </div>
           </button>
 
           {/* Quick Nav Links */}
-          <nav className="hidden md:flex items-center gap-1 text-sm text-slate-300">
+          <nav className="hidden md:flex items-center gap-2 text-sm text-slate-300">
             <button
               onClick={() => onNavigate('landing')}
-              className={`px-3 py-1.5 rounded-lg transition-colors ${
-                currentView === 'landing' ? 'text-white bg-white/[0.08]' : 'hover:text-white hover:bg-white/[0.04]'
+              className={`px-4 py-2 rounded-xl transition-colors font-medium ${
+                currentView === 'landing' ? 'text-white bg-white/[0.1]' : 'hover:text-white hover:bg-white/[0.05]'
               }`}
             >
               Home
             </button>
             <button
               onClick={() => onNavigate('explorer')}
-              className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors ${
-                currentView === 'explorer' ? 'text-brand-cyan bg-brand-cyan/10 border border-brand-cyan/20' : 'text-slate-300 hover:text-white hover:bg-white/[0.04]'
+              className={`px-4 py-2 rounded-xl flex items-center gap-2 transition-colors font-medium ${
+                currentView === 'explorer' ? 'text-brand-cyan bg-brand-cyan/15 border border-brand-cyan/30' : 'text-slate-300 hover:text-white hover:bg-white/[0.05]'
               }`}
             >
               <Layers className="w-4 h-4 text-brand-cyan" />
@@ -86,8 +86,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
             {user && (
               <button
                 onClick={() => onNavigate('dashboard')}
-                className={`px-3 py-1.5 rounded-lg transition-colors ${
-                  currentView === 'dashboard' ? 'text-white bg-white/[0.08]' : 'hover:text-white hover:bg-white/[0.04]'
+                className={`px-4 py-2 rounded-xl transition-colors font-medium ${
+                  currentView === 'dashboard' ? 'text-white bg-white/[0.1]' : 'hover:text-white hover:bg-white/[0.05]'
                 }`}
               >
                 Dashboard

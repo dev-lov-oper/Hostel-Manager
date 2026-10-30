@@ -72,8 +72,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center p-4">
-      <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+    <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center p-6 sm:p-10">
+      <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
         
         {/* Left Side: Brand & Quick Demo Logins (5 cols) */}
         <div className="lg:col-span-5 space-y-6 text-center lg:text-left">
