@@ -2,6 +2,21 @@
 
 > **A modern, architectural SaaS hostel space allocation and complaint lifecycle management platform demonstrating practical applications of 8 Object-Oriented Software Design Patterns in Java 17/25 and React.**
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Render-008080?style=for-the-badge&logo=render&logoColor=white)](https://hostel-manager.onrender.com)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/dev-lov-oper/Hostel-Manager)
+[![Java 17](https://img.shields.io/badge/Java-17%20LTS-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
+[![React 19](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+
+---
+
+## 🌐 Project Links & URLs
+
+- **Live Application URL**: [https://hostel-manager.onrender.com](https://hostel-manager.onrender.com) *(Render Full-Stack Web Service)*
+- **GitHub Repository**: [https://github.com/dev-lov-oper/Hostel-Manager](https://github.com/dev-lov-oper/Hostel-Manager)
+- **Local Dev URL (Frontend)**: `http://localhost:5173`
+- **Local Dev URL (API)**: `http://localhost:8080/api`
+
 ---
 
 ## 🏛️ Implemented Design Patterns Matrix
@@ -15,9 +30,9 @@ Every feature in **HostelHub** is anchored directly to an enterprise Java design
 | **3** | **Chain of Responsibility** | Behavioral | `app.patterns.chain.ComplaintHandler`<br>`app.patterns.chain.WardenHandler`<br>`app.patterns.chain.ChiefWardenHandler`<br>`app.patterns.chain.DeanHandler` | Dynamic complaint escalation hierarchy: `Student → Warden → Chief Warden → Dean`, automatically evaluating severity levels (Low, Medium, High, Critical). |
 | **4** | **Observer** | Behavioral | `app.patterns.observer.ComplaintPublisher`<br>`app.patterns.observer.ComplaintObserver`<br>`app.patterns.observer.StudentNotificationObserver`<br>`app.patterns.observer.StaffNotificationObserver` | Real-time push notifications and Server-Sent Events (SSE) broadcasting complaint lifecycle events and status updates to subscribers. |
 | **5** | **Mediator** | Behavioral | `app.patterns.mediator.ComplaintMediator`<br>`app.patterns.mediator.ConcreteComplaintMediator`<br>`app.patterns.mediator.HostelMediator` | Decoupled interaction and coordination between students, hostel wardens, and maintenance personnel without tight coupling. |
-| **6** | **Template Method** | Behavioral | `app.patterns.template.HostelProcess`<br>`app.patterns.template.CheckInProcess`<br>`app.patterns.template.CheckOutProcess`<br>`app.service.ProcessService` | Standardized, invariant 5-step lifecycle process sequence: (1) Identity check → (2) Allocation state → (3) Room inventory → (4) Keys & dues clearance → (5) DB state update. |
+| **6** | **Template Method** | Behavioral | `app.patterns.template.HostelProcess`<br>`app.patterns.template.CheckInProcess`<br>`app.patterns.template.CheckOutProcess`<br>`app.service.ProcessService` | Standardized, invariant 5-step lifecycle process sequence: (1) Identity check → (2) Allocation state → (3) Room inventory & damage assessment → (4) Keys & dues clearance → (5) DB state update. |
 | **7** | **Prototype** | Creational | `app.patterns.prototype.RoomPrototype`<br>`app.patterns.prototype.RoomPrototypeRegistry`<br>`app.model.RoomTemplate`<br>`app.model.Room` | Deep-cloning room templates via `clonePrototype()` to create customized room configurations (capacity, fees, amenities) without re-instantiation from scratch. |
-| **8** | **Singleton** | Creational | `app.patterns.singleton.DatabaseManager` | Thread-safe, centralized SQLite connection management and automated schema initialization with foreign key constraints and connection pooling. |
+| **8** | **Singleton** | Creational | `app.patterns.singleton.DatabaseManager`<br>`app.patterns.singleton.UserDAO`<br>`app.patterns.singleton.StudentDAO`<br>`app.patterns.singleton.RoomDAO`<br>`app.patterns.singleton.AllocationDAO`<br>`app.patterns.singleton.ComplaintDAO`<br>`app.patterns.singleton.MaintenanceDAO`<br>`app.patterns.singleton.NotificationDAO`<br>`app.patterns.singleton.ProcessDAO` | Thread-safe, centralized SQLite connection management and all Data Access Objects (DAOs) placed inside `app.patterns.singleton` with synchronized `getInstance()` singletons. |
 
 ---
 
@@ -26,7 +41,7 @@ Every feature in **HostelHub** is anchored directly to an enterprise Java design
 ### Frontend
 - **Framework**: React 19 + TypeScript (Vite 8)
 - **Styling**: Tailwind CSS (Dark theme: deep navy `#080b11`, cyan `#06b6d4`, electric violet `#8b5cf6`)
-- **3D Graphics**: Three.js (Interactive architectural hostel building model with rotating floor views & isometric 3D floor inspector)
+- **3D Graphics**: Three.js & React Three Fiber (Interactive 3D building stack, floor swipe animations & room inspect)
 - **Animations**: GSAP + ScrollTrigger, Framer Motion
 - **Analytics & Data Vis**: Recharts
 - **Icons**: Lucide React
@@ -34,16 +49,32 @@ Every feature in **HostelHub** is anchored directly to an enterprise Java design
 
 ### Backend
 - **Language**: Java 17 / 25 LTS
-- **Build System**: Apache Maven 3.9+
+- **Build System**: Apache Maven 3.9+ with `maven-shade-plugin` standalone fat JAR
 - **REST API Server**: Embedded HTTP Server (`jdk.httpserver`) with CORS, JSON DTO serialization via Jackson (`jackson-databind`, `jackson-datatype-jsr310`)
 - **Real-time Streaming**: Server-Sent Events (SSE) Broadcaster
 - **Database**: SQLite (`sqlite-jdbc` 3.45.3) with thread-safe Singleton `DatabaseManager`
 - **Security**: BCrypt password hashing (`jbcrypt`)
-- **Testing**: JUnit 5 Jupiter engine (19 unit/integration test cases, 100% passing)
+- **Testing**: JUnit 5 Jupiter engine (20 unit/integration test cases, 100% passing)
 
 ---
 
-## ⚡ Quick Start
+## ☁️ Deployment on Render
+
+This repository includes a multi-stage production [`Dockerfile`](./Dockerfile) and a Render Blueprint ([`render.yaml`](./render.yaml)).
+
+### Deploy as Unified Full-Stack Service (Recommended)
+1. Go to [dashboard.render.com](https://dashboard.render.com/) $\rightarrow$ **New +** $\rightarrow$ **Web Service**.
+2. Connect `https://github.com/dev-lov-oper/Hostel-Manager`.
+3. Choose runtime **`Docker`** (uses `./Dockerfile`).
+4. Select **Free** instance type.
+5. Set `PORT` = `10000`.
+6. Click **Deploy Web Service**.
+
+Both the React SPA and the Java REST API run seamlessly on your Render domain (e.g. `https://hostel-manager.onrender.com`).
+
+---
+
+## ⚡ Quick Start (Local Run)
 
 ### 1. Run Java REST Backend
 ```sh
@@ -97,7 +128,7 @@ The application includes an instant **1-Click Role Switcher** in the navigation 
 - `GET  /api/process/logs`: Retrieve audit execution traces
 - `POST /api/templates/clone`: Clone and customize room template via **Prototype Pattern**
 - `GET  /api/system/stats`: Live system KPIs
-- `GET  /api/system/singleton-info`: Inspect **Singleton Pattern** `DatabaseManager` instance identity
+- `GET  /api/system/singleton-info`: Inspect **Singleton Pattern** `DatabaseManager` & Singleton DAOs
 - `GET  /api/patterns/meta`: Complete metadata for the Architecture Explorer
 - `GET  /api/events`: Live Server-Sent Events stream
 
@@ -109,7 +140,7 @@ Run test suite:
 ```sh
 mvn test
 ```
-All 19 test cases across patterns, services, and integration pass with 0 failures:
+All **20 test cases** across patterns, services, and integration pass with 0 failures:
 - `BuilderTest`: Validation constraints & profile construction
 - `StrategyTest`: Merit-based, FCFS, and Preference strategies
 - `ChainTest`: Handler linking and escalation thresholds
@@ -117,6 +148,6 @@ All 19 test cases across patterns, services, and integration pass with 0 failure
 - `MediatorTest`: Loose-coupled colleague interaction
 - `TemplateTest`: Invariant process step execution
 - `PrototypeTest`: Deep-cloning of room prototypes
-- `SingletonTest`: Thread-safe identity preservation
+- `SingletonTest`: Thread-safe identity preservation of `DatabaseManager` and all 8 DAO singletons
 - `AllocationServiceTest` & `ComplaintServiceTest`: Transactional consistency
 - `IntegrationTest`: End-to-end student lifecycle
