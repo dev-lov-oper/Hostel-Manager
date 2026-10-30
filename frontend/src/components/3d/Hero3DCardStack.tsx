@@ -227,3 +227,4 @@ export const Hero3DCardStack: React.FC<Hero3DCardStackProps> = ({ onExplore }) =
     </div>
   );
 };
+

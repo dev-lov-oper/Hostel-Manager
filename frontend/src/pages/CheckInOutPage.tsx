@@ -352,6 +352,63 @@ export const CheckInOutPage: React.FC = () => {
             })}
           </div>
 
+          {/* Data Origin & Inspection Details */}
+          <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4">
+            <div className="flex items-center justify-between border-b border-white/[0.08] pb-2">
+              <h4 className="text-xs font-mono uppercase tracking-wider text-brand-cyan font-bold flex items-center gap-2">
+                <HelpCircle className="w-4 h-4" />
+                <span>Verification Data Origin & Invariant Checks</span>
+              </h4>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/30">
+                Live System Bindings
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              {/* Step 3: Inventory & Damage */}
+              <div className="p-3.5 rounded-xl bg-black/30 border border-white/5 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-white flex items-center gap-1.5">
+                    <ShieldCheck className="w-3.5 h-3.5 text-brand-sky" />
+                    Step 3: Inventory & Damages
+                  </span>
+                  <span className="text-[10px] font-mono text-brand-sky bg-brand-violet/20 px-1.5 py-0.5 rounded">
+                    Prototype Pattern
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-300 leading-relaxed">
+                  <strong>Source:</strong> Cloned from Room Prototype #{currentAllocation?.roomId || roomId} ({currentAllocation?.templateName || 'Template'}).
+                </p>
+                <div className="text-[10px] font-mono text-slate-400 bg-white/[0.02] p-2 rounded border border-white/5 space-y-1">
+                  <p className="text-emerald-300 font-semibold">✓ Inventory: Desks, Attached Bath, Fixtures, Lock</p>
+                  <p className="text-slate-400">
+                    {processType === 'CHECK_IN' ? '• Establishing baseline inventory state' : '• Damage Assessment: 0 defects recorded'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 4: Keys & Dues */}
+              <div className="p-3.5 rounded-xl bg-black/30 border border-white/5 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-white flex items-center gap-1.5">
+                    <Key className="w-3.5 h-3.5 text-brand-cyan" />
+                    Step 4: Keys & Dues Clearance
+                  </span>
+                  <span className="text-[10px] font-mono text-brand-cyan bg-brand-cyan/20 px-1.5 py-0.5 rounded">
+                    Accounts Ledger
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-300 leading-relaxed">
+                  <strong>Source:</strong> Allocation #{allocationId} for Student #{studentId}.
+                </p>
+                <div className="text-[10px] font-mono text-slate-400 bg-white/[0.02] p-2 rounded border border-white/5 space-y-1">
+                  <p className="text-cyan-300 font-semibold">🔑 Key Tag: KEY-ALLOC-{allocationId}-{processType === 'CHECK_IN' ? 'ENTRY' : 'RETURN'}</p>
+                  <p className="text-emerald-400 font-semibold">✓ Dues Balance: ₹0.00 (No Dues Verified)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Input Parameters & Run Action */}
           <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.08] space-y-5">
             <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold">

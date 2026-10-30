@@ -499,3 +499,4 @@ export const ScrollSwipe3D: React.FC<ScrollSwipe3DProps> = ({ onNavigate }) => {
     </section>
   );
 };
+
