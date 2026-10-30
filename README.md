@@ -2,7 +2,7 @@
 
 > **A modern, architectural SaaS hostel space allocation and complaint lifecycle management platform demonstrating practical applications of 8 Object-Oriented Software Design Patterns in Java 17/25 and React.**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Render-008080?style=for-the-badge&logo=render&logoColor=white)](https://hostel-manager.onrender.com)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Render-008080?style=for-the-badge&logo=render&logoColor=white)](https://hostel-manager-1-mgwf.onrender.com/)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/dev-lov-oper/Hostel-Manager)
 [![Java 17](https://img.shields.io/badge/Java-17%20LTS-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
@@ -12,7 +12,7 @@
 
 ## 🌐 Project Links & URLs
 
-- **Live Application URL**: [https://hostel-manager.onrender.com](https://hostel-manager.onrender.com) *(Render Full-Stack Web Service)*
+- **Live Application URL**: [https://hostel-manager-1-mgwf.onrender.com/](https://hostel-manager-1-mgwf.onrender.com/) *(Render Full-Stack Deployment)*
 - **GitHub Repository**: [https://github.com/dev-lov-oper/Hostel-Manager](https://github.com/dev-lov-oper/Hostel-Manager)
 - **Local Dev URL (Frontend)**: `http://localhost:5173`
 - **Local Dev URL (API)**: `http://localhost:8080/api`
@@ -55,22 +55,6 @@ Every feature in **HostelHub** is anchored directly to an enterprise Java design
 - **Database**: SQLite (`sqlite-jdbc` 3.45.3) with thread-safe Singleton `DatabaseManager`
 - **Security**: BCrypt password hashing (`jbcrypt`)
 - **Testing**: JUnit 5 Jupiter engine (20 unit/integration test cases, 100% passing)
-
----
-
-## ☁️ Deployment on Render
-
-This repository includes a multi-stage production [`Dockerfile`](./Dockerfile) and a Render Blueprint ([`render.yaml`](./render.yaml)).
-
-### Deploy as Unified Full-Stack Service (Recommended)
-1. Go to [dashboard.render.com](https://dashboard.render.com/) $\rightarrow$ **New +** $\rightarrow$ **Web Service**.
-2. Connect `https://github.com/dev-lov-oper/Hostel-Manager`.
-3. Choose runtime **`Docker`** (uses `./Dockerfile`).
-4. Select **Free** instance type.
-5. Set `PORT` = `10000`.
-6. Click **Deploy Web Service**.
-
-Both the React SPA and the Java REST API run seamlessly on your Render domain (e.g. `https://hostel-manager.onrender.com`).
 
 ---
 
