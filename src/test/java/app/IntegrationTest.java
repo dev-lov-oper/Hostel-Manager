@@ -45,7 +45,7 @@ public class IntegrationTest {
                 .setFullName("Test Integration Student")
                 .setAcademicYear(2)
                 .setGender("MALE")
-                .setMeritScore(92.5)
+                .setCgpa(9.25)
                 .setContactNumber("9876543210")
                 .setEmergencyContact("9123456789")
                 .build();
@@ -59,11 +59,11 @@ public class IntegrationTest {
         MeritBasedAllocationStrategy strategy = new MeritBasedAllocationStrategy();
         assertNotNull(strategy.getStrategyName());
 
-        // 3. Verify Chain of Responsibility Escalation Service
+        // 3. Verify Complaint Service Initialization
         ComplaintService complaintService = new ComplaintService();
         assertNotNull(complaintService);
 
-        // 4. Verify Template Method Process Service
+        // 4. Verify Process Service (Template Method Pattern)
         ProcessService processService = new ProcessService();
         assertNotNull(processService);
     }

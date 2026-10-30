@@ -51,7 +51,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ onNavigateTa
             Welcome back, {user?.fullName || 'Alice Smith'}
           </h1>
           <p className="text-xs sm:text-sm text-slate-300">
-            {student ? `ID: ${student.studentCode} • Year ${student.academicYear} • CGPA: ${student.meritScore}` : 'Student Profile Active'}
+            {student ? `ID: ${student.studentCode} • Year ${student.academicYear} • CGPA: ${(student.cgpa ?? (student.meritScore > 10 ? student.meritScore / 10 : student.meritScore)).toFixed(2)} / 10.0` : 'Student Profile Active'}
           </p>
         </div>
 

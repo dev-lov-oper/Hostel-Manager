@@ -19,13 +19,13 @@ public class PatternMetaController {
         builder.put("name", "Builder Pattern");
         builder.put("category", "Creational");
         builder.put("intent", "Construct complex student profiles step-by-step with robust validation before creation.");
-        builder.put("problem", "Creating a student profile requires multiple mandatory and optional fields (contact numbers, academic year, merit scores, emergency contacts, hostel preferences). A constructor with many parameters leads to telescoping constructors and unvalidated state.");
-        builder.put("solution", "StudentBuilder encapsulates validation logic (e.g. academic year 1-5, merit score 0-100, phone regex) and produces an immutable Student object only when build() is invoked.");
+        builder.put("problem", "Creating a student profile requires multiple mandatory and optional fields (contact numbers, academic year, CGPA, emergency contacts, hostel preferences). A constructor with many parameters leads to telescoping constructors and unvalidated state.");
+        builder.put("solution", "StudentBuilder encapsulates validation logic (e.g. academic year 1-5, CGPA 0.0-10.0, phone regex) and produces an immutable Student object only when build() is invoked.");
         builder.put("keyClasses", List.of("app.patterns.builder.StudentBuilder", "app.model.Student", "app.service.StudentService"));
         builder.put("flow", List.of(
                 "UI collects personal, academic, and hostel preference parameters across multi-step form.",
-                "StudentBuilder chained methods (.setUserId, .setFullName, .setMeritScore) accumulate state.",
-                "StudentBuilder.build() enforces validation rules (regex, ranges, null-checks).",
+                "StudentBuilder chained methods (.setUserId, .setFullName, .setCgpa) accumulate state.",
+                "StudentBuilder.build() enforces validation rules (regex, ranges, null-checks, CGPA between 0.0 and 10.0).",
                 "Immutable Student domain model is instantiated and saved to database."
         ));
         builder.put("sampleCode", """
@@ -35,7 +35,7 @@ public class PatternMetaController {
                 .setFullName("Alice Smith")
                 .setAcademicYear(2)
                 .setGender("FEMALE")
-                .setMeritScore(92.5)
+                .setCgpa(9.25)
                 .setContactNumber("9876543210")
                 .setEmergencyContact("9876543211")
                 .setPreferredHostelIds(List.of(1, 2))
@@ -49,7 +49,7 @@ public class PatternMetaController {
         strategy.put("name", "Strategy Pattern");
         strategy.put("category", "Behavioral");
         strategy.put("intent", "Define a family of interchangeable room allocation algorithms and switch dynamically at runtime.");
-        strategy.put("problem", "Different allocation policies are needed at different phases: Merit-based for academic excellence, First-Come-First-Served for open enrollment, and Preference-based to honor student choices. Hardcoding logic in one place violates Open/Closed Principle.");
+        strategy.put("problem", "Different allocation policies are needed at different phases: CGPA-based for academic excellence, First-Come-First-Served for open enrollment, and Preference-based to honor student choices. Hardcoding logic in one place violates Open/Closed Principle.");
         strategy.put("solution", "AllocationStrategy defines the contract. Concrete classes MeritBasedAllocationStrategy, FirstComeFirstServedStrategy, and PreferenceBasedAllocationStrategy encapsulate the distinct algorithms.");
         strategy.put("keyClasses", List.of(
                 "app.patterns.strategy.AllocationStrategy",
@@ -59,7 +59,7 @@ public class PatternMetaController {
                 "app.service.AllocationService"
         ));
         strategy.put("flow", List.of(
-                "Administrator selects the allocation policy (Merit-Based, FCFS, or Preference-Based).",
+                "Administrator selects the allocation policy (CGPA-Based, FCFS, or Preference-Based).",
                 "AllocationService receives the chosen AllocationStrategy instance.",
                 "Strategy processes pending requests, sorts accordingly, and maps students to available rooms.",
                 "AllocationService commits the assignments transactionally in SQLite."

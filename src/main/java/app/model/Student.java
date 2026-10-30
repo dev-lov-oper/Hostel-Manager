@@ -41,6 +41,7 @@ public class Student {
     public int getAcademicYear() { return academicYear; }
     public String getGender() { return gender; }
     public double getMeritScore() { return meritScore; }
+    public double getCgpa() { return meritScore; }
     public String getContactNumber() { return contactNumber; }
     public String getEmergencyContact() { return emergencyContact; }
     public List<Integer> getPreferredHostelIds() { return preferredHostelIds; }

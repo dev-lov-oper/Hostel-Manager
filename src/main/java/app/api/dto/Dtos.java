@@ -17,10 +17,17 @@ public class Dtos {
             Integer academicYear,
             String gender,
             Double meritScore,
+            Double cgpa,
             String contactNumber,
             String emergencyContact,
             List<Integer> preferredHostelIds
-    ) {}
+    ) {
+        public double resolvedCgpa() {
+            if (cgpa != null) return cgpa;
+            if (meritScore != null) return meritScore > 10.0 ? meritScore / 10.0 : meritScore;
+            return 8.5;
+        }
+    }
 
     public record StudentProfileRequest(
             int userId,
@@ -28,11 +35,18 @@ public class Dtos {
             String fullName,
             int academicYear,
             String gender,
-            double meritScore,
+            Double meritScore,
+            Double cgpa,
             String contactNumber,
             String emergencyContact,
             List<Integer> preferredHostelIds
-    ) {}
+    ) {
+        public double resolvedCgpa() {
+            if (cgpa != null) return cgpa;
+            if (meritScore != null) return meritScore > 10.0 ? meritScore / 10.0 : meritScore;
+            return 8.5;
+        }
+    }
 
     public record AllocationSubmissionRequest(
             int studentId,

@@ -25,8 +25,8 @@ Every feature in **HostelHub** is anchored directly to an enterprise Java design
 
 | # | Design Pattern | Category | Java Classes & Packages | Practical Functional Application |
 |---|---|---|---|---|
-| **1** | **Builder** | Creational | `app.patterns.builder.StudentBuilder`<br>`app.model.Student`<br>`app.service.StudentService` | Multi-step interactive student profile builder with strict validation rules (academic year 1–5, merit score 0–100, phone regex, hostel preferences). |
-| **2** | **Strategy** | Behavioral | `app.patterns.strategy.AllocationStrategy`<br>`app.patterns.strategy.MeritBasedAllocationStrategy`<br>`app.patterns.strategy.FirstComeFirstServedStrategy`<br>`app.patterns.strategy.PreferenceBasedAllocationStrategy` | Interchangeable room allocation algorithms: Merit-based ranking, First-Come-First-Served queue, or preference-based hostel matching. |
+| **1** | **Builder** | Creational | `app.patterns.builder.StudentBuilder`<br>`app.model.Student`<br>`app.service.StudentService` | Multi-step interactive student profile builder with strict validation rules (academic year 1–5, CGPA 0.0–10.0, phone regex, hostel preferences). |
+| **2** | **Strategy** | Behavioral | `app.patterns.strategy.AllocationStrategy`<br>`app.patterns.strategy.MeritBasedAllocationStrategy`<br>`app.patterns.strategy.FirstComeFirstServedStrategy`<br>`app.patterns.strategy.PreferenceBasedAllocationStrategy` | Interchangeable room allocation algorithms: CGPA-based ranking (0.0 - 10.0 scale), First-Come-First-Served queue, or preference-based hostel matching. |
 | **3** | **Chain of Responsibility** | Behavioral | `app.patterns.chain.ComplaintHandler`<br>`app.patterns.chain.WardenHandler`<br>`app.patterns.chain.ChiefWardenHandler`<br>`app.patterns.chain.DeanHandler` | Dynamic complaint escalation hierarchy: `Student → Warden → Chief Warden → Dean`, automatically evaluating severity levels (Low, Medium, High, Critical). |
 | **4** | **Observer** | Behavioral | `app.patterns.observer.ComplaintPublisher`<br>`app.patterns.observer.ComplaintObserver`<br>`app.patterns.observer.StudentNotificationObserver`<br>`app.patterns.observer.StaffNotificationObserver` | Real-time push notifications and Server-Sent Events (SSE) broadcasting complaint lifecycle events and status updates to subscribers. |
 | **5** | **Mediator** | Behavioral | `app.patterns.mediator.ComplaintMediator`<br>`app.patterns.mediator.ConcreteComplaintMediator`<br>`app.patterns.mediator.HostelMediator` | Decoupled interaction and coordination between students, hostel wardens, and maintenance personnel without tight coupling. |
@@ -142,7 +142,7 @@ mvn test
 ```
 All **20 test cases** across patterns, services, and integration pass with 0 failures:
 - `BuilderTest`: Validation constraints & profile construction
-- `StrategyTest`: Merit-based, FCFS, and Preference strategies
+- `StrategyTest`: CGPA-based, FCFS, and Preference strategies
 - `ChainTest`: Handler linking and escalation thresholds
 - `ObserverTest`: Subscription and event publishing
 - `MediatorTest`: Loose-coupled colleague interaction

@@ -18,6 +18,7 @@ export interface Student {
   academicYear: number;
   gender: string;
   meritScore: number;
+  cgpa?: number;
   contactNumber: string;
   emergencyContact: string;
   preferredHostelIds: number[];
@@ -62,6 +63,7 @@ export interface AllocationDetail {
   studentName: string;
   studentCode: string;
   meritScore: number;
+  cgpa?: number;
   roomNumber: string;
   floorNumber: number;
   capacity?: number;

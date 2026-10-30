@@ -35,7 +35,8 @@ export const ProfileBuilderPage: React.FC<ProfileBuilderPageProps> = ({ onSucces
     studentCode: user?.student?.studentCode || 'STU-2026-09',
     department: 'Computer Science & Engineering',
     academicYear: user?.student?.academicYear || 2,
-    meritScore: user?.student?.meritScore || 92.5,
+    cgpa: user?.student?.cgpa || (user?.student?.meritScore ? (user.student.meritScore > 10 ? user.student.meritScore / 10 : user.student.meritScore) : 9.25),
+    meritScore: user?.student?.cgpa || (user?.student?.meritScore ? (user.student.meritScore > 10 ? user.student.meritScore / 10 : user.student.meritScore) : 9.25),
     gender: user?.student?.gender || 'FEMALE',
     contactNumber: user?.student?.contactNumber || '9876543210',
     emergencyContact: user?.student?.emergencyContact || '9876543211',
@@ -72,7 +73,8 @@ export const ProfileBuilderPage: React.FC<ProfileBuilderPageProps> = ({ onSucces
         fullName: formData.fullName,
         academicYear: Number(formData.academicYear),
         gender: formData.gender,
-        meritScore: Number(formData.meritScore),
+        cgpa: Number(formData.cgpa || formData.meritScore),
+        meritScore: Number(formData.cgpa || formData.meritScore),
         contactNumber: formData.contactNumber,
         emergencyContact: formData.emergencyContact,
         preferredHostelIds: formData.preferredHostelIds,
@@ -169,7 +171,7 @@ export const ProfileBuilderPage: React.FC<ProfileBuilderPageProps> = ({ onSucces
                     Step 1: Personal & Academic Credentials
                   </h3>
                   <p className="text-xs text-slate-400 mt-0.5">
-                    Enforces academic year bounds and merit scoring rules
+                    Enforces academic year bounds and CGPA scoring rules (0.0 - 10.0)
                   </p>
                 </div>
 
@@ -244,17 +246,22 @@ export const ProfileBuilderPage: React.FC<ProfileBuilderPageProps> = ({ onSucces
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono text-slate-300 mb-1.5">
-                      CGPA / Merit Score (0.0 - 100.0)
+                    <label className="block text-xs font-mono text-slate-300 mb-1.5 flex items-center justify-between">
+                      <span>Cumulative GPA (CGPA)</span>
+                      <span className="text-[10px] text-slate-500">Range: 0.0 - 10.0</span>
                     </label>
                     <input
                       type="number"
-                      step="0.1"
+                      step="0.01"
                       min="0"
-                      max="100"
+                      max="10"
                       required
-                      value={formData.meritScore}
-                      onChange={(e) => handleChange('meritScore', e.target.value)}
+                      placeholder="e.g. 8.75"
+                      value={formData.cgpa ?? formData.meritScore}
+                      onChange={(e) => {
+                        handleChange('cgpa', e.target.value);
+                        handleChange('meritScore', e.target.value);
+                      }}
                       className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white text-xs font-mono focus:outline-none focus:border-brand-cyan transition-colors"
                     />
                   </div>
@@ -478,9 +485,9 @@ export const ProfileBuilderPage: React.FC<ProfileBuilderPageProps> = ({ onSucces
 
               <div className="grid grid-cols-2 gap-3 pt-2">
                 <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-                  <span className="text-[10px] text-slate-400 block font-mono">Merit Score</span>
+                  <span className="text-[10px] text-slate-400 block font-mono">Academic CGPA</span>
                   <span className="text-lg font-bold font-mono text-brand-sky">
-                    {formData.meritScore}
+                    {formData.cgpa ?? formData.meritScore} <span className="text-xs text-slate-400">/ 10.0</span>
                   </span>
                 </div>
                 <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06]">
@@ -519,7 +526,7 @@ export const ProfileBuilderPage: React.FC<ProfileBuilderPageProps> = ({ onSucces
                 <li>No null fields permitted in construction</li>
                 <li>Phone regex strictly validated (10-15 digits)</li>
                 <li>Academic year bounded between 1 and 5</li>
-                <li>Merit score bounded between 0.0 and 100.0</li>
+                <li>CGPA strictly bounded between 0.0 and 10.0</li>
               </ul>
             </div>
           </div>

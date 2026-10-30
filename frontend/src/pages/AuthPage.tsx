@@ -33,7 +33,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
   // Student specific registration fields
   const [studentCode, setStudentCode] = useState('STU-2026-99');
   const [academicYear, setAcademicYear] = useState(1);
-  const [meritScore, setMeritScore] = useState(90.0);
+  const [cgpa, setCgpa] = useState(8.85);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +49,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
           role,
           studentCode,
           academicYear: Number(academicYear),
-          meritScore: Number(meritScore),
+          cgpa: Number(cgpa),
+          meritScore: Number(cgpa),
           contactNumber: '9876543210',
           emergencyContact: '9876543211',
           preferredHostelIds: [1, 2]
@@ -215,12 +216,14 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-[11px] font-mono text-slate-400 mb-1">Merit / CGPA Score</label>
+                      <label className="block text-[11px] font-mono text-slate-400 mb-1">CGPA (0.0 - 10.0)</label>
                       <input
                         type="number"
-                        step="0.1"
-                        value={meritScore}
-                        onChange={(e) => setMeritScore(Number(e.target.value))}
+                        min="0"
+                        max="10"
+                        step="0.01"
+                        value={cgpa}
+                        onChange={(e) => setCgpa(Number(e.target.value))}
                         className="w-full px-3 py-1.5 rounded-lg bg-black/40 border border-white/10 text-white text-xs font-mono"
                       />
                     </div>

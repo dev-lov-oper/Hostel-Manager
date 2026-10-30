@@ -221,9 +221,9 @@ export const RoomAllocationPage: React.FC = () => {
           {[
             {
               id: 'MERIT_BASED' as const,
-              name: 'Merit-Based Allocation',
+              name: 'CGPA-Based Allocation',
               icon: Award,
-              desc: 'Sorts pending students descending by CGPA/merit score. Highest achievers get first room choice.',
+              desc: 'Sorts pending students descending by CGPA (0.0 - 10.0 scale). Highest academic achievers get first room choice.',
               badge: 'MeritBasedAllocationStrategy'
             },
             {
@@ -442,7 +442,7 @@ export const RoomAllocationPage: React.FC = () => {
             <thead>
               <tr className="border-b border-white/10 text-slate-400 text-[11px] uppercase tracking-wider">
                 <th className="pb-3 font-semibold">Student</th>
-                <th className="pb-3 font-semibold">Merit</th>
+                <th className="pb-3 font-semibold">CGPA</th>
                 <th className="pb-3 font-semibold">Hostel & Room</th>
                 <th className="pb-3 font-semibold">Strategy Engine</th>
                 <th className="pb-3 font-semibold">Status</th>
@@ -456,7 +456,9 @@ export const RoomAllocationPage: React.FC = () => {
                     <p className="font-semibold text-white text-sm">{a.studentName}</p>
                     <p className="text-[10px] font-mono text-slate-500">{a.studentCode}</p>
                   </td>
-                  <td className="py-3.5 font-bold text-brand-sky text-sm">{a.meritScore}</td>
+                  <td className="py-3.5 font-bold text-brand-sky text-sm">
+                    {a.cgpa ?? (a.meritScore > 10 ? (a.meritScore / 10).toFixed(2) : a.meritScore)}
+                  </td>
                   <td className="py-3.5">
                     <span className="font-semibold text-white">{a.hostelName}</span>
                     <span className="text-[10px] text-slate-400 block font-mono">

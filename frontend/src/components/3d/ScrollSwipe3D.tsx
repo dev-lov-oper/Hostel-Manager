@@ -46,12 +46,12 @@ const CARDS: ShowcaseCard[] = [
     category: 'Behavioral Pattern',
     title: 'Multi-Algorithm Room Allocation',
     subtitle: 'Dynamic Runtime Strategy Selection',
-    description: 'Switch seamlessly between Merit-based, First-Come-First-Served (FCFS), and Preference-based room allocation strategies without altering client code.',
+    description: 'Switch seamlessly between CGPA-based, First-Come-First-Served (FCFS), and Preference-based room allocation strategies without altering client code.',
     badge: 'AllocationEngine.java',
     accent: 'cyan',
     tabTarget: 'room-allocation',
     details: [
-      { label: 'Merit-Based', value: 'Ranked by Academic GPA / CGPA' },
+      { label: 'CGPA-Based', value: 'Ranked by Academic CGPA (0.0 - 10.0 scale)' },
       { label: 'FCFS', value: 'Deterministic Queue by Timestamp' },
       { label: 'Preference-Based', value: 'Matrix Multi-Criteria Matching' }
     ],
@@ -200,15 +200,15 @@ export const ScrollSwipe3D: React.FC<ScrollSwipe3DProps> = ({ onNavigate }) => {
           <div className="space-y-3 bg-black/40 p-4 rounded-2xl border border-cyan-500/20">
             <div className="flex items-center justify-between text-xs font-mono">
               <span className="text-cyan-400 font-bold">ALGORITHM MATRIX</span>
-              <span className="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300">ACTIVE: MERIT</span>
+              <span className="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300">ACTIVE: CGPA</span>
             </div>
             <div className="space-y-2">
               <div className="p-2.5 rounded-xl bg-white/5 border border-cyan-500/30 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Award className="w-4 h-4 text-cyan-400" />
-                  <span className="text-xs font-semibold text-white">MeritStrategy</span>
+                  <span className="text-xs font-semibold text-white">CGPA Strategy</span>
                 </div>
-                <span className="text-xs font-mono text-emerald-400 font-bold">GPA 3.95 → Room #A-101</span>
+                <span className="text-xs font-mono text-emerald-400 font-bold">CGPA 9.85 → Room #A-101</span>
               </div>
               <div className="p-2.5 rounded-xl bg-white/[0.02] border border-white/10 flex items-center justify-between opacity-70">
                 <div className="flex items-center gap-2">

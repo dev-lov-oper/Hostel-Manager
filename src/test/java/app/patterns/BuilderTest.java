@@ -16,7 +16,7 @@ public class BuilderTest {
                 .setFullName("Rahul Sharma")
                 .setAcademicYear(2)
                 .setGender("MALE")
-                .setMeritScore(88.5)
+                .setCgpa(8.85)
                 .setContactNumber("9876543210")
                 .setEmergencyContact("9123456789")
                 .build();
@@ -24,7 +24,8 @@ public class BuilderTest {
         assertNotNull(student);
         assertEquals("STU2026001", student.getStudentCode());
         assertEquals("Rahul Sharma", student.getFullName());
-        assertEquals(88.5, student.getMeritScore());
+        assertEquals(8.85, student.getCgpa());
+        assertEquals(8.85, student.getMeritScore());
     }
 
     @Test
@@ -39,17 +40,29 @@ public class BuilderTest {
     }
 
     @Test
-    public void testInvalidMeritScoreThrowsException() {
-        StudentBuilder builder = new StudentBuilder()
+    public void testInvalidCgpaThrowsException() {
+        StudentBuilder builderHigh = new StudentBuilder()
                 .setUserId(10)
                 .setStudentCode("STU2026002")
                 .setFullName("Priya Patel")
                 .setAcademicYear(3)
                 .setGender("FEMALE")
-                .setMeritScore(105.0) // Invalid: > 100
+                .setCgpa(10.5) // Invalid: > 10.0
                 .setContactNumber("9876543210")
                 .setEmergencyContact("9123456789");
 
-        assertThrows(ValidationException.class, builder::build);
+        assertThrows(ValidationException.class, builderHigh::build);
+
+        StudentBuilder builderLow = new StudentBuilder()
+                .setUserId(10)
+                .setStudentCode("STU2026003")
+                .setFullName("Priya Patel")
+                .setAcademicYear(3)
+                .setGender("FEMALE")
+                .setCgpa(-0.5) // Invalid: < 0.0
+                .setContactNumber("9876543210")
+                .setEmergencyContact("9123456789");
+
+        assertThrows(ValidationException.class, builderLow::build);
     }
 }

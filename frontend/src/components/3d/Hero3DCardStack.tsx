@@ -169,11 +169,11 @@ export const Hero3DCardStack: React.FC<Hero3DCardStackProps> = ({ onExplore }) =
             </div>
             <div>
               <p className="text-[11px] font-mono uppercase tracking-wider text-brand-cyan font-bold">Strategy Pattern</p>
-              <p className="text-xs text-white font-semibold">Merit-Based Allocation</p>
+              <p className="text-xs text-white font-semibold">CGPA-Based Allocation</p>
             </div>
           </div>
           <div className="mt-2 text-[11px] text-slate-300 font-mono flex items-center justify-between bg-black/40 px-2.5 py-1.5 rounded-lg border border-white/5">
-            <span>Score Weight: 9.85</span>
+            <span>CGPA: 9.85 / 10.0</span>
             <span className="text-emerald-400 font-bold">Priority #1</span>
           </div>
         </div>

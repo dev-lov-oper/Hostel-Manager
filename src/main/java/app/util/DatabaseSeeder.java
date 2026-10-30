@@ -52,10 +52,10 @@ public class DatabaseSeeder {
                 // 2. Students
                 stmt.execute("""
                     INSERT OR IGNORE INTO students (student_id, user_id, student_code, academic_year, gender, merit_score, contact_number, emergency_contact, preferences_json) VALUES
-                    (2, 7, 'STU002', 3, 'MALE', 88.5, '9876543210', '9876543211', '1,3'),
-                    (3, 8, 'STU003', 1, 'FEMALE', 96.0, '9876543220', '9876543221', '2,3'),
-                    (4, 9, 'STU004', 4, 'MALE', 75.0, '9876543230', '9876543231', '1'),
-                    (5, 10, 'STU005', 2, 'FEMALE', 85.0, '9876543240', '9876543241', '2')
+                    (2, 7, 'STU002', 3, 'MALE', 8.85, '9876543210', '9876543211', '1,3'),
+                    (3, 8, 'STU003', 1, 'FEMALE', 9.60, '9876543220', '9876543221', '2,3'),
+                    (4, 9, 'STU004', 4, 'MALE', 7.50, '9876543230', '9876543231', '1'),
+                    (5, 10, 'STU005', 2, 'FEMALE', 8.50, '9876543240', '9876543241', '2')
                 """);
 
                 // 3. Room Templates (Prototype pattern sources)

@@ -56,6 +56,11 @@ public class StudentBuilder {
         return this;
     }
 
+    public StudentBuilder setCgpa(double cgpa) {
+        this.meritScore = cgpa;
+        return this;
+    }
+
     public StudentBuilder setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
         return this;
@@ -104,8 +109,8 @@ public class StudentBuilder {
         if (emergencyContact == null || !emergencyContact.matches("\\+?\\d{10,15}")) {
             throw new ValidationException("Emergency contact must be valid (10-15 digits).");
         }
-        if (meritScore < 0.0 || meritScore > 100.0) {
-            throw new ValidationException("Merit score must be between 0.0 and 100.0.");
+        if (meritScore < 0.0 || meritScore > 10.0) {
+            throw new ValidationException("CGPA must be between 0.0 and 10.0.");
         }
     }
 }

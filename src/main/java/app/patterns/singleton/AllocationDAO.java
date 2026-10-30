@@ -152,7 +152,10 @@ public class AllocationDAO {
                 map.put("allocatedAt", rs.getString("allocated_at"));
                 map.put("studentName", rs.getString("student_name"));
                 map.put("studentCode", rs.getString("student_code"));
-                map.put("meritScore", rs.getDouble("merit_score"));
+                double rawScore = rs.getDouble("merit_score");
+                double cgpa = rawScore > 10.0 ? Math.round((rawScore / 10.0) * 100.0) / 100.0 : rawScore;
+                map.put("cgpa", cgpa);
+                map.put("meritScore", cgpa);
                 map.put("roomNumber", rs.getString("room_number"));
                 map.put("floorNumber", rs.getInt("floor_number"));
                 map.put("hostelName", rs.getString("hostel_name"));
@@ -197,7 +200,10 @@ public class AllocationDAO {
                     map.put("allocatedAt", rs.getString("allocated_at"));
                     map.put("studentName", rs.getString("student_name"));
                     map.put("studentCode", rs.getString("student_code"));
-                    map.put("meritScore", rs.getDouble("merit_score"));
+                    double rawScore = rs.getDouble("merit_score");
+                    double cgpa = rawScore > 10.0 ? Math.round((rawScore / 10.0) * 100.0) / 100.0 : rawScore;
+                    map.put("cgpa", cgpa);
+                    map.put("meritScore", cgpa);
                     map.put("roomNumber", rs.getString("room_number"));
                     map.put("floorNumber", rs.getInt("floor_number"));
                     map.put("capacity", rs.getInt("capacity"));

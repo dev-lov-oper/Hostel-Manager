@@ -314,7 +314,7 @@ public class RestApiServer {
             String code = req.studentCode() != null ? req.studentCode() : "STU-" + System.currentTimeMillis() % 10000;
             int year = req.academicYear() != null ? req.academicYear() : 1;
             String gender = req.gender() != null ? req.gender() : "FEMALE";
-            double merit = req.meritScore() != null ? req.meritScore() : 85.0;
+            double merit = req.resolvedCgpa();
             String phone = req.contactNumber() != null ? req.contactNumber() : "9876543210";
             String emergency = req.emergencyContact() != null ? req.emergencyContact() : "9876543211";
             List<Integer> prefs = req.preferredHostelIds() != null ? req.preferredHostelIds() : List.of(1);
@@ -381,7 +381,7 @@ public class RestApiServer {
                     .setFullName(req.fullName())
                     .setAcademicYear(req.academicYear())
                     .setGender(req.gender())
-                    .setMeritScore(req.meritScore())
+                    .setMeritScore(req.resolvedCgpa())
                     .setContactNumber(req.contactNumber())
                     .setEmergencyContact(req.emergencyContact())
                     .setPreferredHostelIds(req.preferredHostelIds())

@@ -99,6 +99,8 @@ public class StudentDAO {
     }
 
     protected Student mapResultSetToStudent(ResultSet rs) throws SQLException {
+        double rawScore = rs.getDouble("merit_score");
+        double cgpa = rawScore > 10.0 ? Math.round((rawScore / 10.0) * 100.0) / 100.0 : rawScore;
         return new StudentBuilder()
                 .setStudentId(rs.getInt("student_id"))
                 .setUserId(rs.getInt("user_id"))
@@ -106,7 +108,7 @@ public class StudentDAO {
                 .setFullName(rs.getString("full_name"))
                 .setAcademicYear(rs.getInt("academic_year"))
                 .setGender(rs.getString("gender"))
-                .setMeritScore(rs.getDouble("merit_score"))
+                .setCgpa(cgpa)
                 .setContactNumber(rs.getString("contact_number"))
                 .setEmergencyContact(rs.getString("emergency_contact"))
                 .setPreferredHostelIds(parsePreferencesString(rs.getString("preferences_json")))
