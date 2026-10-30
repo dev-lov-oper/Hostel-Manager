@@ -4,10 +4,10 @@ import app.exception.AllocationException;
 import app.model.AllocationRequest;
 import app.model.Room;
 import app.model.Student;
+import app.patterns.singleton.AllocationDAO;
 import app.patterns.singleton.DatabaseManager;
+import app.patterns.singleton.RoomDAO;
 import app.patterns.strategy.AllocationStrategy;
-import app.repository.AllocationRepository;
-import app.repository.RoomRepository;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 public class AllocationService {
-    private final RoomRepository roomRepository = new RoomRepository();
-    private final AllocationRepository allocationRepository = new AllocationRepository();
+    private final RoomDAO roomRepository = RoomDAO.getInstance();
+    private final AllocationDAO allocationRepository = AllocationDAO.getInstance();
 
     public int processAllocations(AllocationStrategy strategy, List<AllocationRequest> requests, List<Student> students) {
         List<Room> availableRooms = roomRepository.findAvailableRooms();

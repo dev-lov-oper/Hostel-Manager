@@ -2,7 +2,7 @@ package app.service;
 
 import app.model.Notification;
 import app.patterns.singleton.DatabaseManager;
-import app.repository.NotificationRepository;
+import app.patterns.singleton.NotificationDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class NotificationService {
 
-    private final NotificationRepository notificationRepository = new NotificationRepository();
+    private final NotificationDAO notificationRepository = NotificationDAO.getInstance();
 
     /**
      * Sends an in-app notification to a specific user.

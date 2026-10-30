@@ -1,10 +1,10 @@
 package app.patterns.observer;
 
 import app.model.Complaint;
-import app.repository.NotificationRepository;
+import app.patterns.singleton.NotificationDAO;
 
 public class StudentNotificationObserver implements ComplaintObserver {
-    private final NotificationRepository repository = new NotificationRepository();
+    private final NotificationDAO repository = NotificationDAO.getInstance();
 
     @Override
     public void onComplaintEvent(Complaint complaint, String eventType, String details) {

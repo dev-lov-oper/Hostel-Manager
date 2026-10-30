@@ -1,10 +1,10 @@
 package app.patterns.observer;
 
 import app.model.Complaint;
-import app.repository.NotificationRepository;
+import app.patterns.singleton.NotificationDAO;
 
 public class StaffNotificationObserver implements ComplaintObserver {
-    private final NotificationRepository repository = new NotificationRepository();
+    private final NotificationDAO repository = NotificationDAO.getInstance();
     private final int staffUserId;
 
     public StaffNotificationObserver(int staffUserId) {

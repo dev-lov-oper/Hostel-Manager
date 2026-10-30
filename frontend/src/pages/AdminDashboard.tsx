@@ -335,6 +335,15 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigateTab })
               <span className="text-slate-300 truncate block">{singletonInfo.databaseUrl}</span>
             </div>
           </div>
+
+          <div className="pt-2 border-t border-white/[0.06] flex flex-wrap items-center gap-2">
+            <span className="text-[11px] font-mono text-slate-400">Singleton DAOs:</span>
+            {['UserDAO', 'StudentDAO', 'RoomDAO', 'AllocationDAO', 'ComplaintDAO', 'MaintenanceDAO', 'NotificationDAO', 'ProcessDAO'].map((dao) => (
+              <span key={dao} className="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-violet/20 border border-brand-violet/40 text-brand-sky font-semibold">
+                app.patterns.singleton.{dao}
+              </span>
+            ))}
+          </div>
         </div>
       )}
     </div>

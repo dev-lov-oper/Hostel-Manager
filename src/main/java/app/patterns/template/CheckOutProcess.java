@@ -1,13 +1,13 @@
 package app.patterns.template;
 
 import app.model.Room;
-import app.repository.ProcessRepository;
-import app.repository.RoomRepository;
+import app.patterns.singleton.ProcessDAO;
+import app.patterns.singleton.RoomDAO;
 
 public class CheckOutProcess extends HostelProcess {
 
-    private final ProcessRepository repository = new ProcessRepository();
-    private final RoomRepository roomRepository = new RoomRepository();
+    private final ProcessDAO repository = ProcessDAO.getInstance();
+    private final RoomDAO roomRepository = RoomDAO.getInstance();
 
     @Override
     protected boolean verifyIdentityAndEligibility(int studentId) {

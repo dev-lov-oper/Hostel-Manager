@@ -2,10 +2,10 @@ package app.service;
 
 import app.model.Complaint;
 import app.patterns.chain.*;
-import app.repository.ComplaintRepository;
+import app.patterns.singleton.ComplaintDAO;
 
 public class ComplaintService {
-    private final ComplaintRepository repository = new ComplaintRepository();
+    private final ComplaintDAO repository = ComplaintDAO.getInstance();
     private final ComplaintHandler chainHead;
 
     public ComplaintService() {

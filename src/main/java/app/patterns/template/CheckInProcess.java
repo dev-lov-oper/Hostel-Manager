@@ -1,13 +1,13 @@
 package app.patterns.template;
 
 import app.model.Room;
-import app.repository.ProcessRepository;
-import app.repository.RoomRepository;
+import app.patterns.singleton.ProcessDAO;
+import app.patterns.singleton.RoomDAO;
 
 public class CheckInProcess extends HostelProcess {
 
-    private final ProcessRepository repository = new ProcessRepository();
-    private final RoomRepository roomRepository = new RoomRepository();
+    private final ProcessDAO repository = ProcessDAO.getInstance();
+    private final RoomDAO roomRepository = RoomDAO.getInstance();
 
     @Override
     protected boolean verifyIdentityAndEligibility(int studentId) {
@@ -21,7 +21,7 @@ public class CheckInProcess extends HostelProcess {
         boolean valid = repository.isAllocationInState(allocationId, "ALLOCATED")
                      || repository.isAllocationInState(allocationId, "CHECKED_OUT");
         if (!valid) {
-            logStep("FAILED: Allocation is already CHECKED_IN. Use Check-Out to process departure.");
+            logStep("FAILED: Allocation is neither 'ALLOCATED' nor previously cleared 'CHECKED_OUT'.");
         }
         return valid;
     }

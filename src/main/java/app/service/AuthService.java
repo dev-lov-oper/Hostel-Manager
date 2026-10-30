@@ -1,19 +1,19 @@
 package app.service;
 
 import app.model.User;
-import app.repository.UserRepository;
+import app.patterns.singleton.UserDAO;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class AuthService {
 
     private static User currentSessionUser;
-    private final UserRepository userRepository;
+    private final UserDAO userRepository;
 
     public AuthService() {
-        this.userRepository = new UserRepository();
+        this.userRepository = UserDAO.getInstance();
     }
 
-    public AuthService(UserRepository userRepository) {
+    public AuthService(UserDAO userRepository) {
         this.userRepository = userRepository;
     }
 

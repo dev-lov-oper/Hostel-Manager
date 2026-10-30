@@ -2,13 +2,13 @@ package app.service;
 
 import app.model.Student;
 import app.patterns.builder.StudentBuilder;
-import app.repository.StudentRepository;
+import app.patterns.singleton.StudentDAO;
 
 import java.util.List;
 
 public class StudentService {
 
-    private final StudentRepository studentRepository = new StudentRepository();
+    private final StudentDAO studentRepository = StudentDAO.getInstance();
 
     /**
      * Registers a new student profile using StudentBuilder.

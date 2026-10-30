@@ -231,29 +231,36 @@ public class PatternMetaController {
         singleton.put("id", "singleton");
         singleton.put("name", "Singleton Pattern");
         singleton.put("category", "Creational");
-        singleton.put("intent", "Ensure a single shared instance of the centralized SQLite DatabaseManager with thread-safe connection pooling.");
-        singleton.put("problem", "SQLite is a file-based embedded database. Opening multiple uncoordinated connections or initializing schemas simultaneously from multiple threads causes database locks and corrupted state.");
-        singleton.put("solution", "DatabaseManager provides a private constructor and a synchronized getInstance() method, enforcing a single thread-safe access point with PRAGMA busy_timeout=5000 and foreign key enforcement.");
+        singleton.put("intent", "Ensure single shared instances of DatabaseManager and all Data Access Objects (DAOs) inside the singleton package.");
+        singleton.put("problem", "SQLite is a file-based embedded database. Opening multiple uncoordinated connections causes database locks. Uncontrolled DAO instances cause memory overhead and redundant statements.");
+        singleton.put("solution", "DatabaseManager and all DAO classes (UserDAO, StudentDAO, RoomDAO, AllocationDAO, ComplaintDAO, MaintenanceDAO, NotificationDAO, ProcessDAO) reside in the app.patterns.singleton package, each providing thread-safe getInstance() access.");
         singleton.put("keyClasses", List.of(
-                "app.patterns.singleton.DatabaseManager"
+                "app.patterns.singleton.DatabaseManager",
+                "app.patterns.singleton.UserDAO",
+                "app.patterns.singleton.StudentDAO",
+                "app.patterns.singleton.RoomDAO",
+                "app.patterns.singleton.AllocationDAO",
+                "app.patterns.singleton.ComplaintDAO",
+                "app.patterns.singleton.MaintenanceDAO",
+                "app.patterns.singleton.NotificationDAO",
+                "app.patterns.singleton.ProcessDAO"
         ));
         singleton.put("flow", List.of(
-                "Private constructor ensures no external instantiation.",
-                "Synchronized getInstance() performs lazy thread-safe initialization.",
+                "All DAO classes are placed inside the singleton package (app.patterns.singleton).",
+                "Each DAO provides a synchronized getInstance() singleton accessor and connects via DatabaseManager.getInstance().",
                 "PRAGMA foreign_keys = ON and PRAGMA busy_timeout = 5000 configured on every connection.",
-                "All repositories and services route through the same DatabaseManager instance."
+                "All services, workflows, and controllers route queries through the singleton DAOs."
         ));
         singleton.put("sampleCode", """
-            public class DatabaseManager {
-                private static DatabaseManager instance;
-                private DatabaseManager() { initializeDatabase(); }
-                public static synchronized DatabaseManager getInstance() {
-                    if (instance == null) {
-                        instance = new DatabaseManager();
-                    }
-                    return instance;
-                }
-            }
+            // Central DatabaseManager Singleton
+            DatabaseManager dbManager = DatabaseManager.getInstance();
+
+            // Singleton DAOs placed inside app.patterns.singleton:
+            UserDAO userDAO = UserDAO.getInstance();
+            RoomDAO roomDAO = RoomDAO.getInstance();
+            AllocationDAO allocDAO = AllocationDAO.getInstance();
+            ComplaintDAO complaintDAO = ComplaintDAO.getInstance();
+            ProcessDAO processDAO = ProcessDAO.getInstance();
         """);
         patterns.add(singleton);
 

@@ -15,7 +15,7 @@ import app.patterns.observer.ComplaintPublisher;
 import app.patterns.observer.StaffNotificationObserver;
 import app.patterns.observer.StudentNotificationObserver;
 import app.patterns.prototype.RoomPrototypeRegistry;
-import app.patterns.singleton.DatabaseManager;
+import app.patterns.singleton.*;
 import app.patterns.strategy.AllocationStrategy;
 import app.patterns.strategy.FirstComeFirstServedStrategy;
 import app.patterns.strategy.MeritBasedAllocationStrategy;
@@ -57,12 +57,12 @@ public class RestApiServer {
     private final ProcessService processService = new ProcessService();
     private final NotificationService notificationService = new NotificationService();
 
-    private final UserRepository userRepository = new UserRepository();
-    private final StudentRepository studentRepository = new StudentRepository();
-    private final RoomRepository roomRepository = new RoomRepository();
-    private final AllocationRepository allocationRepository = new AllocationRepository();
-    private final ComplaintRepository complaintRepository = new ComplaintRepository();
-    private final MaintenanceRepository maintenanceRepository = new MaintenanceRepository();
+    private final UserDAO userRepository = UserDAO.getInstance();
+    private final StudentDAO studentRepository = StudentDAO.getInstance();
+    private final RoomDAO roomRepository = RoomDAO.getInstance();
+    private final AllocationDAO allocationRepository = AllocationDAO.getInstance();
+    private final ComplaintDAO complaintRepository = ComplaintDAO.getInstance();
+    private final MaintenanceDAO maintenanceRepository = MaintenanceDAO.getInstance();
 
     // Pattern components
     private final ComplaintPublisher complaintPublisher = new ComplaintPublisher();
