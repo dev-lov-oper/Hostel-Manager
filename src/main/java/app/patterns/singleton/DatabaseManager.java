@@ -58,6 +58,9 @@ public class DatabaseManager {
                     stmt.execute(sql.trim());
                 }
             }
+
+            // Seed demonstration data using the active connection
+            app.util.DatabaseSeeder.seedIfNeeded(conn);
         } catch (Exception e) {
             System.err.println("Database initialization failed: " + e.getMessage());
             e.printStackTrace();
