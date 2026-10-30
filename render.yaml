@@ -1,0 +1,36 @@
+services:
+  # ========================================================
+  # Option 1: Unified Full-Stack Service (Recommended)
+  # Free tier, single domain for both React frontend & Java API
+  # ========================================================
+  - type: web
+    name: hostelhub-app
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PORT
+        value: 10000
+    healthCheckPath: /api/system/stats
+
+  # ========================================================
+  # Option 2: Standalone Static Site for Frontend (Optional)
+  # For deploying React frontend as a separate static site CDN
+  # ========================================================
+  - type: web
+    name: hostelhub-frontend-static
+    env: static
+    plan: free
+    region: oregon
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      # Rewrite SPA client-side routes to index.html
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: https://hostelhub-app.onrender.com/api

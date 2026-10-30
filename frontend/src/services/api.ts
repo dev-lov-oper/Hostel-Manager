@@ -13,7 +13,8 @@ import {
   PatternMetadata
 } from '../types';
 
-const API_BASE = '/api';
+const rawEnvBase = (import.meta.env.VITE_API_BASE_URL as string | undefined) || '/api';
+const API_BASE = rawEnvBase.endsWith('/') ? rawEnvBase.slice(0, -1) : rawEnvBase;
 
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const url = `${API_BASE}${endpoint}`;
@@ -179,7 +180,7 @@ export const api = {
   // Live SSE Connection
   subscribeToEvents: (onEvent: (eventType: string, data: any) => void) => {
     try {
-      const eventSource = new EventSource('/api/events');
+      const eventSource = new EventSource(`${API_BASE}/events`);
       eventSource.onmessage = (e) => {
         try {
           const parsed = JSON.parse(e.data);
