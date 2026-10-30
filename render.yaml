@@ -34,3 +34,4 @@ services:
     envVars:
       - key: VITE_API_BASE_URL
         value: https://hostelhub-app.onrender.com/api
+
