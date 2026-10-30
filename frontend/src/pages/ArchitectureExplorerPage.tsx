@@ -225,3 +225,4 @@ export const ArchitectureExplorerPage: React.FC<ArchitectureExplorerPageProps> =
     </div>
   );
 };
+

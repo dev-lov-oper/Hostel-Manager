@@ -288,3 +288,4 @@ export const WardenDashboard: React.FC<WardenDashboardProps> = ({ onNavigateTab 
     </div>
   );
 };
+

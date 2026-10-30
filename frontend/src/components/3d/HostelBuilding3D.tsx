@@ -350,3 +350,4 @@ export const HostelBuilding3D: React.FC<HostelBuilding3DProps> = ({
     </div>
   );
 };
+

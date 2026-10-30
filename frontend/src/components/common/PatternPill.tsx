@@ -28,3 +28,4 @@ export const PatternPill: React.FC<PatternPillProps> = ({ name, category, classN
     </button>
   );
 };
+

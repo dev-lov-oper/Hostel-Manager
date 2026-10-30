@@ -249,3 +249,4 @@ export const FloorPlan3D: React.FC<FloorPlan3DProps> = ({
     </div>
   );
 };
+

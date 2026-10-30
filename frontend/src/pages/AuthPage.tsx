@@ -276,3 +276,4 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
     </div>
   );
 };
+

@@ -136,3 +136,4 @@ export interface PatternMetadata {
   flow: string[];
   sampleCode: string;
 }
+
