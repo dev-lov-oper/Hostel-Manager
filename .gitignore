@@ -1,3 +1,15 @@
+# Maven target directory
+target/
+
+# Node modules and build
+node_modules/
+dist/
+build/
+.env.local
+
+# Database files
+*.db-journal
+
 # Compiled class file
 *.class
 
