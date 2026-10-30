@@ -19,7 +19,9 @@ import {
   FileText,
   User,
   Home,
-  ChevronRight
+  ChevronRight,
+  XCircle,
+  HelpCircle
 } from 'lucide-react';
 
 export const CheckInOutPage: React.FC = () => {
@@ -27,9 +29,9 @@ export const CheckInOutPage: React.FC = () => {
   const [processType, setProcessType] = useState<'CHECK_IN' | 'CHECK_OUT'>('CHECK_IN');
   const [allocations, setAllocations] = useState<AllocationDetail[]>([]);
   
-  const [allocationId, setAllocationId] = useState<number>(user?.allocation?.allocationId || 2);
-  const [studentId, setStudentId] = useState<number>(user?.student?.studentId || 1);
-  const [roomId, setRoomId] = useState<number>(user?.allocation?.roomId || 3);
+  const [allocationId, setAllocationId] = useState<number>(user?.allocation?.allocationId || 3);
+  const [studentId, setStudentId] = useState<number>(user?.student?.studentId || 2);
+  const [roomId, setRoomId] = useState<number>(user?.allocation?.roomId || 2);
 
   const [executing, setExecuting] = useState(false);
   const [executionResult, setExecutionResult] = useState<{
@@ -52,7 +54,6 @@ export const CheckInOutPage: React.FC = () => {
       setLogs(logData || []);
       setAllocations(allocData || []);
 
-      // If user has allocation or if allocations exist, select first eligible
       if (allocData && allocData.length > 0) {
         const userAlloc = user?.student 
           ? allocData.find((a) => a.studentId === user.student?.studentId)
@@ -63,7 +64,8 @@ export const CheckInOutPage: React.FC = () => {
         setStudentId(target.studentId);
         setRoomId(target.roomId);
 
-        if (target.status === 'ALLOCATED') {
+        // Pre-select appropriate workflow based on student's current status
+        if (target.status === 'ALLOCATED' || target.status === 'CHECKED_OUT') {
           setProcessType('CHECK_IN');
         } else if (target.status === 'CHECKED_IN') {
           setProcessType('CHECK_OUT');
@@ -84,7 +86,8 @@ export const CheckInOutPage: React.FC = () => {
     setRoomId(alloc.roomId);
     setExecutionResult(null);
 
-    if (alloc.status === 'ALLOCATED') {
+    // Auto-align process type to current status
+    if (alloc.status === 'ALLOCATED' || alloc.status === 'CHECKED_OUT') {
       setProcessType('CHECK_IN');
     } else if (alloc.status === 'CHECKED_IN') {
       setProcessType('CHECK_OUT');
@@ -106,12 +109,12 @@ export const CheckInOutPage: React.FC = () => {
 
       setExecutionResult(res);
       if (res.success) {
-        confetti({ particleCount: 70, spread: 60 });
+        confetti({ particleCount: 75, spread: 60 });
       }
       await loadData();
       await refreshUser();
     } catch (err: any) {
-      alert('Process failed: ' + (err.message || 'Execution error'));
+      console.warn('Execution error:', err);
     } finally {
       setExecuting(false);
     }
@@ -136,6 +139,28 @@ export const CheckInOutPage: React.FC = () => {
   const activeSteps = processType === 'CHECK_IN' ? stepsCheckIn : stepsCheckOut;
 
   const currentAllocation = allocations.find((a) => a.allocationId === allocationId);
+
+  // Helper to determine step status
+  const getStepStatus = (stepNum: number) => {
+    if (!executionResult) return 'AWAITING';
+    if (executionResult.success) return 'SUCCESS';
+
+    const failedStep = executionResult.executionSteps.find((s) => s.startsWith('FAILED:'));
+    if (!failedStep) return 'AWAITING';
+
+    if (failedStep.includes('Identity verification') && stepNum === 1) return 'FAILED';
+    if (failedStep.includes('Allocation') && stepNum === 2) return 'FAILED';
+    if (failedStep.includes('Room') && stepNum === 3) return 'FAILED';
+    if (failedStep.includes('Key') && stepNum === 4) return 'FAILED';
+
+    if (stepNum < 2 && failedStep.includes('Allocation')) return 'SUCCESS';
+    if (stepNum < 3 && failedStep.includes('Room')) return 'SUCCESS';
+    if (stepNum < 4 && failedStep.includes('Key')) return 'SUCCESS';
+
+    return 'AWAITING';
+  };
+
+  const failedReason = executionResult?.executionSteps.find((s) => s.startsWith('FAILED:'));
 
   return (
     <div className="max-w-[1720px] w-full mx-auto px-4 sm:px-8 lg:px-12 py-8 space-y-8">
@@ -193,7 +218,7 @@ export const CheckInOutPage: React.FC = () => {
               <span>Select Allocation Target (1-Click Fill)</span>
             </h3>
             <p className="text-xs text-slate-400">
-              Click an allocation below to automatically populate the parameters for the Template Method execution.
+              Click an allocation below to automatically populate the parameters and align the workflow.
             </p>
           </div>
           <span className="text-xs font-mono text-brand-sky bg-brand-violet/20 px-3 py-1 rounded-full border border-brand-violet/30">
@@ -223,7 +248,7 @@ export const CheckInOutPage: React.FC = () => {
                         ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
                         : a.status === 'ALLOCATED'
                         ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
-                        : 'bg-slate-500/20 text-slate-400 border-slate-500/40'
+                        : 'bg-purple-500/20 text-purple-300 border-purple-500/40'
                     }`}>
                       {a.status}
                     </span>
@@ -235,12 +260,12 @@ export const CheckInOutPage: React.FC = () => {
                     Student ID: {a.studentId} • Room ID: {a.roomId} • Alloc ID: {a.allocationId}
                   </p>
                 </div>
-                {isSelected && (
-                  <div className="mt-3 pt-2 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-brand-cyan">
-                    <span>Selected Target</span>
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                  </div>
-                )}
+                <div className="mt-3 pt-2 border-t border-white/10 flex items-center justify-between text-[11px] font-mono">
+                  <span className={isSelected ? 'text-brand-cyan font-bold' : 'text-slate-400'}>
+                    {a.status === 'CHECKED_IN' ? '⚡ Ready for Check-Out' : '⚡ Ready for Check-In'}
+                  </span>
+                  {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-brand-cyan" />}
+                </div>
               </button>
             );
           })}
@@ -268,22 +293,42 @@ export const CheckInOutPage: React.FC = () => {
             </span>
           </div>
 
+          {/* Validation Notice Banner (Replaces intrusive alert popup) */}
+          {failedReason && (
+            <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs sm:text-sm flex items-start gap-3 shadow-lg animate-fadeIn">
+              <AlertCircle className="w-5 h-5 text-rose-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="font-bold text-white">Template Method Invariant Guard Triggered</p>
+                <p className="text-xs text-rose-200 mt-1 leading-relaxed">{failedReason}</p>
+                <p className="text-[11px] text-slate-400 mt-2 font-mono">
+                  Tip: Use the allocation cards above to automatically toggle between Check-In and Check-Out based on current state.
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Visual Step Progress Tracker */}
           <div className="space-y-4">
             {activeSteps.map((step) => {
-              const isCompleted = executionResult?.success;
+              const status = getStepStatus(step.num);
               return (
                 <div
                   key={step.num}
                   className={`p-4 rounded-xl border transition-all flex items-center justify-between ${
-                    isCompleted
+                    status === 'SUCCESS'
                       ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300 shadow-md'
+                      : status === 'FAILED'
+                      ? 'bg-rose-500/10 border-rose-500/40 text-rose-300 shadow-md'
                       : 'bg-white/[0.03] border-white/10 text-slate-300'
                   }`}
                 >
                   <div className="flex items-center gap-3.5">
                     <span className={`w-9 h-9 rounded-xl flex items-center justify-center font-mono font-bold text-xs ${
-                      isCompleted ? 'bg-emerald-500 text-slate-900 shadow-glow-cyan' : 'bg-white/10 text-white'
+                      status === 'SUCCESS' 
+                        ? 'bg-emerald-500 text-slate-900 shadow-glow-cyan' 
+                        : status === 'FAILED'
+                        ? 'bg-rose-500 text-white shadow-lg'
+                        : 'bg-white/10 text-white'
                     }`}>
                       0{step.num}
                     </span>
@@ -293,8 +338,10 @@ export const CheckInOutPage: React.FC = () => {
                     </div>
                   </div>
 
-                  {isCompleted ? (
+                  {status === 'SUCCESS' ? (
                     <CheckCircle2 className="w-6 h-6 text-emerald-400 flex-shrink-0" />
+                  ) : status === 'FAILED' ? (
+                    <XCircle className="w-6 h-6 text-rose-400 flex-shrink-0" />
                   ) : (
                     <span className="text-[10px] font-mono text-slate-500 uppercase px-2 py-1 rounded bg-white/5 border border-white/5">
                       Awaiting

@@ -14,8 +14,13 @@ public class CheckInProcess extends HostelProcess {
 
     @Override
     protected boolean verifyAllocationStatus(int allocationId) {
-        logStep("Checking if allocation is in 'ALLOCATED' state...");
-        return repository.isAllocationInState(allocationId, "ALLOCATED");
+        logStep("Checking if allocation is in 'ALLOCATED' or 'CHECKED_OUT' state...");
+        boolean valid = repository.isAllocationInState(allocationId, "ALLOCATED")
+                     || repository.isAllocationInState(allocationId, "CHECKED_OUT");
+        if (!valid) {
+            logStep("FAILED: Allocation is already CHECKED_IN. Use Check-Out to process departure.");
+        }
+        return valid;
     }
 
     @Override

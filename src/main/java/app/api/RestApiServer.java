@@ -750,8 +750,9 @@ public class RestApiServer {
         data.put("executionSteps", logSteps);
 
         SseBroadcaster.getInstance().broadcast("PROCESS_EXECUTED", mapper.writeValueAsString(data));
-        sendJsonResponse(exchange, success ? 200 : 400, ApiResponse.ok(
-                "Process sequence executed (Template Method Pattern)", data
+        sendJsonResponse(exchange, 200, ApiResponse.ok(
+                success ? "Process sequence executed successfully (Template Method Pattern)" : "Process sequence rejected by Template Method validation", 
+                data
         ));
     }
 
