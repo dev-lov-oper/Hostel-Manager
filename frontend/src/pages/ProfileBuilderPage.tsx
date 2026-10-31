@@ -89,13 +89,13 @@ export const ProfileBuilderPage: React.FC<ProfileBuilderPageProps> = ({ onSucces
         origin: { y: 0.6 }
       });
 
-      setSuccessMessage('Student Profile built and validated successfully via StudentBuilder pattern!');
+      setSuccessMessage('Student Profile saved and verified successfully!');
       await refreshUser();
       if (onSuccess) {
         setTimeout(onSuccess, 1500);
       }
     } catch (err: any) {
-      setError(err.message || 'Validation failed. Check Builder pattern constraints.');
+      setError(err.message || 'Validation failed. Please verify your details.');
     } finally {
       setLoading(false);
     }
@@ -108,12 +108,12 @@ export const ProfileBuilderPage: React.FC<ProfileBuilderPageProps> = ({ onSucces
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Student Profile Builder
+              Student Profile Registration
             </h1>
             <PatternPill name="Builder Pattern" category="Creational" />
           </div>
           <p className="text-sm text-slate-400 mt-1">
-            Constructing complex domain model profiles step-by-step with guaranteed validation.
+            Complete your campus residential profile with automated field verification.
           </p>
         </div>
 
@@ -147,7 +147,7 @@ export const ProfileBuilderPage: React.FC<ProfileBuilderPageProps> = ({ onSucces
             <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-start gap-3">
               <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-rose-400" />
               <div>
-                <p className="font-semibold">Builder Validation Rejection</p>
+                <p className="font-semibold">Validation Notice</p>
                 <p className="text-[11px] mt-0.5">{error}</p>
               </div>
             </div>
@@ -353,7 +353,7 @@ export const ProfileBuilderPage: React.FC<ProfileBuilderPageProps> = ({ onSucces
                     Step 3: Space & Hostel Preferences
                   </h3>
                   <p className="text-xs text-slate-400 mt-0.5">
-                    Supplies preferred hostel IDs to Strategy Pattern allocation algorithm
+                    Set your preferred hostel blocks for automated room allocation
                   </p>
                 </div>
 
@@ -449,7 +449,7 @@ export const ProfileBuilderPage: React.FC<ProfileBuilderPageProps> = ({ onSucces
               Live Profile Preview
             </span>
             <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-brand-violet/20 text-brand-sky border border-brand-violet/30">
-              StudentBuilder.build()
+              Verified Profile
             </span>
           </div>
 
@@ -464,7 +464,7 @@ export const ProfileBuilderPage: React.FC<ProfileBuilderPageProps> = ({ onSucces
               <div className="text-right">
                 <span className="text-[10px] font-mono text-slate-400 block">Status</span>
                 <span className="text-xs font-bold text-emerald-400 flex items-center gap-1">
-                  <CheckCircle2 className="w-3 h-3" /> Ready to Build
+                  <CheckCircle2 className="w-3 h-3" /> Ready to Save
                 </span>
               </div>
             </div>
@@ -516,11 +516,11 @@ export const ProfileBuilderPage: React.FC<ProfileBuilderPageProps> = ({ onSucces
               </div>
             </div>
 
-            {/* Builder Pattern Verification Banner */}
+            {/* Profile Validation Standards Banner */}
             <div className="p-3.5 rounded-xl bg-brand-violet/15 border border-brand-violet/30 text-xs space-y-1">
               <div className="flex items-center gap-1.5 font-semibold text-brand-sky">
                 <Layers className="w-3.5 h-3.5" />
-                <span>Pattern Guarantees:</span>
+                <span>Data Verification Standards:</span>
               </div>
               <ul className="text-[10px] text-slate-300 space-y-0.5 list-disc list-inside">
                 <li>No null fields permitted in construction</li>

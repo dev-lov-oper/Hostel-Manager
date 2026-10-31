@@ -121,19 +121,19 @@ export const CheckInOutPage: React.FC = () => {
   };
 
   const stepsCheckIn = [
-    { num: 1, label: 'Identity Verification', method: 'verifyIdentityAndEligibility()' },
-    { num: 2, label: 'Allocation State Check', method: 'verifyAllocationStatus()' },
-    { num: 3, label: 'Room & Inventory Condition', method: 'inspectRoomAndInventory()' },
-    { num: 4, label: 'Key & Dues Clearance', method: 'handleKeyAndDues()' },
-    { num: 5, label: 'Database State Update', method: 'updateDatabaseStatus()' },
+    { num: 1, label: 'Identity Verification', method: 'Student Enrollment Check' },
+    { num: 2, label: 'Allocation State Check', method: 'Active Allocation Verified' },
+    { num: 3, label: 'Room & Inventory Condition', method: 'Baseline Inventory Inspection' },
+    { num: 4, label: 'Key & Dues Clearance', method: 'Key Handover & Zero Dues' },
+    { num: 5, label: 'Database State Update', method: 'Finalize Check-In Status' },
   ];
 
   const stepsCheckOut = [
-    { num: 1, label: 'Departure Authorization', method: 'verifyIdentityAndEligibility()' },
-    { num: 2, label: 'Active Stay Verification', method: 'verifyAllocationStatus()' },
-    { num: 3, label: 'Damage Assessment', method: 'inspectRoomAndInventory()' },
-    { num: 4, label: 'Key Return & Dues Clearance', method: 'handleKeyAndDues()' },
-    { num: 5, label: 'Release Bed & Finalize', method: 'updateDatabaseStatus()' },
+    { num: 1, label: 'Departure Authorization', method: 'Departure Clearance Check' },
+    { num: 2, label: 'Active Stay Verification', method: 'Current Residency Verified' },
+    { num: 3, label: 'Damage Assessment', method: 'Room & Fixture Audit' },
+    { num: 4, label: 'Key Return & Dues Clearance', method: 'Key Return & No-Dues Certificate' },
+    { num: 5, label: 'Release Bed & Finalize', method: 'Bed Release & Status Update' },
   ];
 
   const activeSteps = processType === 'CHECK_IN' ? stepsCheckIn : stepsCheckOut;
@@ -174,7 +174,7 @@ export const CheckInOutPage: React.FC = () => {
             <PatternPill name="Template Method" category="Behavioral" />
           </div>
           <p className="text-sm text-slate-400 mt-1">
-            Enforcing standardized, invariant 5-step lifecycle execution defined by abstract HostelProcess.
+            Standardized 5-step campus check-in and check-out clearance process.
           </p>
         </div>
 
@@ -282,14 +282,14 @@ export const CheckInOutPage: React.FC = () => {
             <div>
               <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
                 <ClipboardList className="w-5 h-5 text-brand-cyan" />
-                Template Method Invariant Sequence: {processType}
+                Clearance Sequence: {processType === 'CHECK_IN' ? 'Check-In' : 'Check-Out'}
               </h3>
               <p className="text-xs text-slate-400 mt-0.5 font-mono">
-                Subclasses implement specialized verification hooks
+                Step-by-step institutional verification and audit trail
               </p>
             </div>
             <span className="text-xs font-mono px-3 py-1 rounded-full bg-brand-violet/20 text-brand-sky border border-brand-violet/30 font-bold">
-              final executeProcess()
+              Automated Verification
             </span>
           </div>
 
@@ -298,7 +298,7 @@ export const CheckInOutPage: React.FC = () => {
             <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs sm:text-sm flex items-start gap-3 shadow-lg animate-fadeIn">
               <AlertCircle className="w-5 h-5 text-rose-400 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="font-bold text-white">Template Method Invariant Guard Triggered</p>
+                <p className="font-bold text-white">Verification Requirement Notice</p>
                 <p className="text-xs text-rose-200 mt-1 leading-relaxed">{failedReason}</p>
                 <p className="text-[11px] text-slate-400 mt-2 font-mono">
                   Tip: Use the allocation cards above to automatically toggle between Check-In and Check-Out based on current state.

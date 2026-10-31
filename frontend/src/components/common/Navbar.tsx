@@ -54,12 +54,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                 <span className="font-extrabold text-2xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
                   HOSTEL<span className="text-brand-cyan">HUB</span>
                 </span>
-                <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-brand-violet/20 text-brand-sky border border-brand-violet/30 font-semibold">
-                  DP LAB
-                </span>
               </div>
               <p className="text-[11px] text-slate-400 tracking-wider uppercase font-mono">
-                Smart Space Allocation
+                Campus Living Platform
               </p>
             </div>
           </button>
@@ -81,7 +78,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
               }`}
             >
               <Layers className="w-4 h-4 text-brand-cyan" />
-              <span>Design Patterns</span>
+              <span>Architecture</span>
             </button>
             {user && (
               <button
@@ -96,22 +93,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
           </nav>
         </div>
 
-        {/* Right Section: Real-time status, Demo Switcher, Notifications, User profile */}
+        {/* Right Section: Demo Switcher, Notifications, User profile */}
         <div className="flex items-center gap-3">
-          
-          {/* Live SSE Status Pill */}
-          <div
-            className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono bg-white/[0.03] border border-white/[0.08]"
-            title={sseConnected ? 'Connected to live EventSource SSE stream' : 'Polling & SSE stream standby'}
-          >
-            <span className="relative flex h-2 w-2">
-              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${sseConnected ? 'bg-emerald-400' : 'bg-cyan-400'}`} />
-              <span className={`relative inline-flex rounded-full h-2 w-2 ${sseConnected ? 'bg-emerald-500' : 'bg-cyan-500'}`} />
-            </span>
-            <span className="text-[11px] text-slate-400">
-              {sseConnected ? 'Live SSE' : 'Real-time'}
-            </span>
-          </div>
 
           {/* Quick Demo Switcher Dropdown */}
           <div className="relative">

@@ -113,7 +113,7 @@ export const WardenDashboard: React.FC<WardenDashboardProps> = ({ onNavigateTab 
             <PatternPill name="Chain of Responsibility" category="Warden Handler" />
           </div>
           <p className="text-sm text-slate-400 mt-1">
-            Dispatch maintenance requests, resolve campus issues, and coordinate via Mediator architecture.
+            Dispatch maintenance requests, review student reports, and coordinate campus repairs.
           </p>
         </div>
 
@@ -192,22 +192,21 @@ export const WardenDashboard: React.FC<WardenDashboardProps> = ({ onNavigateTab 
               </p>
             </div>
 
-            {/* Mediator Communication Card */}
+            {/* Work Order Dispatch Card */}
             <div className="p-5 rounded-xl bg-gradient-to-br from-brand-violet/10 to-brand-cyan/10 border border-white/10 space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <MessageSquare className="w-4 h-4 text-brand-cyan" />
                   <h4 className="font-bold text-white text-xs sm:text-sm">
-                    Mediator Pattern: Dispatch Maintenance
+                    Dispatch Maintenance Work Order
                   </h4>
                 </div>
                 <span className="text-[10px] font-mono text-slate-400">
-                  ConcreteComplaintMediator
+                  Technician Dispatch
                 </span>
               </div>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Student and maintenance staff interact exclusively through the Mediator, which updates the
-                database state and sends targeted notifications without tight coupling.
+                Assign technicians to verified tickets. Automated notifications are sent to students and maintenance staff upon dispatch.
               </p>
 
               <form onSubmit={handleAssignTask} className="space-y-3 pt-2">
@@ -252,7 +251,7 @@ export const WardenDashboard: React.FC<WardenDashboardProps> = ({ onNavigateTab 
                   className="w-full py-2.5 rounded-xl text-xs font-bold text-slate-900 bg-brand-cyan hover:bg-cyan-300 shadow-glow-cyan transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                 >
                   <Wrench className="w-4 h-4" />
-                  <span>{assigning ? 'Dispatching Task...' : 'Dispatch Maintenance via Mediator'}</span>
+                  <span>{assigning ? 'Dispatching Task...' : 'Dispatch Maintenance'}</span>
                 </button>
               </form>
             </div>

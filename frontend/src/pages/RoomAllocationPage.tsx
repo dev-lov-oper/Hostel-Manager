@@ -151,7 +151,7 @@ export const RoomAllocationPage: React.FC = () => {
             <PatternPill name="Strategy Pattern" category="Behavioral" />
           </div>
           <p className="text-sm text-slate-400 mt-1">
-            Explore 3D floor maps and execute interchangeable room allocation algorithms via Java Strategy engine.
+            Explore 3D floor maps and configure automated campus room allocation algorithms.
           </p>
         </div>
 
@@ -177,7 +177,7 @@ export const RoomAllocationPage: React.FC = () => {
                   ALLOCATION ACTIVE
                 </span>
                 <span className="text-xs font-mono text-slate-400">
-                  Strategy: {studentAllocation.strategy || 'MERIT_BASED'}
+                  Allocation: {studentAllocation.strategy ? studentAllocation.strategy.replace(/_/g, ' ') : 'Academic Priority'}
                 </span>
               </div>
               <h3 className="text-xl font-extrabold text-white mt-1">
@@ -191,21 +191,21 @@ export const RoomAllocationPage: React.FC = () => {
         </div>
       )}
 
-      {/* STRATEGY ENGINE EXECUTION CARD (Accessible to all for design pattern demonstration) */}
+      {/* ALLOCATION ENGINE EXECUTION CARD */}
       <div className="glass-panel rounded-2xl p-6 border border-brand-violet/30 bg-gradient-to-r from-brand-violet/10 via-surface to-brand-cyan/10 space-y-5 shadow-glass">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/[0.08] pb-4">
           <div>
             <div className="flex items-center gap-2">
               <Sliders className="w-5 h-5 text-brand-cyan" />
               <h3 className="font-bold text-white text-lg">
-                Strategy Pattern Control Center
+                Automated Allocation Control Center
               </h3>
               <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/30">
-                Interactive Engine
+                Live Engine
               </span>
             </div>
             <p className="text-xs sm:text-sm text-slate-400 mt-1">
-              Switch allocation algorithm dynamically at runtime without modifying client callers.
+              Switch allocation criteria dynamically to prioritize academic merit, queue timestamp, or block preference.
             </p>
           </div>
 
@@ -224,21 +224,21 @@ export const RoomAllocationPage: React.FC = () => {
               name: 'CGPA-Based Allocation',
               icon: Award,
               desc: 'Sorts pending students descending by CGPA (0.0 - 10.0 scale). Highest academic achievers get first room choice.',
-              badge: 'MeritBasedAllocationStrategy'
+              badge: 'Academic Priority'
             },
             {
               id: 'FIRST_COME_FIRST_SERVED' as const,
               name: 'First-Come-First-Served',
               icon: Clock,
               desc: 'Sorts pending requests chronologically by submission timestamp (FCFS queue).',
-              badge: 'FirstComeFirstServedStrategy'
+              badge: 'Queue Order'
             },
             {
               id: 'PREFERENCE_BASED' as const,
               name: 'Preference-Based Allocation',
               icon: Building2,
               desc: 'Matches requested preferred hostel block first before falling back to campus spares.',
-              badge: 'PreferenceBasedAllocationStrategy'
+              badge: 'Preference Match'
             }
           ].map((strat) => {
             const Icon = strat.icon;
@@ -319,7 +319,7 @@ export const RoomAllocationPage: React.FC = () => {
             </div>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-xl">
               Choose your preferred hostel block. You can either queue your request for batch processing, 
-              or run the Strategy Pattern immediately for instant allocation.
+              or trigger automated allocation immediately.
             </p>
           </div>
 
@@ -330,7 +330,7 @@ export const RoomAllocationPage: React.FC = () => {
               className="px-6 py-3 rounded-xl text-xs sm:text-sm font-bold text-slate-950 bg-gradient-to-r from-brand-cyan to-teal-300 hover:from-cyan-300 hover:to-teal-200 shadow-glow-cyan transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50 hover:scale-105 active:scale-95"
             >
               <Zap className="w-4 h-4 fill-slate-950" />
-              <span>{executingStrategy ? 'Allocating...' : '⚡ Instant Allocate via Strategy'}</span>
+              <span>{executingStrategy ? 'Allocating...' : '⚡ Instant Allocation'}</span>
             </button>
 
             <button
@@ -364,7 +364,7 @@ export const RoomAllocationPage: React.FC = () => {
               className="px-5 py-2.5 rounded-xl font-bold text-xs text-slate-950 bg-brand-cyan hover:bg-cyan-300 shadow-glow-cyan transition-all flex items-center gap-2 cursor-pointer flex-shrink-0"
             >
               <Sparkles className="w-4 h-4" />
-              <span>{executingStrategy ? 'Running Engine...' : '⚡ Run Strategy & Assign Room Now'}</span>
+              <span>{executingStrategy ? 'Running Engine...' : '⚡ Assign Room Now'}</span>
             </button>
           )}
         </div>
@@ -444,7 +444,7 @@ export const RoomAllocationPage: React.FC = () => {
                 <th className="pb-3 font-semibold">Student</th>
                 <th className="pb-3 font-semibold">CGPA</th>
                 <th className="pb-3 font-semibold">Hostel & Room</th>
-                <th className="pb-3 font-semibold">Strategy Engine</th>
+                <th className="pb-3 font-semibold">Allocation Mode</th>
                 <th className="pb-3 font-semibold">Status</th>
                 <th className="pb-3 font-semibold">Allocated At</th>
               </tr>

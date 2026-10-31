@@ -47,3 +47,4 @@ public class RoomTemplate implements RoomPrototype {
         );
     }
 }
+

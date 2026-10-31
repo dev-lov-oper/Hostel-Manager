@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PatternMetadata } from '../types';
 import { api } from '../services/api';
+import { ScrollSwipe3D } from '../components/3d/ScrollSwipe3D';
 import {
   Layers,
   Code2,
@@ -58,13 +59,18 @@ export const ArchitectureExplorerPage: React.FC<ArchitectureExplorerPageProps> =
               Software Architecture & Pattern Explorer
             </h1>
             <span className="text-xs font-mono px-2.5 py-1 rounded-full bg-brand-violet/20 text-brand-sky border border-brand-violet/30">
-              8 Verified Java Patterns
+              8 Verified Enterprise Patterns
             </span>
           </div>
           <p className="text-sm text-slate-400 mt-1">
-            Formal architectural catalog documenting the implementation, class relationships, and runtime flows.
+            Interactive 3D animated walkthrough, class relationships, and verified runtime execution flows.
           </p>
         </div>
+      </div>
+
+      {/* 3D Animated Description of Design Patterns */}
+      <div className="rounded-3xl border border-white/10 bg-slate-950/40 p-2 sm:p-6 shadow-2xl backdrop-blur-xl">
+        <ScrollSwipe3D onNavigate={(view, tab) => onNavigateToFeature?.(view, tab)} />
       </div>
 
       {/* Grid of 8 Pattern Cards (Top) */}

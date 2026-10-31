@@ -115,7 +115,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigateTab })
             <PatternPill name="Singleton Pattern" category="DatabaseManager" />
           </div>
           <p className="text-sm text-slate-400 mt-1">
-            Real-time occupancy trends, complaint distributions, and pattern execution metrics.
+            Real-time occupancy trends, complaint distributions, and operational metrics.
           </p>
         </div>
 
@@ -232,7 +232,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigateTab })
               <h3 className="text-sm font-bold text-white">Complaint Category Distribution</h3>
               <p className="text-[11px] text-slate-400 font-mono">Breakdown across facilities</p>
             </div>
-            <span className="text-[10px] font-mono text-brand-purple">Observer Tracked</span>
+            <span className="text-[10px] font-mono text-brand-purple">Real-Time Tracked</span>
           </div>
 
           <div className="h-64 w-full flex items-center justify-center">
@@ -269,7 +269,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigateTab })
           <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
             <div>
               <h3 className="text-sm font-bold text-white">Monthly Complaint Resolution Velocity</h3>
-              <p className="text-[11px] text-slate-400 font-mono">Tickets logged vs resolved through Chain of Responsibility</p>
+              <p className="text-[11px] text-slate-400 font-mono">Tickets logged vs resolved across administration tiers</p>
             </div>
             <span className="text-[10px] font-mono text-emerald-400">92% Resolution Rate</span>
           </div>
@@ -302,33 +302,33 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigateTab })
 
       </div>
 
-      {/* Database Singleton Live Verification Card */}
+      {/* Central Database Verification Card */}
       {singletonInfo && (
         <div className="glass-panel rounded-2xl p-6 border border-brand-violet/30 bg-brand-violet/5 space-y-4">
           <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
             <div className="flex items-center gap-2">
               <Cpu className="w-4 h-4 text-brand-cyan" />
               <h3 className="text-sm font-bold text-white">
-                Singleton Pattern: Centralized DatabaseManager Verification
+                Centralized Database Connection Verification
               </h3>
             </div>
             <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
-              Instance Match Confirmed
+              Active Connection
             </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs font-mono">
             <div className="p-3 rounded-xl bg-black/40 border border-white/10">
-              <span className="text-[10px] text-slate-500 block">Identity Hashcode</span>
+              <span className="text-[10px] text-slate-500 block">Session ID</span>
               <span className="text-brand-sky font-bold">#{singletonInfo.instanceHashCode}</span>
             </div>
             <div className="p-3 rounded-xl bg-black/40 border border-white/10">
-              <span className="text-[10px] text-slate-500 block">Class Contract</span>
+              <span className="text-[10px] text-slate-500 block">Driver Contract</span>
               <span className="text-slate-200 truncate block">{singletonInfo.className?.split('.').pop()}</span>
             </div>
             <div className="p-3 rounded-xl bg-black/40 border border-white/10">
-              <span className="text-[10px] text-slate-500 block">Thread-Safe Synchronized</span>
-              <span className="text-emerald-400 font-bold">YES (Enforced)</span>
+              <span className="text-[10px] text-slate-500 block">Thread-Safe Pool</span>
+              <span className="text-emerald-400 font-bold">YES (Synchronized)</span>
             </div>
             <div className="p-3 rounded-xl bg-black/40 border border-white/10">
               <span className="text-[10px] text-slate-500 block">Connection URI</span>
@@ -337,10 +337,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigateTab })
           </div>
 
           <div className="pt-2 border-t border-white/[0.06] flex flex-wrap items-center gap-2">
-            <span className="text-[11px] font-mono text-slate-400">Singleton DAOs:</span>
+            <span className="text-[11px] font-mono text-slate-400">Active Repositories:</span>
             {['UserDAO', 'StudentDAO', 'RoomDAO', 'AllocationDAO', 'ComplaintDAO', 'MaintenanceDAO', 'NotificationDAO', 'ProcessDAO'].map((dao) => (
               <span key={dao} className="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-violet/20 border border-brand-violet/40 text-brand-sky font-semibold">
-                app.patterns.singleton.{dao}
+                {dao}
               </span>
             ))}
           </div>

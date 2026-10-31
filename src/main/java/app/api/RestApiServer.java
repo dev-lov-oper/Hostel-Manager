@@ -392,9 +392,9 @@ public class RestApiServer {
             Student saved = studentRepository.findByUserId(req.userId());
 
             SseBroadcaster.getInstance().broadcast("STUDENT_CREATED", mapper.writeValueAsString(saved));
-            sendJsonResponse(exchange, 201, ApiResponse.ok("Student profile built and saved successfully (Builder Pattern)", saved));
+            sendJsonResponse(exchange, 201, ApiResponse.ok("Student profile created and saved successfully", saved));
         } catch (Exception e) {
-            sendJsonResponse(exchange, 400, ApiResponse.fail("Builder validation error: " + e.getMessage()));
+            sendJsonResponse(exchange, 400, ApiResponse.fail("Validation error: " + e.getMessage()));
         }
     }
 
@@ -500,7 +500,7 @@ public class RestApiServer {
         data.put("cloned", finalTemplate);
 
         SseBroadcaster.getInstance().broadcast("TEMPLATE_CLONED", mapper.writeValueAsString(data));
-        sendJsonResponse(exchange, 201, ApiResponse.ok("Room template cloned successfully (Prototype Pattern)", data));
+        sendJsonResponse(exchange, 201, ApiResponse.ok("Room template duplicated and saved successfully", data));
     }
 
     // ----------------------------------------------------
@@ -629,7 +629,7 @@ public class RestApiServer {
         complaintPublisher.notifyObservers(created, "SUBMITTED", "Submitted with severity: " + severity);
 
         SseBroadcaster.getInstance().broadcast("COMPLAINT_CREATED", mapper.writeValueAsString(created));
-        sendJsonResponse(exchange, 201, ApiResponse.ok("Complaint created and routed through Mediator", created));
+        sendJsonResponse(exchange, 201, ApiResponse.ok("Complaint registered and queued successfully", created));
     }
 
     private void handleEscalateComplaint(HttpExchange exchange, int complaintId) throws IOException {
@@ -683,9 +683,9 @@ public class RestApiServer {
 
             Complaint updated = complaintRepository.findById(complaintId);
             SseBroadcaster.getInstance().broadcast("COMPLAINT_ESCALATED", mapper.writeValueAsString(updated));
-            sendJsonResponse(exchange, 200, ApiResponse.ok("Complaint escalated via Chain of Responsibility: " + fromRole + " -> " + complaint.getCurrentHandlerRole(), updated));
+            sendJsonResponse(exchange, 200, ApiResponse.ok("Complaint escalated from " + fromRole + " to " + complaint.getCurrentHandlerRole(), updated));
         } else {
-            sendJsonResponse(exchange, 400, ApiResponse.fail("Complaint could not be escalated by chain handler"));
+            sendJsonResponse(exchange, 400, ApiResponse.fail("Complaint could not be escalated by current authority"));
         }
     }
 
@@ -712,7 +712,7 @@ public class RestApiServer {
 
         Complaint updated = complaintRepository.findById(complaintId);
         SseBroadcaster.getInstance().broadcast("COMPLAINT_UPDATED", mapper.writeValueAsString(updated));
-        sendJsonResponse(exchange, 200, ApiResponse.ok("Complaint status updated via Mediator", updated));
+        sendJsonResponse(exchange, 200, ApiResponse.ok("Complaint status updated successfully", updated));
     }
 
     private void handleGetEscalations(HttpExchange exchange, int complaintId) throws IOException {
@@ -732,7 +732,7 @@ public class RestApiServer {
         }
 
         SseBroadcaster.getInstance().broadcast("TASK_ASSIGNED", "{\"complaintId\":" + complaintId + ",\"staffId\":" + req.staffId() + "}");
-        sendJsonResponse(exchange, 200, ApiResponse.ok("Maintenance technician assigned via Mediator", c));
+        sendJsonResponse(exchange, 200, ApiResponse.ok("Maintenance technician assigned successfully", c));
     }
 
     // ----------------------------------------------------
@@ -759,7 +759,7 @@ public class RestApiServer {
 
         SseBroadcaster.getInstance().broadcast("PROCESS_EXECUTED", mapper.writeValueAsString(data));
         sendJsonResponse(exchange, 200, ApiResponse.ok(
-                success ? "Process sequence executed successfully (Template Method Pattern)" : "Process sequence rejected by Template Method validation", 
+                success ? "Process sequence executed successfully" : "Process sequence rejected by verification requirements", 
                 data
         ));
     }

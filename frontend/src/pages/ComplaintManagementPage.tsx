@@ -161,7 +161,7 @@ export const ComplaintManagementPage: React.FC = () => {
             <PatternPill name="Observer Pattern" category="Notifications" />
           </div>
           <p className="text-sm text-slate-400 mt-1">
-            Student → Warden → Chief Warden → Dean escalation pipeline with real-time Observer notifications.
+            Student → Warden → Chief Warden → Dean escalation pipeline with real-time notifications.
           </p>
         </div>
 
@@ -275,7 +275,7 @@ export const ComplaintManagementPage: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <GitBranch className="w-4 h-4 text-brand-purple" />
-                  <h4 className="text-sm font-bold text-white">Chain of Responsibility Progression</h4>
+                  <h4 className="text-sm font-bold text-white">Escalation &amp; Resolution Progression</h4>
                 </div>
                 <span className="text-[10px] font-mono text-slate-400">
                   Current Authority: <strong className="text-brand-sky">{selectedComplaint.currentHandlerRole}</strong>
@@ -296,7 +296,7 @@ export const ComplaintManagementPage: React.FC = () => {
                       </span>
                     </div>
                     <p className="text-[11px] text-slate-400 mt-0.5">
-                      Complaint submitted with {selectedComplaint.severity} severity. Logged via Mediator.
+                      Complaint submitted with {selectedComplaint.severity} severity. Logged into campus registry.
                     </p>
                   </div>
                 </div>
@@ -390,7 +390,7 @@ export const ComplaintManagementPage: React.FC = () => {
             {/* Action Bar (Trigger Escalation or Mark Resolved) */}
             <div className="pt-4 border-t border-white/[0.08] space-y-3">
               <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400">
-                Pattern Action Triggers
+                Resolution &amp; Escalation Actions
               </h4>
 
               <div className="flex flex-col sm:flex-row gap-3">
@@ -409,7 +409,7 @@ export const ComplaintManagementPage: React.FC = () => {
                   className="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-brand-violet to-purple-600 hover:opacity-90 shadow-glow-violet transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-40"
                 >
                   <ArrowUpRight className="w-4 h-4" />
-                  <span>{escalating ? 'Escalating...' : 'Trigger Chain Escalation'}</span>
+                  <span>{escalating ? 'Escalating...' : 'Escalate To Senior Authority'}</span>
                 </button>
               </div>
 
@@ -432,7 +432,7 @@ export const ComplaintManagementPage: React.FC = () => {
           </div>
         ) : (
           <div className="lg:col-span-7 glass-panel rounded-2xl p-12 text-center text-sm text-slate-400 border border-white/10">
-            Select a complaint to inspect its Chain of Responsibility timeline.
+            Select a complaint to inspect its resolution timeline.
           </div>
         )}
 
@@ -446,7 +446,7 @@ export const ComplaintManagementPage: React.FC = () => {
               <div>
                 <h3 className="text-lg font-bold text-white">Lodge New Hostel Complaint</h3>
                 <p className="text-xs text-slate-400 mt-0.5 font-mono">
-                  Submitted via Mediator → Notifies Observers
+                  Instant Campus Ticket Broadcast
                 </p>
               </div>
               <button

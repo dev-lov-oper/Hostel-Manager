@@ -155,7 +155,7 @@ export const Hero3DCardStack: React.FC<Hero3DCardStackProps> = ({ onExplore }) =
           </div>
         </div>
 
-        {/* FLOATING 3D CARD 1: STRATEGY PATTERN (Z: 45px) */}
+        {/* FLOATING 3D CARD 1: SMART ALLOCATION (Z: 45px) */}
         <div 
           className="absolute -top-7 -right-6 sm:-right-10 bg-slate-900/90 border border-brand-cyan/40 rounded-2xl p-4 shadow-2xl backdrop-blur-xl w-60 preserve-3d"
           style={{ 
@@ -168,8 +168,8 @@ export const Hero3DCardStack: React.FC<Hero3DCardStackProps> = ({ onExplore }) =
               <Zap className="w-3.5 h-3.5" />
             </div>
             <div>
-              <p className="text-[11px] font-mono uppercase tracking-wider text-brand-cyan font-bold">Strategy Pattern</p>
-              <p className="text-xs text-white font-semibold">CGPA-Based Allocation</p>
+              <p className="text-[11px] font-mono uppercase tracking-wider text-brand-cyan font-bold">Smart Allocation</p>
+              <p className="text-xs text-white font-semibold">CGPA & Preference Match</p>
             </div>
           </div>
           <div className="mt-2 text-[11px] text-slate-300 font-mono flex items-center justify-between bg-black/40 px-2.5 py-1.5 rounded-lg border border-white/5">
@@ -178,7 +178,7 @@ export const Hero3DCardStack: React.FC<Hero3DCardStackProps> = ({ onExplore }) =
           </div>
         </div>
 
-        {/* FLOATING 3D CARD 2: CHAIN OF RESPONSIBILITY (Z: 65px) */}
+        {/* FLOATING 3D CARD 2: PRIORITY ESCALATION (Z: 65px) */}
         <div 
           className="absolute -bottom-7 -left-6 sm:-left-10 bg-slate-900/90 border border-brand-violet/40 rounded-2xl p-4 shadow-2xl backdrop-blur-xl w-64 preserve-3d"
           style={{ 
@@ -191,7 +191,7 @@ export const Hero3DCardStack: React.FC<Hero3DCardStackProps> = ({ onExplore }) =
               <div className="w-6 h-6 rounded-lg bg-brand-violet/20 flex items-center justify-center text-brand-sky">
                 <ShieldCheck className="w-3.5 h-3.5" />
               </div>
-              <p className="text-[11px] font-mono uppercase tracking-wider text-brand-sky font-bold">Chain Escalation</p>
+              <p className="text-[11px] font-mono uppercase tracking-wider text-brand-sky font-bold">Priority Escalation</p>
             </div>
             <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">
               HIGH
@@ -206,7 +206,7 @@ export const Hero3DCardStack: React.FC<Hero3DCardStackProps> = ({ onExplore }) =
           </div>
         </div>
 
-        {/* FLOATING 3D CARD 3: PROTOTYPE CLONE BADGE (Z: 85px) */}
+        {/* FLOATING 3D CARD 3: VERIFIED ROOM BLUEPRINT (Z: 85px) */}
         <div 
           className="absolute top-1/2 -right-8 sm:-right-12 -translate-y-1/2 bg-slate-900/90 border border-white/20 rounded-xl p-3 shadow-2xl backdrop-blur-xl preserve-3d flex items-center gap-3"
           style={{ 
@@ -218,8 +218,8 @@ export const Hero3DCardStack: React.FC<Hero3DCardStackProps> = ({ onExplore }) =
             <Sparkles className="w-4 h-4" />
           </div>
           <div>
-            <p className="text-[10px] font-mono text-slate-400">Prototype Pattern</p>
-            <p className="text-xs font-bold text-white">Cloned: Deluxe Studio</p>
+            <p className="text-[10px] font-mono text-slate-400">Verified Layout</p>
+            <p className="text-xs font-bold text-white">Deluxe Studio En-Suite</p>
           </div>
         </div>
 

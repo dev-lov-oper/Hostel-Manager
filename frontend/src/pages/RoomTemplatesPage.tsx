@@ -107,7 +107,7 @@ export const RoomTemplatesPage: React.FC = () => {
             <PatternPill name="Prototype Pattern" category="Creational" />
           </div>
           <p className="text-sm text-slate-400 mt-1">
-            Deep-cloning base specifications and amenities via RoomPrototype.clonePrototype() for rapid room creation.
+            Duplicate specifications, room layouts, and amenity bundles to provision new accommodation types.
           </p>
         </div>
       </div>
@@ -118,10 +118,10 @@ export const RoomTemplatesPage: React.FC = () => {
           <div className="flex items-center justify-between border-b border-emerald-500/20 pb-3">
             <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
               <CheckCircle2 className="w-4 h-4" />
-              <span>Prototype Cloned Successfully: Side-by-Side Comparison</span>
+              <span>Blueprint Duplicated Successfully: Side-by-Side Comparison</span>
             </div>
             <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
-              RoomPrototypeRegistry Registered
+              Template Registered
             </span>
           </div>
 
@@ -129,13 +129,13 @@ export const RoomTemplatesPage: React.FC = () => {
             {/* Original Prototype */}
             <div className="p-4 rounded-xl bg-black/40 border border-white/10 space-y-2">
               <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 block">
-                Original Prototype Source
+                Source Blueprint
               </span>
               <h4 className="font-bold text-white text-base">
                 {lastClonedComparison.original}
               </h4>
               <p className="text-xs text-slate-400 font-mono">
-                Immutable prototype blueprint stored in registry.
+                Standard baseline specification stored in registry.
               </p>
             </div>
 
@@ -171,9 +171,9 @@ export const RoomTemplatesPage: React.FC = () => {
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-bold text-white flex items-center gap-2">
               <Copy className="w-4 h-4 text-brand-cyan" />
-              Available Prototypes ({templates.length})
+              Available Blueprints ({templates.length})
             </h3>
-            <span className="text-[10px] font-mono text-slate-400">Click to Clone</span>
+            <span className="text-[10px] font-mono text-slate-400">Click to Select</span>
           </div>
 
           <div className="space-y-3">
@@ -224,10 +224,10 @@ export const RoomTemplatesPage: React.FC = () => {
             <div className="flex items-center justify-between">
               <h3 className="text-base font-bold text-white flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-brand-purple" />
-                Clone & Specialize Prototype
+                Duplicate &amp; Specialize Room Type
               </h3>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-violet/20 text-brand-sky border border-brand-violet/30">
-                clonePrototype()
+                Blueprint Builder
               </span>
             </div>
             <p className="text-xs text-slate-400 mt-0.5">
@@ -350,7 +350,7 @@ export const RoomTemplatesPage: React.FC = () => {
               className="w-full mt-4 py-3 rounded-xl text-xs font-bold text-slate-900 bg-brand-cyan hover:bg-cyan-300 shadow-glow-cyan transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
             >
               <Copy className="w-4 h-4" />
-              <span>{cloning ? 'Cloning Prototype...' : 'Clone Prototype & Register Template'}</span>
+              <span>{cloning ? 'Saving Room Type...' : 'Save As New Room Type'}</span>
             </button>
           </form>
         </div>

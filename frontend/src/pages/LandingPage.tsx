@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Hero3DCardStack } from '../components/3d/Hero3DCardStack';
-import { ScrollSwipe3D } from '../components/3d/ScrollSwipe3D';
 import { FloorPlan3D } from '../components/3d/FloorPlan3D';
 import { Room, SystemStats, PatternMetadata } from '../types';
 import { api } from '../services/api';
@@ -103,7 +102,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           <div className="lg:col-span-6 space-y-8 gsap-fade-in text-center lg:text-left">
             <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/[0.05] border border-white/15 text-xs sm:text-sm font-mono text-brand-sky shadow-inner">
               <Sparkles className="w-4 h-4 text-brand-cyan animate-pulse" />
-              <span>8 Enterprise Design Patterns Integrated</span>
+              <span>Next-Gen Campus Accommodation & Living</span>
             </div>
 
             <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight text-white leading-[1.05]">
@@ -114,8 +113,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             </h1>
 
             <p className="text-lg sm:text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-              A modern, architectural hostel room allocation and complaint lifecycle platform powered by 
-              clean Java object-oriented design patterns with real-time reactive telemetry.
+              An intelligent, unified hostel allocation and residential services platform. Automated room matching,
+              instant check-in workflows, and real-time maintenance resolution.
             </p>
 
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-5 pt-3">
@@ -132,7 +131,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                 className="px-8 py-4 rounded-2xl font-bold text-base text-slate-200 bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 transition-all flex items-center gap-3 cursor-pointer hover:scale-105 active:scale-95"
               >
                 <Layers className="w-5 h-5 text-brand-purple" />
-                <span>Architecture Explorer</span>
+                <span>System Architecture</span>
               </button>
             </div>
 
@@ -152,9 +151,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
               </div>
               <div className="glass-panel p-4 rounded-2xl border border-brand-violet/20">
                 <p className="text-3xl sm:text-4xl font-black font-mono text-brand-sky">
-                  8 / 8
+                  100%
                 </p>
-                <p className="text-xs sm:text-sm text-slate-400 mt-1 font-medium">Patterns Active</p>
+                <p className="text-xs sm:text-sm text-slate-400 mt-1 font-medium">Automated Flow</p>
               </div>
             </div>
           </div>
@@ -167,10 +166,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* 2. 3D SWIPE & SCROLL ANIMATION SECTION */}
-      <ScrollSwipe3D onNavigate={onNavigate} />
-
-      {/* 3. SCROLL-BASED STORYTELLING: INTERACTIVE FLOOR PLAN */}
+      {/* 2. SCROLL-BASED STORYTELLING: INTERACTIVE FLOOR PLAN */}
       <section ref={storyRef} className="max-w-[1720px] w-full mx-auto px-4 sm:px-8 lg:px-14 xl:px-20 space-y-10">
         <div className="text-center max-w-4xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-cyan/10 border border-brand-cyan/30 text-xs sm:text-sm font-mono text-brand-cyan">
@@ -178,11 +174,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             <span>Interactive Floor Level Inspection</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-black text-white">
-            From Macro Architecture to Micro Space
+            From Campus Overview to Individual Rooms
           </h2>
           <p className="text-slate-300 text-sm sm:text-lg">
             Switch between floors or click individual rooms to inspect real-time bed capacity, 
-            amenities cloned via Prototype Pattern, and current maintenance status.
+            amenities, and current room status.
           </p>
         </div>
 
@@ -194,19 +190,19 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         />
       </section>
 
-      {/* 4. CHAIN OF RESPONSIBILITY WORKFLOW TIMELINE */}
+      {/* 3. MULTI-TIER SUPPORT & ESCALATION WORKFLOW */}
       <section ref={timelineRef} className="max-w-[1720px] w-full mx-auto px-4 sm:px-8 lg:px-14 xl:px-20 space-y-10">
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-violet/10 border border-brand-violet/30 text-xs sm:text-sm font-mono text-brand-sky">
             <GitBranch className="w-4 h-4" />
-            <span>Chain of Responsibility & Observer Patterns</span>
+            <span>Multi-Tier Support Workflow</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-black text-white">
-            Complaint Escalation Hierarchy
+            Rapid Maintenance &amp; Complaint Escalation
           </h2>
           <p className="text-slate-300 text-sm sm:text-base">
-            Complaints auto-escalate through verified handlers based on severity level, triggering
-            real-time observer notifications to students and staff.
+            Issues automatically escalate through verified campus staff based on severity level,
+            sending instant notifications to residents and staff.
           </p>
         </div>
 
@@ -215,33 +211,33 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             {
               step: '1',
               title: 'Student Submission',
-              handler: 'Student',
-              desc: 'Complaint submitted with severity (Low, Medium, High, Critical). Handled initially by Warden.',
-              badge: 'Mediator Logged',
+              handler: 'Student Portal',
+              desc: 'Issue submitted with severity level (Low, Medium, High, Critical). Logged immediately into the resolution queue.',
+              badge: 'Ticket Logged',
               color: 'border-cyan-500/30 bg-cyan-500/5 text-cyan-400'
             },
             {
               step: '2',
               title: 'Warden Inspection',
-              handler: 'WardenHandler',
-              desc: 'Resolves standard maintenance. Automatically escalates HIGH and CRITICAL complaints.',
-              badge: 'Chain Level 1',
+              handler: 'Hostel Warden',
+              desc: 'Conducts inspection and dispatches maintenance tasks for standard campus repairs.',
+              badge: 'Tier 1 Review',
               color: 'border-amber-500/30 bg-amber-500/5 text-amber-400'
             },
             {
               step: '3',
               title: 'Chief Warden Review',
-              handler: 'ChiefWardenHandler',
-              desc: 'Authorizes vendor repairs & budget. Escalates CRITICAL hazards directly to Dean.',
-              badge: 'Chain Level 2',
+              handler: 'Senior Warden Office',
+              desc: 'Authorizes specialized contractors and escalated maintenance budgets.',
+              badge: 'Tier 2 Review',
               color: 'border-purple-500/30 bg-purple-500/5 text-purple-400'
             },
             {
               step: '4',
-              title: 'Dean Resolution',
-              handler: 'DeanHandler',
-              desc: 'Executive level intervention for safety emergencies and institutional complaints.',
-              badge: 'Chain Level 3',
+              title: 'Executive Resolution',
+              handler: 'Dean of Student Affairs',
+              desc: 'Executive level intervention for high-priority campus safety and institutional matters.',
+              badge: 'Tier 3 Final',
               color: 'border-rose-500/30 bg-rose-500/5 text-rose-400'
             }
           ].map((item, idx) => (
@@ -265,70 +261,35 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
               <div className="mt-6 pt-4 border-t border-white/[0.08] flex items-center justify-between text-xs text-slate-500 font-mono">
                 <span>Status Broadcast</span>
-                <span className="text-emerald-400 font-semibold">Observer SSE</span>
+                <span className="text-emerald-400 font-semibold">Real-Time Alerts</span>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* 5. DESIGN PATTERNS SHOWCASE GRID */}
-      <section className="max-w-[1720px] w-full mx-auto px-4 sm:px-8 lg:px-14 xl:px-20 space-y-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/[0.08] pb-8">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-violet/10 border border-brand-violet/30 text-xs sm:text-sm font-mono text-brand-sky mb-3">
-              <Layers className="w-4 h-4" />
-              <span>The 8 Core Software Patterns</span>
+      {/* 4. SYSTEM ARCHITECTURE TEASER CARD */}
+      <section className="max-w-[1720px] w-full mx-auto px-4 sm:px-8 lg:px-14 xl:px-20">
+        <div className="glass-panel rounded-3xl p-8 sm:p-12 border border-white/10 flex flex-col md:flex-row items-center justify-between gap-8 bg-gradient-to-r from-brand-violet/10 via-surface to-brand-cyan/10">
+          <div className="space-y-3 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-cyan/10 border border-brand-cyan/30 text-xs font-mono text-brand-cyan">
+              <Layers className="w-3.5 h-3.5" />
+              <span>System Design &amp; Architecture</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-black text-white">
-              Architectural Design Patterns in Action
-            </h2>
-            <p className="text-slate-400 text-sm sm:text-base mt-2">
-              Every feature in HostelHub is anchored directly to its corresponding Java class.
+            <h3 className="text-2xl sm:text-4xl font-extrabold text-white">
+              Explore the 3D System Architecture
+            </h3>
+            <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+              Experience our interactive 3D animated walkthrough of the allocation engine, multi-tier workflows, and verified runtime diagrams.
             </p>
           </div>
-
           <button
             onClick={() => onNavigate('explorer')}
-            className="px-6 py-3 rounded-2xl text-xs sm:text-sm font-bold text-brand-cyan bg-brand-cyan/10 hover:bg-brand-cyan/20 border border-brand-cyan/30 flex items-center gap-2 self-start cursor-pointer transition-all hover:scale-105 active:scale-95"
+            className="px-8 py-4 rounded-2xl font-bold text-sm text-slate-950 bg-brand-cyan hover:bg-cyan-300 shadow-glow-cyan transition-all flex items-center gap-3 shrink-0 cursor-pointer hover:scale-105 active:scale-95"
           >
-            <span>Open Architecture Explorer</span>
-            <ChevronRight className="w-4 h-4" />
+            <span>View Architecture (3D)</span>
+            <ChevronRight className="w-5 h-5" />
           </button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {patterns.map((pat) => (
-            <div
-              key={pat.id}
-              onClick={() => onNavigate('explorer')}
-              className="glass-panel glass-panel-hover rounded-2xl p-6 border border-white/10 space-y-4 cursor-pointer flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-mono px-2.5 py-1 rounded bg-brand-violet/20 text-brand-sky border border-brand-violet/30 font-semibold">
-                    {pat.category}
-                  </span>
-                  <Code2 className="w-5 h-5 text-slate-400" />
-                </div>
-                <h4 className="font-extrabold text-white text-lg group-hover:text-brand-cyan transition-colors">
-                  {pat.name}
-                </h4>
-                <p className="text-xs sm:text-sm text-slate-300 mt-2.5 line-clamp-3 leading-relaxed">
-                  {pat.intent}
-                </p>
-              </div>
-
-              <div className="pt-4 border-t border-white/[0.08] space-y-2">
-                <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider block">
-                  Core Java Class:
-                </span>
-                <span className="text-xs font-mono text-slate-200 truncate block bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
-                  {pat.keyClasses[0]?.split('.').pop()}
-                </span>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
 

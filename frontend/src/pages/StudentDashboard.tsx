@@ -85,7 +85,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ onNavigateTa
                 <h3 className="font-bold text-white text-base">Your Room Allocation</h3>
               </div>
               <p className="text-xs text-slate-400 mt-0.5 font-mono">
-                Assigned via Strategy Pattern: {allocation?.strategy || 'MERIT_BASED'}
+                Allocation Strategy: {allocation?.strategy ? allocation.strategy.replace(/_/g, ' ') : 'Academic Priority'}
               </p>
             </div>
             {allocation ? (
@@ -146,7 +146,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ onNavigateTa
                     {allocation.status === 'CHECKED_IN' ? 'Check-In Verification Complete' : 'Check-In Required'}
                   </h4>
                   <p className="text-[11px] text-slate-300 mt-0.5">
-                    Process managed via Template Method pattern workflow.
+                    Standardized room inspection and key handover clearance.
                   </p>
                 </div>
                 <button
@@ -229,14 +229,14 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ onNavigateTa
           {/* Quick Links Card */}
           <div className="glass-panel rounded-2xl p-6 border border-white/10 space-y-3">
             <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400">
-              Pattern Quick Navigation
+              Quick Actions
             </h4>
             <div className="space-y-2">
               {[
-                { label: 'Update Profile with Builder Pattern', tab: 'profile-builder' },
+                { label: 'Update Residential Profile', tab: 'profile-builder' },
                 { label: 'Inspect 3D Room Floor Plan', tab: 'room-allocation' },
-                { label: 'Template Method Check-in Progress', tab: 'check-in-out' },
-                { label: 'Architecture Explorer: All 8 Patterns', tab: 'patterns-explorer' }
+                { label: 'Check-In / Departure Clearance', tab: 'check-in-out' },
+                { label: 'System Architecture (3D)', tab: 'patterns-explorer' }
               ].map((item, idx) => (
                 <button
                   key={idx}
