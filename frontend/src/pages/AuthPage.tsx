@@ -87,7 +87,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
             Access Your Hostel Space
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-            Select a verified demo account below or register a brand-new profile using the Builder pattern.
+            Select a verified demo account below or register a brand-new student account.
           </p>
 
           {/* Quick Demo Fill Buttons */}
@@ -269,7 +269,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
                   : 'bg-brand-cyan text-slate-900 hover:bg-cyan-300 shadow-glow-cyan'
               }`}
             >
-              <span>{loading ? 'Authenticating...' : isRegister ? 'Register via Builder Pattern' : 'Sign In to Workspace'}</span>
+              <span>{loading ? 'Authenticating...' : isRegister ? 'Create Student Account' : 'Sign In to Workspace'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>

@@ -43,11 +43,11 @@ const CARDS: ShowcaseCard[] = [
   {
     id: 'strategy',
     pattern: 'Strategy Pattern',
-    category: 'Behavioral Pattern',
+    category: 'Behavioral Architecture',
     title: 'Multi-Algorithm Room Allocation',
     subtitle: 'Dynamic Runtime Strategy Selection',
-    description: 'Switch seamlessly between CGPA-based, First-Come-First-Served (FCFS), and Preference-based room allocation strategies without altering client code.',
-    badge: 'AllocationEngine.java',
+    description: 'Switch seamlessly between CGPA-based, First-Come-First-Served (FCFS), and Preference-based room allocation algorithms.',
+    badge: 'Allocation Engine',
     accent: 'cyan',
     tabTarget: 'room-allocation',
     details: [
@@ -60,11 +60,11 @@ const CARDS: ShowcaseCard[] = [
   {
     id: 'chain',
     pattern: 'Chain of Responsibility',
-    category: 'Behavioral Pattern',
+    category: 'Behavioral Architecture',
     title: 'Hierarchical Complaint Escalation',
     subtitle: 'Warden → Chief Warden → Dean',
     description: 'Complaints pass along a sequential chain of authority. High-severity maintenance and safety hazards automatically escalate to higher administrative tiers.',
-    badge: 'ComplaintHandler.java',
+    badge: 'Hierarchical Dispatch',
     accent: 'violet',
     tabTarget: 'complaints',
     details: [
@@ -77,11 +77,11 @@ const CARDS: ShowcaseCard[] = [
   {
     id: 'prototype',
     pattern: 'Prototype Pattern',
-    category: 'Creational Pattern',
+    category: 'Creational Architecture',
     title: 'Room Blueprint Cloning Lab',
     subtitle: 'Deep Copy Architecture for Rapid Provisioning',
-    description: 'Instantiate pre-configured room configurations (Deluxe Studio, En-Suite, Penthouse) through polymorphic deep-cloning from prototype registry.',
-    badge: 'RoomPrototypeRegistry.java',
+    description: 'Instantiate pre-configured room configurations (Deluxe Studio, En-Suite, Penthouse) through template cloning from the central registry.',
+    badge: 'Blueprint Registry',
     accent: 'emerald',
     tabTarget: 'templates',
     details: [
@@ -94,11 +94,11 @@ const CARDS: ShowcaseCard[] = [
   {
     id: 'template',
     pattern: 'Template Method',
-    category: 'Behavioral Pattern',
+    category: 'Behavioral Architecture',
     title: 'Standardized Check-In / Out Process',
     subtitle: 'Invariable Skeleton with Extensible Steps',
     description: 'Enforces a strict 5-stage workflow for student check-in and check-out while allowing specialized room condition hooks and automated log persistence.',
-    badge: 'HostelProcess.java',
+    badge: 'Lifecycle Pipeline',
     accent: 'amber',
     tabTarget: 'check-in-out',
     details: [
@@ -111,16 +111,16 @@ const CARDS: ShowcaseCard[] = [
   {
     id: 'observer',
     pattern: 'Observer & Mediator',
-    category: 'Behavioral Mesh',
+    category: 'Behavioral Architecture',
     title: 'Real-Time Telemetry & Coordination',
-    subtitle: 'Decoupled Communication & SSE Broadcasting',
-    description: 'Observers receive live push notifications over Server-Sent Events whenever complaint status changes, while Mediator coordinates student-warden-maintenance tasks.',
-    badge: 'ComplaintPublisher.java',
+    subtitle: 'Decoupled Communication & Event Broadcasting',
+    description: 'Subscribers receive live push notifications whenever complaint status changes, while central coordinator dispatches student-warden-maintenance tasks.',
+    badge: 'Event Telemetry',
     accent: 'rose',
     tabTarget: 'complaints',
     details: [
-      { label: 'SSE Stream', value: 'Sub-second Reactive Updates' },
-      { label: 'Mediator', value: 'Decoupled Maintenance Dispatching' },
+      { label: 'Live Stream', value: 'Sub-second Reactive Updates' },
+      { label: 'Coordinator', value: 'Decoupled Maintenance Dispatching' },
       { label: 'State Sync', value: 'Zero-Polling Student & Staff Dashboard' }
     ],
     graphicType: 'observer'
@@ -439,7 +439,7 @@ export const ScrollSwipe3D: React.FC<ScrollSwipe3DProps> = ({ onNavigate }) => {
                     }}
                     className="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-slate-950 bg-brand-cyan hover:bg-cyan-300 shadow-glow-cyan flex items-center gap-2 cursor-pointer transition-all"
                   >
-                    <span>Launch {card.pattern} Demo</span>
+                    <span>Launch Live Demo</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
 
@@ -450,7 +450,7 @@ export const ScrollSwipe3D: React.FC<ScrollSwipe3DProps> = ({ onNavigate }) => {
                     }}
                     className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1 cursor-pointer transition-colors"
                   >
-                    <span>View Java Source</span>
+                    <span>Architecture Details</span>
                     <ChevronRight className="w-3.5 h-3.5" />
                   </button>
                 </div>

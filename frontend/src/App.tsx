@@ -103,14 +103,14 @@ function AppContent() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-500">
           <div className="flex items-center gap-2">
             <span className="font-bold text-slate-400">HOSTELHUB</span>
-            <span>• Design Patterns Mini-Project</span>
+            <span>• Campus Accommodation Platform</span>
           </div>
           <div className="flex items-center gap-4">
             <button
               onClick={() => handleNavigate('explorer')}
               className="hover:text-brand-cyan transition-colors"
             >
-              8 Design Patterns
+              System Architecture
             </button>
             <a
               href="https://github.com/dev-lov-oper/Hostel-Manager"
@@ -118,9 +118,9 @@ function AppContent() {
               rel="noreferrer"
               className="hover:text-brand-purple transition-colors"
             >
-              GitHub Repository
+              GitHub
             </a>
-            <span>Java 17/25 • React • Vite</span>
+            <span>HostelHub © 2026</span>
           </div>
         </div>
       </footer>

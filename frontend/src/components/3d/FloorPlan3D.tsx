@@ -221,11 +221,11 @@ export const FloorPlan3D: React.FC<FloorPlan3DProps> = ({
               <div className="p-3 rounded-lg bg-brand-violet/10 border border-brand-violet/20 text-[11px] space-y-1 text-slate-300">
                 <div className="font-semibold text-brand-sky flex items-center gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  Prototype Pattern Verified
+                  Verified Room Blueprint
                 </div>
                 <p className="text-[10px] text-slate-400 leading-relaxed">
-                  Amenities and specifications cloned independently from base template #
-                  {activeInspectRoom.templateId} via RoomTemplate.clonePrototype().
+                  Amenities and specifications provisioned from standardized room blueprint #
+                  {activeInspectRoom.templateId}.
                 </p>
               </div>
 

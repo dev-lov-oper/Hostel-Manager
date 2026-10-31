@@ -75,7 +75,7 @@ export const RoomTemplatesPage: React.FC = () => {
     setCloning(true);
 
     try {
-      // Calls Java Prototype Pattern clonePrototype()
+      // Clones room blueprint via backend API
       const res = await api.cloneTemplate({
         sourceTemplateName: selectedTemplate.templateName,
         newTemplateName,

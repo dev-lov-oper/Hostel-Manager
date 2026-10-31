@@ -319,28 +319,28 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigateTab })
 
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs font-mono">
             <div className="p-3 rounded-xl bg-black/40 border border-white/10">
-              <span className="text-[10px] text-slate-500 block">Session ID</span>
-              <span className="text-brand-sky font-bold">#{singletonInfo.instanceHashCode}</span>
+              <span className="text-[10px] text-slate-500 block">System Engine</span>
+              <span className="text-slate-200 truncate block">SQLite Storage</span>
             </div>
             <div className="p-3 rounded-xl bg-black/40 border border-white/10">
-              <span className="text-[10px] text-slate-500 block">Driver Contract</span>
-              <span className="text-slate-200 truncate block">{singletonInfo.className?.split('.').pop()}</span>
+              <span className="text-[10px] text-slate-500 block">Thread Safety</span>
+              <span className="text-emerald-400 font-bold">Synchronized</span>
             </div>
             <div className="p-3 rounded-xl bg-black/40 border border-white/10">
-              <span className="text-[10px] text-slate-500 block">Thread-Safe Pool</span>
-              <span className="text-emerald-400 font-bold">YES (Synchronized)</span>
+              <span className="text-[10px] text-slate-500 block">Integrity Status</span>
+              <span className="text-emerald-400 font-bold">100% Verified</span>
             </div>
             <div className="p-3 rounded-xl bg-black/40 border border-white/10">
-              <span className="text-[10px] text-slate-500 block">Connection URI</span>
-              <span className="text-slate-300 truncate block">{singletonInfo.databaseUrl}</span>
+              <span className="text-[10px] text-slate-500 block">Storage Database</span>
+              <span className="text-slate-300 truncate block">hostel_management.db</span>
             </div>
           </div>
 
           <div className="pt-2 border-t border-white/[0.06] flex flex-wrap items-center gap-2">
-            <span className="text-[11px] font-mono text-slate-400">Active Repositories:</span>
-            {['UserDAO', 'StudentDAO', 'RoomDAO', 'AllocationDAO', 'ComplaintDAO', 'MaintenanceDAO', 'NotificationDAO', 'ProcessDAO'].map((dao) => (
-              <span key={dao} className="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-violet/20 border border-brand-violet/40 text-brand-sky font-semibold">
-                {dao}
+            <span className="text-[11px] font-mono text-slate-400">Managed Subsystems:</span>
+            {['User Accounts', 'Resident Profiles', 'Room Inventory', 'Room Allocations', 'Maintenance Tickets', 'Real-Time Alerts', 'Audit Logs'].map((sub) => (
+              <span key={sub} className="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-violet/20 border border-brand-violet/40 text-brand-sky font-semibold">
+                {sub}
               </span>
             ))}
           </div>

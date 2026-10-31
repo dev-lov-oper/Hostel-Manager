@@ -31,51 +31,44 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
     },
     {
       id: 'profile-builder',
-      label: 'Profile Builder',
-      pattern: 'Builder',
+      label: 'Profile Setup',
       icon: UserCheck,
       roles: ['STUDENT', 'ADMIN']
     },
     {
       id: 'room-allocation',
       label: 'Room Allocation',
-      pattern: 'Strategy',
       icon: Building,
       roles: ['STUDENT', 'WARDEN', 'CHIEF_WARDEN', 'DEAN', 'ADMIN']
     },
     {
       id: 'complaints',
-      label: 'Complaints',
-      pattern: 'Chain / Observer',
+      label: 'Complaints & Requests',
       icon: AlertCircle,
       roles: ['STUDENT', 'WARDEN', 'CHIEF_WARDEN', 'DEAN', 'MAINTENANCE', 'ADMIN']
     },
     {
       id: 'check-in-out',
-      label: 'Check-In / Check-Out',
-      pattern: 'Template Method',
+      label: 'Check-In / Out',
       icon: ClipboardList,
       roles: ['STUDENT', 'WARDEN', 'ADMIN']
     },
     {
       id: 'templates',
-      label: 'Room Templates',
-      pattern: 'Prototype',
+      label: 'Room Blueprints',
       icon: Copy,
       roles: ['ADMIN', 'WARDEN']
     },
     {
       id: 'patterns-explorer',
-      label: 'Architecture Explorer',
-      pattern: 'All 8 Patterns',
+      label: 'System Architecture (3D)',
       icon: Layers,
       highlight: true,
       roles: ['STUDENT', 'WARDEN', 'CHIEF_WARDEN', 'DEAN', 'MAINTENANCE', 'ADMIN']
     },
     {
       id: 'system-singleton',
-      label: 'Database Singleton',
-      pattern: 'Singleton',
+      label: 'System Health',
       icon: Database,
       roles: ['ADMIN', 'WARDEN', 'CHIEF_WARDEN', 'DEAN']
     }
@@ -139,39 +132,27 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
                   />
                   <span className="truncate">{item.label}</span>
                 </div>
-
-                {item.pattern && (
-                  <span
-                    className={`text-[9px] font-mono px-1.5 py-0.5 rounded flex-shrink-0 ${
-                      isActive
-                        ? 'bg-brand-violet/40 text-brand-sky'
-                        : 'bg-white/[0.04] text-slate-400 group-hover:text-slate-300'
-                    }`}
-                  >
-                    {item.pattern}
-                  </span>
-                )}
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* Footer Design Pattern Status Badge */}
+      {/* Footer System Architecture Badge */}
       <div className="pt-4 border-t border-white/[0.06] space-y-2">
         <div className="p-3 rounded-xl bg-gradient-to-br from-brand-violet/10 to-brand-cyan/10 border border-white/10 text-xs">
           <div className="flex items-center gap-1.5 text-brand-cyan font-semibold text-[11px]">
             <Sliders className="w-3.5 h-3.5" />
-            <span>Design Patterns Lab</span>
+            <span>System Architecture</span>
           </div>
           <p className="text-[10px] text-slate-400 mt-1 leading-relaxed">
-            All 8 patterns bound to active Java backend services.
+            Interactive 3D structural model &amp; design specifications.
           </p>
           <button
             onClick={() => onTabChange('patterns-explorer')}
             className="mt-2 text-[10px] text-brand-sky hover:underline flex items-center gap-1 font-mono"
           >
-            Explore Pattern Architecture <ChevronRight className="w-3 h-3" />
+            View Architecture (3D) <ChevronRight className="w-3 h-3" />
           </button>
         </div>
       </div>

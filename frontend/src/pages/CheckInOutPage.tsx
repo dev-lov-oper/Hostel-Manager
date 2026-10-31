@@ -373,11 +373,11 @@ export const CheckInOutPage: React.FC = () => {
                     Step 3: Inventory & Damages
                   </span>
                   <span className="text-[10px] font-mono text-brand-sky bg-brand-violet/20 px-1.5 py-0.5 rounded">
-                    Prototype Pattern
+                    Verified Blueprint
                   </span>
                 </div>
                 <p className="text-[11px] text-slate-300 leading-relaxed">
-                  <strong>Source:</strong> Cloned from Room Prototype #{currentAllocation?.roomId || roomId} ({currentAllocation?.templateName || 'Template'}).
+                  <strong>Source:</strong> Provisioned from Room Blueprint #{currentAllocation?.roomId || roomId} ({currentAllocation?.templateName || 'Template'}).
                 </p>
                 <div className="text-[10px] font-mono text-slate-400 bg-white/[0.02] p-2 rounded border border-white/5 space-y-1">
                   <p className="text-emerald-300 font-semibold">✓ Inventory: Desks, Attached Bath, Fixtures, Lock</p>
@@ -459,7 +459,7 @@ export const CheckInOutPage: React.FC = () => {
               <Sparkles className="w-5 h-5" />
               <span>
                 {executing
-                  ? 'Executing Template Method Steps...'
+                  ? 'Executing Verification Steps...'
                   : `Execute ${processType === 'CHECK_IN' ? 'Check-In Workflow' : 'Check-Out Workflow'}`}
               </span>
             </button>
