@@ -11,15 +11,17 @@ public class CheckInProcess extends HostelProcess {
 
     @Override
     protected boolean verifyIdentityAndEligibility(int studentId) {
-        logStep("Step 1 [Identity]: Verifying student ID card #" + studentId + " against institutional enrollment database...");
+        logStep("Step 1 [Identity]: Verifying student ID card #" + studentId
+                + " against institutional enrollment database...");
         return studentId > 0;
     }
 
     @Override
     protected boolean verifyAllocationStatus(int allocationId) {
-        logStep("Step 2 [Status]: Checking allocation #" + allocationId + " is in 'ALLOCATED' or 'CHECKED_OUT' state...");
+        logStep("Step 2 [Status]: Checking allocation #" + allocationId
+                + " is in 'ALLOCATED' or 'CHECKED_OUT' state...");
         boolean valid = repository.isAllocationInState(allocationId, "ALLOCATED")
-                     || repository.isAllocationInState(allocationId, "CHECKED_OUT");
+                || repository.isAllocationInState(allocationId, "CHECKED_OUT");
         if (!valid) {
             logStep("FAILED: Allocation is neither 'ALLOCATED' nor previously cleared 'CHECKED_OUT'.");
         }

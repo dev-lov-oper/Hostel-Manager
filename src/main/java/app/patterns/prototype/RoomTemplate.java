@@ -1,6 +1,5 @@
-package app.model;
+package app.patterns.prototype;
 
-import app.patterns.prototype.RoomPrototype;
 import java.util.ArrayList;
 import java.util.List;
 

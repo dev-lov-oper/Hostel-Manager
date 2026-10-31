@@ -1,6 +1,5 @@
 package app.patterns.prototype;
 
-import app.model.RoomTemplate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

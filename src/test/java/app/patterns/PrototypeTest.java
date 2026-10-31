@@ -1,6 +1,6 @@
 package app.patterns;
 
-import app.model.RoomTemplate;
+import app.patterns.prototype.RoomTemplate;
 import app.patterns.prototype.RoomPrototypeRegistry;
 import org.junit.jupiter.api.Test;
 import java.util.List;

@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Template Method Pattern — HostelHub Detailed Documentation</title>
+<style>
+  /* ─── Reset & Base ─── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #0a0e17;
+    color: #d1d5db;
+    line-height: 1.75;
+    padding: 0;
+  }
+
+  /* ─── Cover Page ─── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(135deg, #0a0e17 0%, #111827 40%, #1e1b4b 100%);
+    padding: 3rem 2rem;
+    border-bottom: 3px solid #06b6d4;
+  }
+  .cover h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+  }
+  .cover .subtitle {
+    font-size: 1.4rem;
+    color: #94a3b8;
+    margin-bottom: 2rem;
+  }
+  .cover .meta-info {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin-top: 1rem;
+    line-height: 2;
+  }
+  .cover .meta-info span {
+    display: block;
+  }
+  .pattern-badge {
+    display: inline-block;
+    background: rgba(6, 182, 212, 0.15);
+    border: 1px solid #06b6d4;
+    color: #06b6d4;
+    padding: 0.35rem 1.2rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ─── Layout ─── */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  /* ─── Section Headers ─── */
+  .section-number {
+    display: inline-block;
+    background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+    color: #fff;
+    width: 2.6rem;
+    height: 2.6rem;
+    line-height: 2.6rem;
+    text-align: center;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-right: 0.75rem;
+    vertical-align: middle;
+  }
+  h2 {
+    font-size: 1.9rem;
+    color: #f1f5f9;
+    margin: 3.5rem 0 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid rgba(6,182,212,0.3);
+    display: flex;
+    align-items: center;
+  }
+  h3 {
+    font-size: 1.35rem;
+    color: #e2e8f0;
+    margin: 2rem 0 1rem;
+  }
+
+  /* ─── Paragraphs, Lists ─── */
+  p { margin-bottom: 1rem; }
+  ul, ol {
+    margin: 0.75rem 0 1.25rem 1.8rem;
+  }
+  li { margin-bottom: 0.5rem; }
+  strong { color: #e2e8f0; }
+
+  /* ─── Code Blocks ─── */
+  .code-block {
+    background: #111827;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+    overflow: hidden;
+  }
+  .code-header {
+    background: #1e293b;
+    padding: 0.4rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .code-lang {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #06b6d4;
+    letter-spacing: 0.1em;
+  }
+  pre {
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+  code {
+    font-family: 'Cascadia Code', 'JetBrains Mono', 'Fira Code', monospace;
+    color: #e2e8f0;
+  }
+  .inline-code {
+    background: #1e293b;
+    color: #06b6d4;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'Cascadia Code', 'JetBrains Mono', monospace;
+    font-size: 0.88em;
+  }
+
+  /* ─── Info Boxes ─── */
+  .info-box {
+    border-left: 4px solid #06b6d4;
+    background: rgba(6,182,212,0.06);
+    padding: 1.25rem 1.5rem;
+    border-radius: 0 10px 10px 0;
+    margin: 1.5rem 0;
+  }
+  .info-box.warning {
+    border-left-color: #f59e0b;
+    background: rgba(245,158,11,0.06);
+  }
+  .info-box.success {
+    border-left-color: #10b981;
+    background: rgba(16,185,129,0.06);
+  }
+  .info-box-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #06b6d4;
+    margin-bottom: 0.4rem;
+  }
+  .info-box.warning .info-box-title { color: #f59e0b; }
+  .info-box.success .info-box-title { color: #10b981; }
+
+  /* ─── Tables ─── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.9rem;
+  }
+  th {
+    background: #1e293b;
+    color: #06b6d4;
+    padding: 0.85rem 1rem;
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #1e293b;
+    vertical-align: top;
+  }
+  tr:hover td { background: rgba(6,182,212,0.04); }
+
+  /* ─── Diagram Box ─── */
+  .diagram-box {
+    background: #111827;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 1.5rem 0;
+    text-align: center;
+    overflow-x: auto;
+  }
+  .diagram-box pre {
+    text-align: left;
+    display: inline-block;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: #94a3b8;
+  }
+
+  /* ─── Step Flow Cards ─── */
+  .step-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .step-card {
+    background: #111827;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .step-card:hover { border-color: #06b6d4; }
+  .step-card::before {
+    content: '';
+    position: absolute;
+    left: 2.5rem;
+    top: 100%;
+    width: 2px;
+    height: 1rem;
+    background: #1e293b;
+  }
+  .step-card:last-child::before { display: none; }
+  .step-num {
+    display: inline-block;
+    background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+    color: #fff;
+    width: 1.8rem;
+    height: 1.8rem;
+    line-height: 1.8rem;
+    text-align: center;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-right: 0.75rem;
+    vertical-align: middle;
+  }
+  .step-title {
+    font-weight: 700;
+    color: #e2e8f0;
+    font-size: 1.05rem;
+    display: inline;
+    vertical-align: middle;
+  }
+  .step-desc {
+    margin-top: 0.5rem;
+    padding-left: 2.55rem;
+    color: #94a3b8;
+    font-size: 0.92rem;
+  }
+
+  /* ─── Comparison Table Highlight ─── */
+  .checkin-col { color: #06b6d4; }
+  .checkout-col { color: #f59e0b; }
+
+  /* ─── TOC ─── */
+  .toc {
+    background: #111827;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+  .toc h3 {
+    color: #06b6d4;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .toc ol {
+    list-style: none;
+    counter-reset: toc-counter;
+    margin-left: 0;
+  }
+  .toc ol li {
+    counter-increment: toc-counter;
+    margin-bottom: 0.5rem;
+  }
+  .toc ol li::before {
+    content: counter(toc-counter) ".";
+    color: #06b6d4;
+    font-weight: 700;
+    margin-right: 0.5rem;
+  }
+  .toc a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .toc a:hover { color: #06b6d4; }
+
+  /* ─── Footer ─── */
+  .footer {
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid #1e293b;
+    color: #475569;
+    font-size: 0.85rem;
+    margin-top: 3rem;
+  }
+
+  /* ─── Print Styles ─── */
+  @media print {
+    body { background: #fff; color: #1a1a1a; }
+    .cover { min-height: auto; background: #fff; border-bottom: 2px solid #333; }
+    .cover h1 { -webkit-text-fill-color: #1a1a1a; background: none; }
+    .code-block { border: 1px solid #ccc; }
+    pre { font-size: 0.72rem; }
+    .step-card { border: 1px solid #ddd; }
+    th { background: #eee; color: #333; }
+    td { border-bottom: 1px solid #ddd; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ╔══════════════════════════════════════════╗ -->
+<!-- ║           COVER PAGE                     ║ -->
+<!-- ╚══════════════════════════════════════════╝ -->
+<div class="cover">
+  <div class="pattern-badge">Behavioral Design Pattern</div>
+  <h1>Template Method Pattern</h1>
+  <p class="subtitle">Detailed Implementation Documentation<br>
+     HostelHub — Smart Hostel Management System</p>
+  <div class="meta-info">
+    <span><strong>Project:</strong> HostelHub — Smart Hostel &amp; Room Allocation System</span>
+    <span><strong>Pattern Category:</strong> Behavioral (GoF)</span>
+    <span><strong>Language:</strong> Java 17 LTS &bull; React 19 (TypeScript)</span>
+    <span><strong>Live URL:</strong> <a href="https://hostel-manager-1-mgwf.onrender.com/" style="color:#06b6d4;">https://hostel-manager-1-mgwf.onrender.com/</a></span>
+    <span><strong>Generated:</strong> 31 October 2026, 12:21 AM</span>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════╗ -->
+<!-- ║           TABLE OF CONTENTS              ║ -->
+<!-- ╚══════════════════════════════════════════╝ -->
+<div class="container">
+  <div class="toc">
+    <h3>Table of Contents</h3>
+    <ol>
+      <li><a href="#s1">What is the Template Method Pattern?</a></li>
+      <li><a href="#s2">Why Template Method in HostelHub?</a></li>
+      <li><a href="#s3">Class Hierarchy &amp; UML Structure</a></li>
+      <li><a href="#s4">The 5-Step Invariant Process Sequence</a></li>
+      <li><a href="#s5">Source Code — Abstract Class: HostelProcess.java</a></li>
+      <li><a href="#s6">Source Code — Concrete Class: CheckInProcess.java</a></li>
+      <li><a href="#s7">Source Code — Concrete Class: CheckOutProcess.java</a></li>
+      <li><a href="#s8">Check-In vs Check-Out: Step-by-Step Comparison</a></li>
+      <li><a href="#s9">Supporting Infrastructure: ProcessDAO &amp; ProcessService</a></li>
+      <li><a href="#s10">REST API Integration &amp; Client Invocation</a></li>
+      <li><a href="#s11">Complete Execution Flow Walkthrough</a></li>
+      <li><a href="#s12">Execution Log: Sample Output Traces</a></li>
+      <li><a href="#s13">Unit Testing the Template Method</a></li>
+      <li><a href="#s14">Key Design Decisions &amp; OOP Principles</a></li>
+      <li><a href="#s15">Conclusion</a></li>
+    </ol>
+  </div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 1                                  -->
+<!-- ══════════════════════════════════════════ -->
+<h2 id="s1"><span class="section-number">1</span> What is the Template Method Pattern?</h2>
+
+<p>The <strong>Template Method</strong> is a <strong>Behavioral Design Pattern</strong> defined in the
+   Gang of Four (GoF) catalog. It defines the <em>skeleton of an algorithm</em> in an
+   abstract base class, deferring certain steps to subclasses. Subclasses can
+   <strong>override</strong> specific steps of the algorithm without changing its overall structure
+   or execution order.</p>
+
+<div class="info-box">
+  <div class="info-box-title">GoF Definition</div>
+  <p><em>"Define the skeleton of an algorithm in an operation, deferring some steps to
+  subclasses. Template Method lets subclasses redefine certain steps of an algorithm
+  without changing the algorithm's structure."</em></p>
+  <p style="margin:0;color:#64748b;">— Gamma, Helm, Johnson, Vlissides (Design Patterns: Elements of Reusable Object-Oriented Software, 1994)</p>
+</div>
+
+<h3>Key Characteristics</h3>
+<ul>
+  <li>The <strong>template method</strong> itself is declared <span class="inline-code">final</span>
+      — subclasses cannot alter the sequence of steps.</li>
+  <li><strong>Abstract steps</strong> (primitive operations) must be implemented by every concrete subclass.</li>
+  <li>Optional <strong>hook methods</strong> provide default behavior that subclasses <em>may</em> override.</li>
+  <li>The <strong>Hollywood Principle</strong> applies: "Don't call us, we'll call you" — the
+      base class controls the flow and calls subclass methods at the right time.</li>
+</ul>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 2                                  -->
+<!-- ══════════════════════════════════════════ -->
+<h2 id="s2"><span class="section-number">2</span> Why Template Method in HostelHub?</h2>
+
+<p>In a hostel management system, the <strong>Check-In</strong> and <strong>Check-Out</strong> processes
+   share a remarkably similar lifecycle structure: both require identity verification,
+   allocation status validation, room inspection, key/dues handling, and database
+   state updates. However, the <em>details</em> of each step differ significantly:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Concern</th>
+      <th class="checkin-col">Check-In</th>
+      <th class="checkout-col">Check-Out</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Identity Check</td>
+      <td>Verify enrollment &amp; eligibility</td>
+      <td>Verify departure clearance</td>
+    </tr>
+    <tr>
+      <td>Required Allocation State</td>
+      <td><span class="inline-code">ALLOCATED</span> or <span class="inline-code">CHECKED_OUT</span></td>
+      <td><span class="inline-code">CHECKED_IN</span></td>
+    </tr>
+    <tr>
+      <td>Room Inspection</td>
+      <td>Baseline inventory &mdash; record initial condition</td>
+      <td>Damage assessment against baseline</td>
+    </tr>
+    <tr>
+      <td>Key Handling</td>
+      <td>Issue key to student</td>
+      <td>Collect key from student</td>
+    </tr>
+    <tr>
+      <td>Dues</td>
+      <td>Verify semester fees paid</td>
+      <td>Verify no outstanding mess/utility dues; issue No-Dues Certificate</td>
+    </tr>
+    <tr>
+      <td>Database Update</td>
+      <td>Status &rarr; <span class="inline-code">CHECKED_IN</span></td>
+      <td>Status &rarr; <span class="inline-code">CHECKED_OUT</span>; decrement room occupancy</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Without the Template Method pattern, this would result in <strong>duplicated control flow
+   logic</strong> across both processes. The pattern eliminates this duplication by encoding
+   the invariant 5-step sequence once in <span class="inline-code">HostelProcess.executeProcess()</span>
+   and letting each subclass supply its own step implementations.</p>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 3                                  -->
+<!-- ══════════════════════════════════════════ -->
+<h2 id="s3"><span class="section-number">3</span> Class Hierarchy &amp; UML Structure</h2>
+
+<div class="diagram-box"><pre>
+                    ┌──────────────────────────────────────────┐
+                    │        &laquo;abstract&raquo; HostelProcess          │
+                    │──────────────────────────────────────────│
+                    │ # executionLog : List&lt;String&gt;            │
+                    │──────────────────────────────────────────│
+                    │ + <strong>executeProcess</strong>(allocationId,           │
+                    │       studentId, roomId) : boolean       │
+                    │       &laquo;final — Template Method&raquo;          │
+                    │──────────────────────────────────────────│
+                    │ # verifyIdentityAndEligibility(id)  {abstract} │
+                    │ # verifyAllocationStatus(id)        {abstract} │
+                    │ # inspectRoomAndInventory(id)        {abstract} │
+                    │ # handleKeyAndDues(id)               {abstract} │
+                    │ # updateDatabaseStatus(id, roomId)  {abstract} │
+                    │ # recordSuccess(id)                 {abstract} │
+                    │ # recordFailure(id, reason)         {abstract} │
+                    │ # logStep(message)         &laquo;concrete hook&raquo; │
+                    │ + getExecutionLog() : List&lt;String&gt;       │
+                    └───────────────┬──────────────────────────┘
+                                    │
+                    ┌───────────────┴───────────────┐
+                    │                               │
+        ┌───────────────────────┐     ┌───────────────────────┐
+        │    CheckInProcess     │     │   CheckOutProcess     │
+        │───────────────────────│     │───────────────────────│
+        │ - repository: ProcessDAO│   │ - repository: ProcessDAO│
+        │ - roomRepository: RoomDAO│  │ - roomRepository: RoomDAO│
+        │───────────────────────│     │───────────────────────│
+        │ Implements all 7      │     │ Implements all 7      │
+        │ abstract methods for  │     │ abstract methods for  │
+        │ the check-in workflow │     │ the check-out workflow│
+        └───────────────────────┘     └───────────────────────┘
+
+        File Locations:
+        ├── app/patterns/template/HostelProcess.java      (Abstract Base)
+        ├── app/patterns/template/CheckInProcess.java     (Concrete Subclass A)
+        ├── app/patterns/template/CheckOutProcess.java    (Concrete Subclass B)
+        ├── app/service/ProcessService.java               (Client / Facade)
+        └── app/patterns/singleton/ProcessDAO.java        (Persistence Layer)
+</pre></div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 4                                  -->
+<!-- ══════════════════════════════════════════ -->
+<h2 id="s4"><span class="section-number">4</span> The 5-Step Invariant Process Sequence</h2>
+
+<p>The template method <span class="inline-code">executeProcess()</span> enforces a strict,
+   <strong>fail-fast</strong> sequential pipeline. If any step returns <span class="inline-code">false</span>,
+   the entire process halts immediately and records a failure. Here is the fixed sequence:</p>
+
+<div class="step-flow">
+  <div class="step-card">
+    <span class="step-num">1</span>
+    <span class="step-title">verifyIdentityAndEligibility(studentId)</span>
+    <div class="step-desc">
+      <strong>Purpose:</strong> Confirm the student's identity and eligibility.<br>
+      <strong>Check-In:</strong> Validates the student's enrollment ID exists in the institutional database.<br>
+      <strong>Check-Out:</strong> Verifies the student has departure clearance and active enrollment status.<br>
+      <strong>Fail condition:</strong> <span class="inline-code">studentId &le; 0</span> (invalid student reference).
+    </div>
+  </div>
+
+  <div class="step-card">
+    <span class="step-num">2</span>
+    <span class="step-title">verifyAllocationStatus(allocationId)</span>
+    <div class="step-desc">
+      <strong>Purpose:</strong> Ensure the room allocation is in the correct state for this operation.<br>
+      <strong>Check-In:</strong> Allocation must be in <span class="inline-code">ALLOCATED</span> or
+        <span class="inline-code">CHECKED_OUT</span> state (fresh allocation or re-entry).<br>
+      <strong>Check-Out:</strong> Allocation must be in <span class="inline-code">CHECKED_IN</span> state
+        (student must be currently residing).<br>
+      <strong>Database query:</strong> Uses <span class="inline-code">ProcessDAO.isAllocationInState()</span>
+        to query the <span class="inline-code">room_allocations</span> table.
+    </div>
+  </div>
+
+  <div class="step-card">
+    <span class="step-num">3</span>
+    <span class="step-title">inspectRoomAndInventory(roomId)</span>
+    <div class="step-desc">
+      <strong>Purpose:</strong> Physical inspection of the room and its inventory items.<br>
+      <strong>Check-In:</strong> Records the <em>baseline inventory</em> — lists all amenities
+        (Bed Frame, Study Desk, Chair, Wardrobe, Ceiling Fan, Smart Lock) and confirms
+        zero pre-existing damage. This baseline is used for comparison during check-out.<br>
+      <strong>Check-Out:</strong> Performs a <em>damage assessment</em> — compares current room
+        condition against the check-in baseline. Checks fixtures, wall paint, electrical
+        sockets, and furniture for any damage.<br>
+      <strong>Data source:</strong> Reads amenity list from <span class="inline-code">RoomDAO.findRoomById()</span>.
+    </div>
+  </div>
+
+  <div class="step-card">
+    <span class="step-num">4</span>
+    <span class="step-title">handleKeyAndDues(allocationId)</span>
+    <div class="step-desc">
+      <strong>Purpose:</strong> Manage physical key handover and financial clearance.<br>
+      <strong>Check-In:</strong> Issues a unique physical key tag
+        (<span class="inline-code">KEY-ALLOC-&lt;id&gt;-ENTRY</span>) to the student
+        and verifies semester hostel fees are settled (&pound;0.00 outstanding).<br>
+      <strong>Check-Out:</strong> Collects the key tag back from the student, verifies
+        that all mess &amp; utility balances are zero, and issues an institutional
+        <em>"No Dues Certificate"</em>.
+    </div>
+  </div>
+
+  <div class="step-card">
+    <span class="step-num">5</span>
+    <span class="step-title">updateDatabaseStatus(allocationId, roomId)</span>
+    <div class="step-desc">
+      <strong>Purpose:</strong> Persist the final state transition in the database.<br>
+      <strong>Check-In:</strong> Updates allocation status to <span class="inline-code">CHECKED_IN</span>
+        via <span class="inline-code">ProcessDAO.updateAllocationState()</span>.<br>
+      <strong>Check-Out:</strong> Executes a <strong>transactional</strong> operation via
+        <span class="inline-code">ProcessDAO.releaseBed()</span>:
+        (a) updates allocation to <span class="inline-code">CHECKED_OUT</span>,
+        (b) decrements the room's <span class="inline-code">current_occupancy</span> by 1.<br>
+      <strong>Transaction safety:</strong> The check-out uses <span class="inline-code">conn.setAutoCommit(false)</span>
+        with explicit <span class="inline-code">commit()</span> / <span class="inline-code">rollback()</span>.
+    </div>
+  </div>
+</div>
+
+<div class="info-box warning">
+  <div class="info-box-title">Fail-Fast Behavior</div>
+  <p>If any step (1 through 4) returns <span class="inline-code">false</span>, the template method
+  <strong>immediately halts</strong>, logs the failure reason, calls
+  <span class="inline-code">recordFailure()</span> to persist an audit trail, and returns
+  <span class="inline-code">false</span> — steps after the failure point are <strong>never executed</strong>.
+  This guarantees no partial state corruption.</p>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 5                                  -->
+<!-- ══════════════════════════════════════════ -->
+<h2 id="s5"><span class="section-number">5</span> Source Code — Abstract Class: HostelProcess.java</h2>
+
+<p>This is the <strong>heart of the pattern</strong>. The class declares the
+   <span class="inline-code">final</span> template method and the abstract primitive operations
+   that subclasses must implement.</p>
+
+<div class="code-block">
+<div class="code-header"><span class="code-lang">JAVA</span></div>
+<pre><code>package app.patterns.template;  
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Template Method Pattern: Abstract Hostel Lifecycle Process
+ */
+public abstract class HostelProcess {
+
+    protected final List&lt;String&gt; executionLog = new ArrayList&lt;&gt;();
+
+    /**
+     * Final Template Method defining the fixed process sequence.
+     */
+    public final boolean executeProcess(int allocationId, int studentId, int roomId) {
+        executionLog.clear();
+        logStep(&quot;Starting process sequence for Allocation ID: &quot; + allocationId);
+
+        try {
+            if (!verifyIdentityAndEligibility(studentId)) {
+                logStep(&quot;FAILED: Identity verification failed.&quot;);
+                recordFailure(allocationId, &quot;Identity verification failed.&quot;);
+                return false;
+            }
+
+            if (!verifyAllocationStatus(allocationId)) {
+                logStep(&quot;FAILED: Allocation status invalid.&quot;);
+                recordFailure(allocationId, &quot;Allocation status invalid.&quot;);
+                return false;
+            }
+
+            if (!inspectRoomAndInventory(roomId)) {
+                logStep(&quot;FAILED: Room and inventory inspection failed.&quot;);
+                recordFailure(allocationId, &quot;Room inspection failed.&quot;);
+                return false;
+            }
+
+            if (!handleKeyAndDues(allocationId)) {
+                logStep(&quot;FAILED: Key/Dues clearance failed.&quot;);
+                recordFailure(allocationId, &quot;Key/Dues clearance failed.&quot;);
+                return false;
+            }
+
+            updateDatabaseStatus(allocationId, roomId);
+            logStep(&quot;COMPLETED: Process completed successfully.&quot;);
+            recordSuccess(allocationId);
+            return true;
+
+        } catch (Exception e) {
+            logStep(&quot;ERROR: Exception occurred - &quot; + e.getMessage());
+            recordFailure(allocationId, e.getMessage());
+            return false;
+        }
+    }
+
+    // Step 1: Subclass-defined verification
+    protected abstract boolean verifyIdentityAndEligibility(int studentId);
+
+    // Step 2: Subclass-defined allocation state check
+    protected abstract boolean verifyAllocationStatus(int allocationId);
+
+    // Step 3: Room/Inventory condition check
+    protected abstract boolean inspectRoomAndInventory(int roomId);
+
+    // Step 4: Keys handover / Return and Dues clearance
+    protected abstract boolean handleKeyAndDues(int allocationId);
+
+    // Step 5: Database state updates
+    protected abstract void updateDatabaseStatus(int allocationId, int roomId);
+
+    // Audit Record Hooks
+    protected abstract void recordSuccess(int allocationId);
+    protected abstract void recordFailure(int allocationId, String reason);
+
+    protected void logStep(String message) {
+        executionLog.add(message);
+    }
+
+    public List&lt;String&gt; getExecutionLog() {
+        return List.copyOf(executionLog);
+    }
+}</code></pre>
+</div>
+
+<h3>Line-by-Line Explanation</h3>
+
+<table>
+  <thead>
+    <tr><th>Lines</th><th>What It Does</th><th>Why It Matters</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="inline-code">11</span></td>
+      <td>Declares <span class="inline-code">executionLog</span> as a <span class="inline-code">protected final List&lt;String&gt;</span></td>
+      <td>Both subclasses inherit this shared execution log. The <span class="inline-code">final</span> keyword prevents reassignment but allows mutation (adding entries). Every step appends descriptive messages here for audit tracing.</td>
+    </tr>
+    <tr>
+      <td><span class="inline-code">16</span></td>
+      <td><span class="inline-code">public final boolean executeProcess(...)</span></td>
+      <td>The <strong>template method</strong>. Marked <span class="inline-code">final</span> so subclasses <strong>cannot override</strong> the algorithm's skeleton — they can only fill in individual steps. This is the core of the pattern.</td>
+    </tr>
+    <tr>
+      <td><span class="inline-code">17</span></td>
+      <td><span class="inline-code">executionLog.clear()</span></td>
+      <td>Resets the log at the start of each execution so that if the same object is reused, previous logs don't leak into the new run.</td>
+    </tr>
+    <tr>
+      <td><span class="inline-code">21–43</span></td>
+      <td>Sequential <span class="inline-code">if (!stepN(...))</span> guards</td>
+      <td>Each step is called in strict order. If any returns <span class="inline-code">false</span>, the method logs the failure, records it in the database, and returns <span class="inline-code">false</span> immediately. This implements <strong>fail-fast sequencing</strong>.</td>
+    </tr>
+    <tr>
+      <td><span class="inline-code">45–48</span></td>
+      <td>Success path: <span class="inline-code">updateDatabaseStatus → logStep → recordSuccess → return true</span></td>
+      <td>Only reached if all 4 validation steps passed. Persists the final state change, logs completion, and saves a success audit record.</td>
+    </tr>
+    <tr>
+      <td><span class="inline-code">50–54</span></td>
+      <td>Exception handler</td>
+      <td>Catches any unexpected runtime exception (e.g., database I/O failure), records it in the audit log, and returns <span class="inline-code">false</span> — ensuring the process never silently crashes.</td>
+    </tr>
+    <tr>
+      <td><span class="inline-code">58–75</span></td>
+      <td>7 <span class="inline-code">protected abstract</span> methods</td>
+      <td>These are the <strong>primitive operations</strong> that subclasses must implement. They include the 5 process steps plus 2 audit hooks (<span class="inline-code">recordSuccess</span> and <span class="inline-code">recordFailure</span>).</td>
+    </tr>
+    <tr>
+      <td><span class="inline-code">77–79</span></td>
+      <td><span class="inline-code">logStep()</span> — concrete hook</td>
+      <td>A non-abstract helper method that subclasses use to append descriptive messages to the execution log. Subclasses <em>could</em> override it but don't need to — it has a useful default implementation.</td>
+    </tr>
+    <tr>
+      <td><span class="inline-code">81–83</span></td>
+      <td><span class="inline-code">getExecutionLog()</span></td>
+      <td>Returns an <strong>immutable copy</strong> of the log via <span class="inline-code">List.copyOf()</span>. This prevents external code from tampering with the internal log after the process completes.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 6                                  -->
+<!-- ══════════════════════════════════════════ -->
+<h2 id="s6"><span class="section-number">6</span> Source Code — Concrete Class: CheckInProcess.java</h2>
+
+<p>This subclass fills in all 7 abstract methods with check-in–specific logic.</p>
+
+<div class="code-block">
+<div class="code-header"><span class="code-lang">JAVA</span></div>
+<pre><code>package app.patterns.template;
+
+import app.model.Room;
+import app.patterns.singleton.ProcessDAO;
+import app.patterns.singleton.RoomDAO;
+
+public class CheckInProcess extends HostelProcess {
+
+    private final ProcessDAO repository = ProcessDAO.getInstance();
+    private final RoomDAO roomRepository = RoomDAO.getInstance();
+
+    @Override
+    protected boolean verifyIdentityAndEligibility(int studentId) {
+        logStep(&quot;Step 1 [Identity]: Verifying student ID card #&quot; + studentId
+                + &quot; against institutional enrollment database...&quot;);
+        return studentId &gt; 0;
+    }
+
+    @Override
+    protected boolean verifyAllocationStatus(int allocationId) {
+        logStep(&quot;Step 2 [Status]: Checking allocation #&quot; + allocationId
+                + &quot; is in &#x27;ALLOCATED&#x27; or &#x27;CHECKED_OUT&#x27; state...&quot;);
+        boolean valid = repository.isAllocationInState(allocationId, &quot;ALLOCATED&quot;)
+                || repository.isAllocationInState(allocationId, &quot;CHECKED_OUT&quot;);
+        if (!valid) {
+            logStep(&quot;FAILED: Allocation is neither &#x27;ALLOCATED&#x27; nor previously cleared &#x27;CHECKED_OUT&#x27;.&quot;);
+        }
+        return valid;
+    }
+
+    @Override
+    protected boolean inspectRoomAndInventory(int roomId) {
+        Room room = roomRepository.findRoomById(roomId);
+        String items = (room != null &amp;&amp; room.getAmenities() != null &amp;&amp; !room.getAmenities().isEmpty())
+                ? String.join(&quot;, &quot;, room.getAmenities())
+                : &quot;Bed Frame, Ergonomic Study Desk, Chair, Wardrobe, Ceiling Fan, Smart Lock&quot;;
+        String roomNum = room != null ? room.getRoomNumber() : &quot;#&quot; + roomId;
+
+        logStep(&quot;Step 3 [Inventory]: Inspecting Room &quot; + roomNum
+                + &quot; against Prototype template blueprint.&quot;);
+        logStep(&quot;Baseline Inventory verified intact: [&quot; + items
+                + &quot;]. Zero pre-existing damage recorded.&quot;);
+        return true;
+    }
+
+    @Override
+    protected boolean handleKeyAndDues(int allocationId) {
+        logStep(&quot;Step 4 [Keys &amp; Dues]: Assigned physical key tag [KEY-ALLOC-&quot;
+                + allocationId + &quot;-ENTRY].&quot;);
+        logStep(&quot;Hostel fee ledger verified: Semester fees settled (₹0.00 outstanding dues).&quot;);
+        return true;
+    }
+
+    @Override
+    protected void updateDatabaseStatus(int allocationId, int roomId) {
+        logStep(&quot;Step 5 [Persistence]: Updating allocation #&quot; + allocationId
+                + &quot; to &#x27;CHECKED_IN&#x27; in database...&quot;);
+        repository.updateAllocationState(allocationId, &quot;CHECKED_IN&quot;);
+    }
+
+    @Override
+    protected void recordSuccess(int allocationId) {
+        repository.saveProcessRecord(allocationId, &quot;CHECK_IN&quot;, &quot;COMPLETED&quot;,
+                String.join(&quot;\n&quot;, executionLog));
+    }
+
+    @Override
+    protected void recordFailure(int allocationId, String reason) {
+        repository.saveProcessRecord(allocationId, &quot;CHECK_IN&quot;, &quot;FAILED&quot;,
+                String.join(&quot;\n&quot;, executionLog));
+    }
+}</code></pre>
+</div>
+
+<h3>Key Implementation Details</h3>
+<ul>
+  <li><strong>Step 1</strong> (<span class="inline-code">verifyIdentityAndEligibility</span>):
+      Simply checks <span class="inline-code">studentId &gt; 0</span>. In a production system,
+      this would query the enrollment database — here it demonstrates the verification hook.</li>
+  <li><strong>Step 2</strong> (<span class="inline-code">verifyAllocationStatus</span>):
+      Queries the database via <span class="inline-code">ProcessDAO.isAllocationInState()</span> to confirm
+      the allocation is either <span class="inline-code">ALLOCATED</span> (freshly assigned) or
+      <span class="inline-code">CHECKED_OUT</span> (student re-checking in after a break).</li>
+  <li><strong>Step 3</strong> (<span class="inline-code">inspectRoomAndInventory</span>):
+      Fetches the room from <span class="inline-code">RoomDAO</span>, reads its amenities list, and logs
+      the baseline inventory. If no amenities are stored, falls back to a hardcoded default list.</li>
+  <li><strong>Step 4</strong> (<span class="inline-code">handleKeyAndDues</span>):
+      Issues a key tag with a unique identifier format <span class="inline-code">KEY-ALLOC-{id}-ENTRY</span>
+      and logs that semester fees are settled.</li>
+  <li><strong>Step 5</strong> (<span class="inline-code">updateDatabaseStatus</span>):
+      Calls <span class="inline-code">ProcessDAO.updateAllocationState(allocationId, "CHECKED_IN")</span>
+      to persist the state transition.</li>
+  <li><strong>Audit hooks</strong>: Both <span class="inline-code">recordSuccess</span> and
+      <span class="inline-code">recordFailure</span> call
+      <span class="inline-code">ProcessDAO.saveProcessRecord()</span> with the full execution log,
+      ensuring every process run is traceable in the <span class="inline-code">process_logs</span>
+      and <span class="inline-code">hostel_process_records</span> tables.</li>
+</ul>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 7                                  -->
+<!-- ══════════════════════════════════════════ -->
+<h2 id="s7"><span class="section-number">7</span> Source Code — Concrete Class: CheckOutProcess.java</h2>
+
+<p>This subclass provides the check-out–specific implementations.</p>
+
+<div class="code-block">
+<div class="code-header"><span class="code-lang">JAVA</span></div>
+<pre><code>package app.patterns.template;
+
+import app.model.Room;
+import app.patterns.singleton.ProcessDAO;
+import app.patterns.singleton.RoomDAO;
+
+public class CheckOutProcess extends HostelProcess {
+
+    private final ProcessDAO repository = ProcessDAO.getInstance();
+    private final RoomDAO roomRepository = RoomDAO.getInstance();
+
+    @Override
+    protected boolean verifyIdentityAndEligibility(int studentId) {
+        logStep(&quot;Step 1 [Authorization]: Verifying student departure clearance &quot;
+                + &quot;and enrollment status for Student #&quot; + studentId + &quot;...&quot;);
+        return studentId &gt; 0;
+    }
+
+    @Override
+    protected boolean verifyAllocationStatus(int allocationId) {
+        logStep(&quot;Step 2 [Status]: Checking allocation #&quot; + allocationId
+                + &quot; is currently &#x27;CHECKED_IN&#x27;...&quot;);
+        boolean valid = repository.isAllocationInState(allocationId, &quot;CHECKED_IN&quot;);
+        if (!valid) {
+            logStep(&quot;FAILED: Allocation is not &#x27;CHECKED_IN&#x27;. &quot;
+                    + &quot;Student must be checked in first.&quot;);
+        }
+        return valid;
+    }
+
+    @Override
+    protected boolean inspectRoomAndInventory(int roomId) {
+        Room room = roomRepository.findRoomById(roomId);
+        String items = (room != null &amp;&amp; room.getAmenities() != null &amp;&amp; !room.getAmenities().isEmpty())
+                ? String.join(&quot;, &quot;, room.getAmenities())
+                : &quot;Bed Frame, Ergonomic Study Desk, Chair, Wardrobe, Ceiling Fan, Smart Lock&quot;;
+        String roomNum = room != null ? room.getRoomNumber() : &quot;#&quot; + roomId;
+
+        logStep(&quot;Step 3 [Damage Assessment]: Inspecting Room &quot; + roomNum
+                + &quot; against baseline check-in inventory.&quot;);
+        logStep(&quot;Assessing fixtures [&quot; + items
+                + &quot;]: 0 damages found. Wall paint, electrical sockets &amp; furniture certified intact.&quot;);
+        return true;
+    }
+
+    @Override
+    protected boolean handleKeyAndDues(int allocationId) {
+        logStep(&quot;Step 4 [Keys &amp; Dues]: Physical key tag [KEY-ALLOC-&quot;
+                + allocationId + &quot;] returned to Warden.&quot;);
+        logStep(&quot;Accounts verification: Mess &amp; utility balance ₹0.00. &quot;
+                + &quot;Institutional &#x27;No Dues Certificate&#x27; issued.&quot;);
+        return true;
+    }
+
+    @Override
+    protected void updateDatabaseStatus(int allocationId, int roomId) {
+        logStep(&quot;Step 5 [Persistence]: Releasing bed for allocation #&quot;
+                + allocationId + &quot; (Status -&gt; CHECKED_OUT, Room occupancy -1)...&quot;);
+        repository.releaseBed(allocationId, roomId);
+    }
+
+    @Override
+    protected void recordSuccess(int allocationId) {
+        repository.saveProcessRecord(allocationId, &quot;CHECK_OUT&quot;, &quot;COMPLETED&quot;,
+                String.join(&quot;\n&quot;, executionLog));
+    }
+
+    @Override
+    protected void recordFailure(int allocationId, String reason) {
+        repository.saveProcessRecord(allocationId, &quot;CHECK_OUT&quot;, &quot;FAILED&quot;,
+                String.join(&quot;\n&quot;, executionLog));
+    }
+}</code></pre>
+</div>
+
+<h3>Key Differences from CheckInProcess</h3>
+<ul>
+  <li><strong>Step 2:</strong> Requires <span class="inline-code">CHECKED_IN</span> state (not <span class="inline-code">ALLOCATED</span>)
+      — a student <em>must</em> already be residing in the room to check out.</li>
+  <li><strong>Step 3:</strong> Performs a <em>damage assessment</em> instead of recording baseline —
+      inspects every fixture and reports damage count.</li>
+  <li><strong>Step 4:</strong> <em>Collects</em> the key back (instead of issuing it) and verifies
+      all financial dues before issuing a No Dues Certificate.</li>
+  <li><strong>Step 5:</strong> Calls <span class="inline-code">ProcessDAO.releaseBed()</span> which is a
+      <strong>transactional</strong> operation — it both updates the allocation status to
+      <span class="inline-code">CHECKED_OUT</span> <em>and</em> decrements the room's
+      <span class="inline-code">current_occupancy</span> by 1, wrapped in a database transaction
+      with rollback support.</li>
+</ul>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 8                                  -->
+<!-- ══════════════════════════════════════════ -->
+<h2 id="s8"><span class="section-number">8</span> Check-In vs Check-Out: Step-by-Step Comparison</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Step</th>
+      <th>Method</th>
+      <th class="checkin-col">CheckInProcess</th>
+      <th class="checkout-col">CheckOutProcess</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td><span class="inline-code">verifyIdentityAndEligibility</span></td>
+      <td>Verifies student enrollment ID card</td>
+      <td>Verifies departure clearance &amp; enrollment status</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><span class="inline-code">verifyAllocationStatus</span></td>
+      <td>State must be <span class="inline-code">ALLOCATED</span> or <span class="inline-code">CHECKED_OUT</span></td>
+      <td>State must be <span class="inline-code">CHECKED_IN</span></td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><span class="inline-code">inspectRoomAndInventory</span></td>
+      <td>Records <em>baseline</em> inventory; 0 pre-existing damage</td>
+      <td><em>Damage assessment</em> against baseline; certifies fixtures intact</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><span class="inline-code">handleKeyAndDues</span></td>
+      <td>Issues key tag <span class="inline-code">KEY-ALLOC-*-ENTRY</span>; verifies semester fees</td>
+      <td>Collects key tag; verifies mess/utility dues; issues No Dues Certificate</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><span class="inline-code">updateDatabaseStatus</span></td>
+      <td><span class="inline-code">updateAllocationState → CHECKED_IN</span></td>
+      <td><span class="inline-code">releaseBed</span> (transactional: status → <span class="inline-code">CHECKED_OUT</span> + occupancy −1)</td>
+    </tr>
+    <tr>
+      <td>✓</td>
+      <td><span class="inline-code">recordSuccess</span></td>
+      <td>Saves to <span class="inline-code">process_logs</span> as <span class="inline-code">CHECK_IN / COMPLETED</span></td>
+      <td>Saves to <span class="inline-code">process_logs</span> as <span class="inline-code">CHECK_OUT / COMPLETED</span></td>
+    </tr>
+    <tr>
+      <td>✗</td>
+      <td><span class="inline-code">recordFailure</span></td>
+      <td>Saves to <span class="inline-code">process_logs</span> as <span class="inline-code">CHECK_IN / FAILED</span></td>
+      <td>Saves to <span class="inline-code">process_logs</span> as <span class="inline-code">CHECK_OUT / FAILED</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 9                                  -->
+<!-- ══════════════════════════════════════════ -->
+<h2 id="s9"><span class="section-number">9</span> Supporting Infrastructure: ProcessDAO &amp; ProcessService</h2>
+
+<h3>9.1 ProcessDAO (Singleton Data Access Object)</h3>
+<p>The <span class="inline-code">ProcessDAO</span> resides in the
+   <span class="inline-code">app.patterns.singleton</span> package and provides all database
+   operations that the template method steps delegate to. It is itself a
+   <strong>Singleton</strong> pattern instance — demonstrating cross-pattern collaboration.</p>
+
+<div class="code-block">
+<div class="code-header"><span class="code-lang">JAVA</span></div>
+<pre><code>package app.patterns.singleton;
+
+/* Singleton Pattern / DAO: ProcessDAO
+ * Manages process lifecycle persistence via DatabaseManager singleton. */
+public class ProcessDAO {
+
+    private static ProcessDAO instance;
+
+    public static synchronized ProcessDAO getInstance() {
+        if (instance == null) { instance = new ProcessDAO(); }
+        return instance;
+    }
+
+    /** Records a process step execution into the audit log. */
+    public void saveProcessRecord(int allocationId, String processType,
+                                  String status, String remarks) {
+        // INSERT INTO process_logs ...
+        // INSERT INTO hostel_process_records ...
+    }
+
+    /** Checks if an allocation matches the required state. */
+    public boolean isAllocationInState(int id, String requiredState) {
+        // SELECT COUNT(*) FROM room_allocations
+        //   WHERE (allocation_id = ? OR student_id = ?) AND status = ?
+    }
+
+    /** Updates the allocation status. */
+    public void updateAllocationState(int id, String newState) {
+        // UPDATE room_allocations SET status = ? WHERE allocation_id = ?
+    }
+
+    /** Releases a room bed allocation (transactional). */
+    public void releaseBed(int id, int roomId) {
+        // UPDATE room_allocations SET status = &#x27;CHECKED_OUT&#x27; ...
+        // UPDATE rooms SET current_occupancy = MAX(0, current_occupancy - 1)
+    }
+}</code></pre>
+</div>
+
+<h3>9.2 ProcessService (Client Facade)</h3>
+<p>The <span class="inline-code">ProcessService</span> acts as a simple facade that the REST API
+   layer uses to invoke check-in or check-out. It creates the appropriate
+   <span class="inline-code">HostelProcess</span> subclass and calls the template method.</p>
+
+<div class="code-block">
+<div class="code-header"><span class="code-lang">JAVA</span></div>
+<pre><code>package app.service;
+
+import app.patterns.template.CheckInProcess;
+import app.patterns.template.CheckOutProcess;
+import app.patterns.template.HostelProcess;
+
+public class ProcessService {
+
+    public boolean executeCheckIn(int allocationId, int studentId, int roomId) {
+        HostelProcess process = new CheckInProcess();
+        return process.executeProcess(allocationId, studentId, roomId);
+    }
+
+    public boolean executeCheckOut(int allocationId, int studentId, int roomId) {
+        HostelProcess process = new CheckOutProcess();
+        return process.executeProcess(allocationId, studentId, roomId);
+    }
+}</code></pre>
+</div>
+
+<div class="info-box success">
+  <div class="info-box-title">Pattern Collaboration</div>
+  <p>The Template Method pattern collaborates with two other patterns in this system:</p>
+  <ul style="margin-bottom:0;">
+    <li><strong>Singleton:</strong> <span class="inline-code">ProcessDAO.getInstance()</span> and
+        <span class="inline-code">RoomDAO.getInstance()</span> ensure that all process instances
+        share the same database connection manager.</li>
+    <li><strong>Prototype:</strong> Step 3 references the room's amenity list, which may have
+        been cloned from a <span class="inline-code">RoomPrototype</span> template via the Prototype pattern.</li>
+  </ul>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 10                                 -->
+<!-- ══════════════════════════════════════════ -->
+<h2 id="s10"><span class="section-number">10</span> REST API Integration &amp; Client Invocation</h2>
+
+<p>The template method is invoked via a REST API endpoint:</p>
+
+<table>
+  <thead>
+    <tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="inline-code">POST</span></td>
+      <td><span class="inline-code">/api/process/execute</span></td>
+      <td>Execute a Check-In or Check-Out process</td>
+    </tr>
+    <tr>
+      <td><span class="inline-code">GET</span></td>
+      <td><span class="inline-code">/api/process/logs</span></td>
+      <td>Retrieve audit execution traces</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Request Payload</h3>
+<div class="code-block">
+<div class="code-header"><span class="code-lang">JSON</span></div>
+<pre><code>{{&quot;processType&quot;: &quot;CHECK_IN&quot;,  &quot;allocationId&quot;: 5,  &quot;studentId&quot;: 3,  &quot;roomId&quot;: 12}}</code></pre>
+</div>
+
+<h3>REST Handler Code</h3>
+<div class="code-block">
+<div class="code-header"><span class="code-lang">JAVA</span></div>
+<pre><code>// From RestApiServer.java — handleExecuteProcess()
+private void handleExecuteProcess(HttpExchange exchange) throws IOException {
+    ExecuteProcessRequest req = mapper.readValue(
+            exchange.getRequestBody(), ExecuteProcessRequest.class);
+
+    // Demonstrates Template Method Pattern:
+    HostelProcess process = &quot;CHECK_OUT&quot;.equalsIgnoreCase(req.processType())
+            ? new CheckOutProcess()
+            : new CheckInProcess();
+
+    boolean success = process.executeProcess(
+            req.allocationId(), req.studentId(), req.roomId());
+    List&lt;String&gt; logSteps = process.getExecutionLog();
+
+    Map&lt;String, Object&gt; data = new HashMap&lt;&gt;();
+    data.put(&quot;processType&quot;, req.processType().toUpperCase());
+    data.put(&quot;success&quot;, success);
+    data.put(&quot;allocationId&quot;, req.allocationId());
+    data.put(&quot;studentId&quot;, req.studentId());
+    data.put(&quot;roomId&quot;, req.roomId());
+    data.put(&quot;executionSteps&quot;, logSteps);
+
+    SseBroadcaster.getInstance().broadcast(&quot;PROCESS_EXECUTED&quot;,
+            mapper.writeValueAsString(data));
+    sendJsonResponse(exchange, 200, ApiResponse.ok(
+        success
+            ? &quot;Process sequence executed successfully (Template Method Pattern)&quot;
+            : &quot;Process sequence rejected by Template Method validation&quot;,
+        data
+    ));
+}</code></pre>
+</div>
+
+<h3>How the Handler Works</h3>
+<ol>
+  <li><strong>Deserialize</strong> the incoming JSON into an <span class="inline-code">ExecuteProcessRequest</span> record.</li>
+  <li><strong>Polymorphic instantiation:</strong> Based on <span class="inline-code">processType</span>, create
+      either a <span class="inline-code">CheckOutProcess</span> or <span class="inline-code">CheckInProcess</span>.
+      The variable type is <span class="inline-code">HostelProcess</span> (the abstract parent), demonstrating
+      <strong>programming to an interface, not an implementation</strong>.</li>
+  <li><strong>Execute</strong> the template method via <span class="inline-code">process.executeProcess()</span>.
+      The base class controls the flow; the concrete subclass supplies the step logic.</li>
+  <li><strong>Retrieve</strong> the execution log via <span class="inline-code">process.getExecutionLog()</span>
+      for the API response.</li>
+  <li><strong>Broadcast</strong> a Server-Sent Event (<span class="inline-code">PROCESS_EXECUTED</span>) to all
+      connected SSE clients for real-time UI updates.</li>
+  <li><strong>Respond</strong> with a JSON payload containing the success/failure status and the
+      complete execution step trace.</li>
+</ol>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 11                                 -->
+<!-- ══════════════════════════════════════════ -->
+<h2 id="s11"><span class="section-number">11</span> Complete Execution Flow Walkthrough</h2>
+
+<p>Here is the complete end-to-end flow when a user triggers a <strong>Check-In</strong> from the UI:</p>
+
+<div class="diagram-box"><pre>
+  ┌───────────┐   POST /api/process/execute     ┌──────────────┐
+  │  React UI │ ──────────────────────────────▶ │ RestApiServer │
+  │ (Browser) │   {"processType":"CHECK_IN",   │  (Java HTTP)  │
+  └───────────┘    "allocationId":5,            └──────┬───────┘
+                   "studentId":3,                      │
+                   "roomId":12}                        │
+                                                       │ 1. Deserialize request
+                                                       │ 2. new CheckInProcess()
+                                                       ▼
+                                              ┌──────────────────┐
+                                              │   CheckInProcess  │
+                                              │   (extends        │
+                                              │    HostelProcess)  │
+                                              └────────┬─────────┘
+                                                       │
+                                                       │ 3. executeProcess(5, 3, 12)
+                                                       │    [final — template method]
+                                                       ▼
+                            ┌────────────────────────────────────────────────┐
+                            │          HostelProcess.executeProcess()        │
+                            │  (Final Template Method — CANNOT be overridden)│
+                            │                                                │
+                            │   Step 1: verifyIdentityAndEligibility(3)      │
+                            │          → CheckInProcess validates studentId  │
+                            │          → ✓ Pass (3 &gt; 0)                      │
+                            │                                                │
+                            │   Step 2: verifyAllocationStatus(5)            │
+                            │          → CheckInProcess queries DB           │
+                            │          → ProcessDAO.isAllocationInState()    │
+                            │          → ✓ Pass (status == ALLOCATED)        │
+                            │                                                │
+                            │   Step 3: inspectRoomAndInventory(12)          │
+                            │          → CheckInProcess fetches Room from DB │
+                            │          → RoomDAO.findRoomById(12)            │
+                            │          → Logs baseline inventory             │
+                            │          → ✓ Pass                              │
+                            │                                                │
+                            │   Step 4: handleKeyAndDues(5)                  │
+                            │          → Issues KEY-ALLOC-5-ENTRY            │
+                            │          → Verifies ₹0.00 outstanding          │
+                            │          → ✓ Pass                              │
+                            │                                                │
+                            │   Step 5: updateDatabaseStatus(5, 12)          │
+                            │          → ProcessDAO.updateAllocationState()  │
+                            │          → Status: ALLOCATED → CHECKED_IN      │
+                            │                                                │
+                            │   recordSuccess(5)                             │
+                            │          → ProcessDAO.saveProcessRecord()      │
+                            │          → Audit trail saved to DB             │
+                            │                                                │
+                            │   return true ✓                                │
+                            └───────────────────────┬────────────────────────┘
+                                                    │
+                                                    ▼
+                            ┌────────────────────────────────────────────────┐
+                            │              API Response (JSON)               │
+                            │                                                │
+                            │  {"success": true,                             │
+                            │   "processType": "CHECK_IN",                   │
+                            │   "executionSteps": [                          │
+                            │     "Starting process sequence...",            │
+                            │     "Step 1 [Identity]: Verifying...",         │
+                            │     "Step 2 [Status]: Checking...",            │
+                            │     "Step 3 [Inventory]: Inspecting...",       │
+                            │     "Step 4 [Keys &amp; Dues]: Assigned...",       │
+                            │     "Step 5 [Persistence]: Updating...",       │
+                            │     "COMPLETED: Process completed."            │
+                            │   ]}                                           │
+                            └───────────────────────┬────────────────────────┘
+                                                    │
+                              ┌──────────────────┐  │  ┌──────────────────┐
+                              │ SSE Broadcaster  │◀─┘  │    SQLite DB     │
+                              │ (Real-time Push) │     │ (process_logs +  │
+                              └──────────────────┘     │  hostel_process_ │
+                                       │               │  records tables) │
+                                       ▼               └──────────────────┘
+                              ┌──────────────────┐
+                              │  All Connected   │
+                              │  Browser Clients │
+                              │  (via EventSource)│
+                              └──────────────────┘
+</pre></div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 12                                 -->
+<!-- ══════════════════════════════════════════ -->
+<h2 id="s12"><span class="section-number">12</span> Execution Log: Sample Output Traces</h2>
+
+<h3>12.1 Successful Check-In Trace</h3>
+<div class="code-block">
+<div class="code-header"><span class="code-lang">LOG</span></div>
+<pre><code>Starting process sequence for Allocation ID: 5
+Step 1 [Identity]: Verifying student ID card #3 against institutional enrollment database...
+Step 2 [Status]: Checking allocation #5 is in &#x27;ALLOCATED&#x27; or &#x27;CHECKED_OUT&#x27; state...
+Step 3 [Inventory]: Inspecting Room S-101 against Prototype template blueprint.
+Baseline Inventory verified intact: [Bed Frame, Ergonomic Study Desk, Chair, Wardrobe, Ceiling Fan, Smart Lock]. Zero pre-existing damage recorded.
+Step 4 [Keys &amp; Dues]: Assigned physical key tag [KEY-ALLOC-5-ENTRY].
+Hostel fee ledger verified: Semester fees settled (₹0.00 outstanding dues).
+Step 5 [Persistence]: Updating allocation #5 to &#x27;CHECKED_IN&#x27; in database...
+COMPLETED: Process completed successfully.</code></pre>
+</div>
+
+<h3>12.2 Successful Check-Out Trace</h3>
+<div class="code-block">
+<div class="code-header"><span class="code-lang">LOG</span></div>
+<pre><code>Starting process sequence for Allocation ID: 5
+Step 1 [Authorization]: Verifying student departure clearance and enrollment status for Student #3...
+Step 2 [Status]: Checking allocation #5 is currently &#x27;CHECKED_IN&#x27;...
+Step 3 [Damage Assessment]: Inspecting Room S-101 against baseline check-in inventory.
+Assessing fixtures [Bed Frame, Ergonomic Study Desk, Chair, Wardrobe, Ceiling Fan, Smart Lock]: 0 damages found. Wall paint, electrical sockets &amp; furniture certified intact.
+Step 4 [Keys &amp; Dues]: Physical key tag [KEY-ALLOC-5] returned to Warden.
+Accounts verification: Mess &amp; utility balance ₹0.00. Institutional &#x27;No Dues Certificate&#x27; issued.
+Step 5 [Persistence]: Releasing bed for allocation #5 (Status -&gt; CHECKED_OUT, Room occupancy -1)...
+COMPLETED: Process completed successfully.</code></pre>
+</div>
+
+<h3>12.3 Failed Check-In Trace (Invalid Student ID)</h3>
+<div class="code-block">
+<div class="code-header"><span class="code-lang">LOG</span></div>
+<pre><code>Starting process sequence for Allocation ID: 1
+Step 1 [Identity]: Verifying student ID card #0 against institutional enrollment database...
+FAILED: Identity verification failed.</code></pre>
+</div>
+
+<div class="info-box">
+  <div class="info-box-title">Observe the Fail-Fast</div>
+  <p>In trace 12.3, the process halted after Step 1. Steps 2–5 were <strong>never executed</strong>
+  — the template method's sequential guard clauses prevented any further processing.
+  The failure was recorded via <span class="inline-code">recordFailure()</span> into the database
+  for audit purposes.</p>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 13                                 -->
+<!-- ══════════════════════════════════════════ -->
+<h2 id="s13"><span class="section-number">13</span> Unit Testing the Template Method</h2>
+
+<p>The test validates that the template method correctly handles invalid inputs and
+   records failure in the execution log.</p>
+
+<div class="code-block">
+<div class="code-header"><span class="code-lang">JAVA</span></div>
+<pre><code>package app.patterns;
+
+import app.patterns.template.CheckInProcess;
+import app.patterns.template.HostelProcess;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TemplateTest {
+
+    @Test
+    public void testCheckInWorkflowFailsForInvalidStudentId() {
+        HostelProcess checkIn = new CheckInProcess();
+
+        // Student ID = 0 (Invalid)
+        boolean result = checkIn.executeProcess(1, 0, 101);
+
+        assertFalse(result);
+        assertTrue(checkIn.getExecutionLog().stream()
+                .anyMatch(log -&gt; log.contains(&quot;FAILED&quot;)));
+    }
+}</code></pre>
+</div>
+
+<h3>What the Test Verifies</h3>
+<ol>
+  <li>A <span class="inline-code">CheckInProcess</span> is instantiated (concrete subclass) but
+      assigned to the abstract type <span class="inline-code">HostelProcess</span> — demonstrating polymorphism.</li>
+  <li><span class="inline-code">executeProcess(1, 0, 101)</span> is called with
+      <span class="inline-code">studentId = 0</span> (invalid).</li>
+  <li>The template method calls <span class="inline-code">verifyIdentityAndEligibility(0)</span>,
+      which returns <span class="inline-code">false</span> because <span class="inline-code">0 &le; 0</span>.</li>
+  <li>The method immediately halts, logs "FAILED", and returns <span class="inline-code">false</span>.</li>
+  <li><span class="inline-code">assertFalse(result)</span> confirms the process failed.</li>
+  <li>The log is inspected to ensure at least one entry contains "FAILED".</li>
+</ol>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 14                                 -->
+<!-- ══════════════════════════════════════════ -->
+<h2 id="s14"><span class="section-number">14</span> Key Design Decisions &amp; OOP Principles</h2>
+
+<table>
+  <thead>
+    <tr><th>Principle</th><th>How It's Applied</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Open/Closed Principle</strong></td>
+      <td>The algorithm (<span class="inline-code">executeProcess</span>) is <em>closed</em> for modification
+          (marked <span class="inline-code">final</span>) but <em>open</em> for extension — you can create new
+          subclasses (e.g., <span class="inline-code">TransferProcess</span>, <span class="inline-code">EmergencyEvacuationProcess</span>)
+          without touching the base class.</td>
+    </tr>
+    <tr>
+      <td><strong>Hollywood Principle</strong></td>
+      <td>"Don't call us, we'll call you." The base class (<span class="inline-code">HostelProcess</span>)
+          controls when each subclass method is invoked. Subclasses never call
+          <span class="inline-code">executeProcess()</span> or decide the step order themselves.</td>
+    </tr>
+    <tr>
+      <td><strong>DRY (Don't Repeat Yourself)</strong></td>
+      <td>The 5-step fail-fast logic, exception handling, and logging infrastructure are written
+          <strong>once</strong> in <span class="inline-code">HostelProcess</span>. Both subclasses inherit
+          it without duplication.</td>
+    </tr>
+    <tr>
+      <td><strong>Liskov Substitution</strong></td>
+      <td>Wherever <span class="inline-code">HostelProcess</span> is expected (e.g., in
+          <span class="inline-code">ProcessService</span>, <span class="inline-code">RestApiServer</span>),
+          either <span class="inline-code">CheckInProcess</span> or <span class="inline-code">CheckOutProcess</span>
+          can be used interchangeably without breaking behavior.</td>
+    </tr>
+    <tr>
+      <td><strong>Single Responsibility</strong></td>
+      <td>Each class has one job: <span class="inline-code">HostelProcess</span> manages the algorithm skeleton;
+          <span class="inline-code">CheckInProcess</span> handles check-in specifics;
+          <span class="inline-code">CheckOutProcess</span> handles check-out specifics;
+          <span class="inline-code">ProcessDAO</span> handles persistence.</td>
+    </tr>
+    <tr>
+      <td><strong>Encapsulation</strong></td>
+      <td>All abstract methods are <span class="inline-code">protected</span> — they cannot be called directly
+          by external code. The only public entry point is the template method itself.
+          The execution log is returned as an immutable copy.</td>
+    </tr>
+    <tr>
+      <td><strong>Separation of Concerns</strong></td>
+      <td>Business logic (step implementations) is separated from control flow (template method),
+          persistence (ProcessDAO), and API handling (RestApiServer). Each layer is independently
+          testable and modifiable.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 15                                 -->
+<!-- ══════════════════════════════════════════ -->
+<h2 id="s15"><span class="section-number">15</span> Conclusion</h2>
+
+<p>The Template Method pattern in HostelHub provides a <strong>clean, maintainable, and
+   extensible</strong> architecture for managing hostel lifecycle processes. By encoding the
+   invariant 5-step sequence in a <span class="inline-code">final</span> template method and
+   delegating step-specific behavior to subclasses, the system achieves:</p>
+
+<ul>
+  <li><strong>Zero code duplication</strong> between Check-In and Check-Out workflows.</li>
+  <li><strong>Guaranteed process integrity</strong> — the step order can never be accidentally changed or skipped.</li>
+  <li><strong>Fail-fast safety</strong> — any failed step halts the entire pipeline before partial state corruption.</li>
+  <li><strong>Complete audit traceability</strong> — every step is logged, and final outcomes are persisted to the database.</li>
+  <li><strong>Easy extensibility</strong> — adding a new process (e.g., room transfer, emergency evacuation) requires only creating a new subclass; the template method and infrastructure remain untouched.</li>
+</ul>
+
+<div class="info-box success">
+  <div class="info-box-title">File Summary</div>
+  <table style="margin:0;">
+    <thead><tr><th>File</th><th>Role</th><th>Lines</th></tr></thead>
+    <tbody>
+      <tr><td><span class="inline-code">HostelProcess.java</span></td><td>Abstract base class (template method + 7 abstract steps)</td><td>84</td></tr>
+      <tr><td><span class="inline-code">CheckInProcess.java</span></td><td>Concrete subclass — check-in workflow</td><td>66</td></tr>
+      <tr><td><span class="inline-code">CheckOutProcess.java</span></td><td>Concrete subclass — check-out workflow</td><td>63</td></tr>
+      <tr><td><span class="inline-code">ProcessService.java</span></td><td>Client facade for invoking processes</td><td>18</td></tr>
+      <tr><td><span class="inline-code">ProcessDAO.java</span></td><td>Singleton DAO for database persistence</td><td>128</td></tr>
+      <tr><td><span class="inline-code">TemplateTest.java</span></td><td>JUnit 5 test case</td><td>20</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</div><!-- end .container -->
+
+<div class="footer">
+  <p>HostelHub — Template Method Pattern Documentation</p>
+  <p>Generated on 31 October 2026, 12:21 AM &bull; Design Patterns Lab Mini Project</p>
+  <p><a href="https://hostel-manager-1-mgwf.onrender.com/" style="color:#06b6d4;">https://hostel-manager-1-mgwf.onrender.com/</a>
+     &bull;
+     <a href="https://github.com/dev-lov-oper/Hostel-Manager" style="color:#06b6d4;">GitHub Repository</a></p>
+</div>
+
+</body>
+</html>

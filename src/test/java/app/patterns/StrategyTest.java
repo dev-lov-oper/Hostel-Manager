@@ -2,6 +2,7 @@ package app.patterns;
 
 import app.model.*;
 import app.patterns.builder.StudentBuilder;
+import app.patterns.prototype.RoomTemplate;
 import app.patterns.strategy.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

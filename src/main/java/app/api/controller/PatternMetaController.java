@@ -208,7 +208,7 @@ public class PatternMetaController {
         prototype.put("keyClasses", List.of(
                 "app.patterns.prototype.RoomPrototype",
                 "app.patterns.prototype.RoomPrototypeRegistry",
-                "app.model.RoomTemplate",
+                "app.patterns.prototype.RoomTemplate",
                 "app.model.Room"
         ));
         prototype.put("flow", List.of(

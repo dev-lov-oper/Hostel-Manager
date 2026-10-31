@@ -71,6 +71,7 @@ public abstract class HostelProcess {
 
     // Audit Record Hooks
     protected abstract void recordSuccess(int allocationId);
+
     protected abstract void recordFailure(int allocationId, String reason);
 
     protected void logStep(String message) {

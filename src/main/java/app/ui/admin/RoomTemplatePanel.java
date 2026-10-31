@@ -1,6 +1,6 @@
 package app.ui.admin;
 
-import app.model.RoomTemplate;
+import app.patterns.prototype.RoomTemplate;
 import app.patterns.prototype.RoomPrototypeRegistry;
 
 import javax.swing.*;

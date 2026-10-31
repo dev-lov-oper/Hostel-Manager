@@ -15,6 +15,7 @@ import app.patterns.observer.ComplaintPublisher;
 import app.patterns.observer.StaffNotificationObserver;
 import app.patterns.observer.StudentNotificationObserver;
 import app.patterns.prototype.RoomPrototypeRegistry;
+import app.patterns.prototype.RoomTemplate;
 import app.patterns.singleton.*;
 import app.patterns.strategy.AllocationStrategy;
 import app.patterns.strategy.FirstComeFirstServedStrategy;

@@ -1,5 +1,6 @@
 package app.model;
 
+import app.patterns.prototype.RoomTemplate;
 import java.util.List;
 
 /**

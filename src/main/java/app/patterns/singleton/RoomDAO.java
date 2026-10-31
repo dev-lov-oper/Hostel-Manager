@@ -2,7 +2,7 @@ package app.patterns.singleton;
 
 import app.model.Hostel;
 import app.model.Room;
-import app.model.RoomTemplate;
+import app.patterns.prototype.RoomTemplate;
 
 import java.sql.*;
 import java.util.ArrayList;
